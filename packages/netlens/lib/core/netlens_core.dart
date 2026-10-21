@@ -9,6 +9,7 @@ import 'package:netlens/helper/netlens_call_redactor.dart';
 import 'package:netlens/helper/netlens_export_helper.dart';
 import 'package:netlens/helper/netlens_watcher.dart';
 import 'package:netlens/helper/operating_system.dart';
+import 'package:netlens/mock/application/netlens_mocks.dart';
 import 'package:netlens/model/netlens_configuration.dart';
 import 'package:netlens/model/netlens_export_result.dart';
 import 'package:netlens/model/netlens_http_call.dart';
@@ -33,6 +34,9 @@ class NetLensCore {
 
   /// Subscription for call changes
   StreamSubscription<List<NetLensHttpCall>>? _callsSubscription;
+
+  /// Subscription which records calls as mocks in record mode
+  StreamSubscription<List<NetLensHttpCall>>? _mocksSubscription;
 
   /// Flag used to determine whether is inspector opened
   bool _isInspectorOpened = false;
@@ -64,6 +68,9 @@ class NetLensCore {
 
   /// Returns current configuration
   NetLensConfiguration get configuration => _configuration;
+
+  /// Records calls as mock endpoints and replays them.
+  NetLensMocks get mocks => _configuration.mocks;
 
   /// Set custom navigation key. This will help if there's route library.
   void setNavigatorKey(GlobalKey<NavigatorState> navigatorKey) {
@@ -201,11 +208,16 @@ class NetLensCore {
     _callsSubscription = _configuration.netLensStorage.callsStream.listen(
       _onCallsChanged,
     );
+    _mocksSubscription = mocks.recordFrom(
+      _configuration.netLensStorage.callsStream,
+    );
   }
 
   /// Unsubscribes storage for call changes.
   void _unsubscribeFromCallChanges() {
     _callsSubscription?.cancel();
     _callsSubscription = null;
+    _mocksSubscription?.cancel();
+    _mocksSubscription = null;
   }
 }

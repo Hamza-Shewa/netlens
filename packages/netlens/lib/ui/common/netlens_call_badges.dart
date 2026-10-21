@@ -1,4 +1,6 @@
 import 'package:netlens/helper/netlens_graphql.dart';
+import 'package:netlens/mock/data/netlens_mock_headers.dart';
+import 'package:netlens/mock/domain/netlens_mock_response.dart';
 import 'package:netlens/model/netlens_http_call.dart';
 import 'package:netlens/model/netlens_translation.dart';
 import 'package:netlens/ui/common/netlens_context_ext.dart';
@@ -128,6 +130,38 @@ class NetLensGraphQLBadge extends StatelessWidget {
             color: errorColor,
           ),
       ],
+    );
+  }
+}
+
+/// Badge which marks a call answered by a NetLens mock, or a call which no
+/// mock answered in replay mode.
+class NetLensMockBadge extends StatelessWidget {
+  const NetLensMockBadge({super.key, required this.mockId});
+
+  /// Returns the id of the mock which answered [call], or
+  /// [NetLensMockResponse.missingMockId] when no mock matched it, or null when
+  /// mocks didn't answer it.
+  static String? getMockId(NetLensHttpCall call) =>
+      NetLensMockHeaders.normalize(call.response?.headers)[NetLensMockResponse
+          .mockHeader];
+
+  final String mockId;
+
+  @override
+  Widget build(BuildContext context) {
+    final bool missing = mockId == NetLensMockResponse.missingMockId;
+    return _Badge(
+      icon: missing ? Icons.cloud_off_outlined : Icons.dns_outlined,
+      text: context.i18n(
+        missing
+            ? NetLensTranslationKey.mockBadgeMissing
+            : NetLensTranslationKey.mockBadge,
+      ),
+      color:
+          missing
+              ? NetLensTheme.getStatusColor(context, 500)
+              : Theme.of(context).colorScheme.primary,
     );
   }
 }

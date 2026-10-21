@@ -80,13 +80,34 @@ class NetLensExportHelper {
         error: NetLensExportResultError.empty,
       );
     }
+    return _shareJsonFile(
+      name: _fileName,
+      extension: 'har',
+      content: NetLensHarBuilder.encode(calls),
+    );
+  }
+
+  /// Saves [content], mocks in the NetLens mocks format, as a JSON file in the
+  /// cache directory and opens the system share sheet with it.
+  static Future<NetLensExportResult> saveMocksToFile(String content) =>
+      _shareJsonFile(
+        name: 'netlens_mocks',
+        extension: 'json',
+        content: content,
+      );
+
+  static Future<NetLensExportResult> _shareJsonFile({
+    required String name,
+    required String extension,
+    required String content,
+  }) async {
     final String path;
     try {
       final Directory directory = await getApplicationCacheDirectory();
       path =
-          '${directory.path}/${_fileName}_'
-          '${DateTime.now().millisecondsSinceEpoch}.har';
-      await File(path).writeAsString(NetLensHarBuilder.encode(calls));
+          '${directory.path}/${name}_'
+          '${DateTime.now().millisecondsSinceEpoch}.$extension';
+      await File(path).writeAsString(content);
     } catch (exception) {
       NetLensUtils.log(exception.toString());
       return NetLensExportResult(

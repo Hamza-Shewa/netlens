@@ -16,4 +16,5 @@ enum NetLensCallDetailsMenuItemType {
   timeline,
   save,
   exportHar,
+  mocks,
 }

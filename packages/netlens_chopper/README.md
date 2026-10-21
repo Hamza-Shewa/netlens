@@ -27,6 +27,20 @@ netLens.addAdapter(adapter);
 final chopper = ChopperClient(interceptors: [adapter]);
 ```
 
+## Mocks
+
+To replay mocks recorded by NetLens, pass `NetLensHttpMockClient` from
+[netlens_http](https://pub.dev/packages/netlens_http) as the client of Chopper:
+
+```dart
+final chopper = ChopperClient(
+  client: NetLensHttpMockClient(resolver: netLens.mocks),
+  interceptors: [adapter],
+);
+```
+
+See [Mocks](https://github.com/Hamza-Shewa/alice/blob/master/docs/mocks.md).
+
 ## Documentation
 
 You can find the documentation [here](https://github.com/Hamza-Shewa/alice/tree/master/docs).

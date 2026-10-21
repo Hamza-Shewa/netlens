@@ -74,6 +74,14 @@ If you want to hide share button, you can use `showShareButton` parameter.
 NetLens netLens = NetLens(configuration: NetLensConfiguration(showShareButton: false));
 ```
 
+If you want to record calls as mock endpoints and replay them offline, use the `mocks` parameter. See
+[Mocks](mocks.md).
+
+```dart
+
+NetLens netLens = NetLens(configuration: NetLensConfiguration(mocks: NetLensMocks(mode: NetLensMockMode.replay)));
+```
+
 ### Sensitive values
 
 NetLens hides credentials in the inspector and masks them in everything which

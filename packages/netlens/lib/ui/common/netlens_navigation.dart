@@ -3,6 +3,7 @@ import 'package:netlens/model/netlens_http_call.dart';
 import 'package:netlens/ui/call_details/page/netlens_call_details_page.dart';
 import 'package:netlens/ui/calls_list/page/netlens_calls_list_page.dart';
 import 'package:netlens/ui/common/netlens_theme.dart';
+import 'package:netlens/ui/mocks/netlens_mocks_page.dart';
 import 'package:netlens/ui/replay/netlens_replay_page.dart';
 import 'package:netlens/ui/stats/netlens_stats_page.dart';
 import 'package:netlens/ui/timeline/netlens_timeline_page.dart';
@@ -55,6 +56,15 @@ class NetLensNavigation {
     return _navigateToPage(
       core: core,
       child: NetLensReplayPage(call: call, core: core),
+      fade: true,
+    );
+  }
+
+  /// Navigates to page where mocks are recorded and replayed.
+  static Future<void> navigateToMocks({required NetLensCore core}) {
+    return _navigateToPage(
+      core: core,
+      child: NetLensMocksPage(core: core),
       fade: true,
     );
   }
