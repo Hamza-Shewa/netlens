@@ -31,6 +31,8 @@ jobs:
         run: melos format --output none --set-exit-if-changed
       - name: Analyze the project's Dart code
         run: melos analyze --fatal-infos
+      - name: Check that the packages can be published
+        run: melos run publish:check
       - name: Invertase Analyze
         uses: invertase/github-action-dart-analyzer@v3
         with:

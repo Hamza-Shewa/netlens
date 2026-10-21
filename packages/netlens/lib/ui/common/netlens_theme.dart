@@ -40,16 +40,15 @@ class NetLensTheme {
   /// brightness is used.
   static ThemeData getTheme({Brightness? brightness}) =>
       (brightness ?? _platformBrightness) == Brightness.dark
-          ? _darkTheme
-          : _lightTheme;
+      ? _darkTheme
+      : _lightTheme;
 
   static ThemeData _buildTheme(Brightness brightness) {
     return ThemeData(
       useMaterial3: true,
-      colorScheme:
-          brightness == Brightness.dark
-              ? const ColorScheme.dark(primary: NetLensTheme.lightRed)
-              : const ColorScheme.light(primary: NetLensTheme.lightRed),
+      colorScheme: brightness == Brightness.dark
+          ? const ColorScheme.dark(primary: NetLensTheme.lightRed)
+          : const ColorScheme.light(primary: NetLensTheme.lightRed),
       dividerColor: Colors.transparent,
       segmentedButtonTheme: SegmentedButtonThemeData(
         style: ButtonStyle(

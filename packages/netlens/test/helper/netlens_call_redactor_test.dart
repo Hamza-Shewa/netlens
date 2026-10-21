@@ -9,34 +9,31 @@ import 'package:netlens/model/netlens_http_response.dart';
 import 'package:netlens/model/netlens_redaction.dart';
 import 'package:test/test.dart';
 
-NetLensHttpCall _call() =>
-    NetLensHttpCall(1, createdTime: DateTime(2026))
-      ..method = 'POST'
-      ..server = 'api.example.com'
-      ..endpoint = '/login'
-      ..uri = 'https://api.example.com/login?api_key=secret&page=2'
-      ..request =
-          (NetLensHttpRequest()
-            ..headers = {'Authorization': 'Bearer abc', 'Accept': 'json'}
-            ..cookies = [Cookie('session', 'abc')]
-            ..queryParameters = {'api_key': 'secret', 'page': '2'}
-            ..formDataFields = [
-              const NetLensFormDataField('password', 'hunter2'),
-              const NetLensFormDataField('name', 'netLens'),
-            ]
-            ..body = '{"user":"netLens","password":"hunter2"}')
-      ..response =
-          (NetLensHttpResponse()
-            ..status = 200
-            ..headers = {'set-cookie': 'session=abc', 'content-type': 'json'}
-            ..body = {
-              'data': {
-                'access_token': 'xyz',
-                'items': [
-                  {'token': 't', 'id': 1},
-                ],
-              },
-            });
+NetLensHttpCall _call() => NetLensHttpCall(1, createdTime: DateTime(2026))
+  ..method = 'POST'
+  ..server = 'api.example.com'
+  ..endpoint = '/login'
+  ..uri = 'https://api.example.com/login?api_key=secret&page=2'
+  ..request = (NetLensHttpRequest()
+    ..headers = {'Authorization': 'Bearer abc', 'Accept': 'json'}
+    ..cookies = [Cookie('session', 'abc')]
+    ..queryParameters = {'api_key': 'secret', 'page': '2'}
+    ..formDataFields = [
+      const NetLensFormDataField('password', 'hunter2'),
+      const NetLensFormDataField('name', 'netLens'),
+    ]
+    ..body = '{"user":"netLens","password":"hunter2"}')
+  ..response = (NetLensHttpResponse()
+    ..status = 200
+    ..headers = {'set-cookie': 'session=abc', 'content-type': 'json'}
+    ..body = {
+      'data': {
+        'access_token': 'xyz',
+        'items': [
+          {'token': 't', 'id': 1},
+        ],
+      },
+    });
 
 void main() {
   const NetLensCallRedactor redactor = NetLensCallRedactor(NetLensRedaction());

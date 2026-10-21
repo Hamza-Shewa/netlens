@@ -1,6 +1,7 @@
 # 1.1.0
 
 * Adds `NetLensDioMockAdapter`, which answers Dio requests with NetLens mocks.
+* Needs Dart 3.11 and Flutter 3.41 or newer, and uses the latest versions of its dependencies.
 
 # 1.0.0
 

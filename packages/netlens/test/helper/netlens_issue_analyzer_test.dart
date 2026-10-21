@@ -13,13 +13,12 @@ NetLensHttpCall _call({
   Object? error,
   String uri = 'https://a.com/b',
 }) {
-  final NetLensHttpCall call =
-      NetLensHttpCall(1)
-        ..loading = false
-        ..uri = uri
-        ..server = 'a.com'
-        ..endpoint = '/b'
-        ..secure = true;
+  final NetLensHttpCall call = NetLensHttpCall(1)
+    ..loading = false
+    ..uri = uri
+    ..server = 'a.com'
+    ..endpoint = '/b'
+    ..secure = true;
   if (status != null) {
     call.response = NetLensHttpResponse()..status = status;
   }

@@ -21,4 +21,4 @@ MaterialApp(
 ```
 
 A complete app is in
-[examples/netlens](https://github.com/Hamza-Shewa/alice/tree/master/examples/netlens).
+[examples/netlens](https://github.com/Hamza-Shewa/netlens/tree/master/examples/netlens).

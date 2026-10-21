@@ -13,19 +13,18 @@ void main() {
     );
 
     test('maps request and response of a finished call', () {
-      final NetLensMock mock =
-          mapper.map(
-            finishedCall(
-              method: 'post',
-              requestBody: {'name': 'Ada'},
-              status: 201,
-              responseHeaders: {
-                'Content-Type': '[application/json; charset=utf-8]',
-                'content-length': '12',
-                'x-request-id': 'abc',
-              },
-            ),
-          )!;
+      final NetLensMock mock = mapper.map(
+        finishedCall(
+          method: 'post',
+          requestBody: {'name': 'Ada'},
+          status: 201,
+          responseHeaders: {
+            'Content-Type': '[application/json; charset=utf-8]',
+            'content-length': '12',
+            'x-request-id': 'abc',
+          },
+        ),
+      )!;
 
       expect(mock.id, isEmpty);
       expect(mock.method, 'POST');
@@ -50,15 +49,17 @@ void main() {
     });
 
     test('keeps text bodies as they are', () {
-      final NetLensMock mock =
-          mapper.map(finishedCall(responseBody: 'plain text'))!;
+      final NetLensMock mock = mapper.map(
+        finishedCall(responseBody: 'plain text'),
+      )!;
       expect(mock.response.body, 'plain text');
       expect(mock.response.headers, isEmpty);
     });
 
     test('stores binary bodies as base64', () {
-      final NetLensMock mock =
-          mapper.map(finishedCall(responseBody: <int>[0, 255, 1]))!;
+      final NetLensMock mock = mapper.map(
+        finishedCall(responseBody: <int>[0, 255, 1]),
+      )!;
       expect(mock.response.bodyEncoding, NetLensMockBodyEncoding.base64);
       expect(mock.response.body, base64Encode([0, 255, 1]));
       expect(mock.response.bodyBytes, [0, 255, 1]);

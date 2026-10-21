@@ -49,12 +49,11 @@ class NetLensHttpClientAdapter
 
   /// Handles httpClientRequest and creates http netLens call from it
   void onRequest(HttpClientRequest request, {dynamic body}) {
-    final call =
-        NetLensHttpCall(request.hashCode)
-          ..loading = true
-          ..client = clientName
-          ..method = request.method
-          ..uri = request.uri.toString();
+    final call = NetLensHttpCall(request.hashCode)
+      ..loading = true
+      ..client = clientName
+      ..method = request.method
+      ..uri = request.uri.toString();
 
     var path = request.uri.path;
     if (path.isEmpty) {

@@ -5,15 +5,13 @@ import 'package:netlens/ui/calls_list/widget/netlens_call_list_item_widget.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-NetLensHttpCall _call({int? status, bool loading = false}) =>
-    NetLensHttpCall(1)
-      ..method = 'get'
-      ..endpoint = '/v1/users'
-      ..server = 'api.example.com'
-      ..loading = loading
-      ..request =
-          (NetLensHttpRequest()..time = DateTime(2026, 1, 1, 9, 5, 7, 42))
-      ..response = loading ? null : (NetLensHttpResponse()..status = status);
+NetLensHttpCall _call({int? status, bool loading = false}) => NetLensHttpCall(1)
+  ..method = 'get'
+  ..endpoint = '/v1/users'
+  ..server = 'api.example.com'
+  ..loading = loading
+  ..request = (NetLensHttpRequest()..time = DateTime(2026, 1, 1, 9, 5, 7, 42))
+  ..response = loading ? null : (NetLensHttpResponse()..status = status);
 
 Future<void> _pump(WidgetTester tester, Widget child) =>
     tester.pumpWidget(MaterialApp(home: Scaffold(body: child)));

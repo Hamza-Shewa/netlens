@@ -116,8 +116,9 @@ class NetLensLogClassifier {
       return NetLensLogInfo(
         kind: NetLensLogKind.error,
         url: url,
-        origin:
-            _networkWords.hasMatch(text) ? NetLensIssueOrigin.network : null,
+        origin: _networkWords.hasMatch(text)
+            ? NetLensIssueOrigin.network
+            : null,
       );
     }
 
@@ -134,8 +135,9 @@ class NetLensLogClassifier {
       return NetLensLogInfo(
         kind: NetLensLogKind.error,
         url: url,
-        origin:
-            _networkWords.hasMatch(text) ? NetLensIssueOrigin.network : null,
+        origin: _networkWords.hasMatch(text)
+            ? NetLensIssueOrigin.network
+            : null,
       );
     }
 

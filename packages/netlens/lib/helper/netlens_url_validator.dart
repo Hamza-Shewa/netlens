@@ -122,8 +122,9 @@ class NetLensUrlValidator {
 
     // Skip userinfo and IPv6 literals, they are rare in API base URLs.
     final int userInfoEnd = authority.lastIndexOf('@');
-    final String userInfo =
-        userInfoEnd >= 0 ? authority.substring(0, userInfoEnd + 1) : '';
+    final String userInfo = userInfoEnd >= 0
+        ? authority.substring(0, userInfoEnd + 1)
+        : '';
     final String hostPort = authority.substring(userInfoEnd + 1);
     if (hostPort.startsWith('[')) {
       _validatePath(issues, prefix + authority, path, rest);
@@ -131,10 +132,12 @@ class NetLensUrlValidator {
     }
 
     final int colonIndex = hostPort.indexOf(':');
-    final String host =
-        colonIndex >= 0 ? hostPort.substring(0, colonIndex) : hostPort;
-    final String? port =
-        colonIndex >= 0 ? hostPort.substring(colonIndex + 1) : null;
+    final String host = colonIndex >= 0
+        ? hostPort.substring(0, colonIndex)
+        : hostPort;
+    final String? port = colonIndex >= 0
+        ? hostPort.substring(colonIndex + 1)
+        : null;
     final String base = '$prefix$userInfo';
 
     // Top level domains are never numeric, so a trailing number after a dot
@@ -161,8 +164,9 @@ class NetLensUrlValidator {
       issues.add(const NetLensUrlIssue(NetLensUrlIssueType.invalidIp));
     }
 
-    final RegExpMatch? portGlued =
-        port != null ? _portGluedToPathRegExp.firstMatch(port) : null;
+    final RegExpMatch? portGlued = port != null
+        ? _portGluedToPathRegExp.firstMatch(port)
+        : null;
     if (portGlued != null) {
       issues.add(
         NetLensUrlIssue(

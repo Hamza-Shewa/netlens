@@ -30,10 +30,9 @@ class NetLensHttpMockClient extends http.BaseClient {
         headers: request.headers,
         // Bodies of streamed and multipart requests can be read only once, so
         // they aren't compared.
-        body:
-            request is http.Request
-                ? utf8.decode(request.bodyBytes, allowMalformed: true)
-                : null,
+        body: request is http.Request
+            ? utf8.decode(request.bodyBytes, allowMalformed: true)
+            : null,
       ),
     );
     if (response == null) {

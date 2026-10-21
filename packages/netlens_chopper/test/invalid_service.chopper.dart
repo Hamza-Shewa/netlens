@@ -1,4 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format width=80
 
 part of 'invalid_service.dart';
 
@@ -20,9 +21,29 @@ final class _$InvalidService extends InvalidService {
   @override
   Future<Response<InvalidModel>> get(int id) {
     final Uri $url = Uri.parse('/posts/${id}');
-    final Request $request = Request('GET', $url, client.baseUrl);
+    final ChopperCompleter<void> $abortTrigger = ChopperCompleter<void>();
+    final ChopperTimer $timeout = ChopperTimer(
+      const Duration(microseconds: 10000000),
+      () {
+        if (!$abortTrigger.isCompleted) $abortTrigger.complete();
+      },
+    );
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      abortTrigger: $abortTrigger.future,
+    );
     return client
         .send<InvalidModel, InvalidModel>($request)
-        .timeout(const Duration(microseconds: 10000000));
+        .catchError(
+          (_) => Future<Response<InvalidModel>>.error(
+            ChopperTimeoutException('Request timed out after 10 seconds'),
+          ),
+          test: (Object err) =>
+              err is ChopperRequestAbortedException &&
+              $abortTrigger.isCompleted,
+        )
+        .whenComplete($timeout.cancel);
   }
 }

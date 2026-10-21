@@ -33,65 +33,62 @@ class _NetLensWatcherPageState extends State<NetLensWatcherPage>
     return NetLensPage(
       core: widget.core,
       child: Builder(
-        builder:
-            (BuildContext context) => Scaffold(
-              appBar: NetLensAppBar(
-                title: Text(context.i18n(NetLensTranslationKey.watcher)),
-                actions: [
-                  IconButton(
-                    icon: const Icon(Icons.restart_alt),
-                    tooltip: context.i18n(NetLensTranslationKey.watcherReset),
-                    onPressed: () => _confirmReset(context),
-                  ),
-                ],
+        builder: (BuildContext context) => Scaffold(
+          appBar: NetLensAppBar(
+            title: Text(context.i18n(NetLensTranslationKey.watcher)),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.restart_alt),
+                tooltip: context.i18n(NetLensTranslationKey.watcherReset),
+                onPressed: () => _confirmReset(context),
               ),
-              body: ScrollConfiguration(
-                behavior: NetLensScrollBehavior(),
-                child: ListView(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
-                  children: [
-                    _Description(
-                      text: context.i18n(
-                        NetLensTranslationKey.watcherDescription,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    if (fields.isEmpty)
-                      Padding(
-                        padding: const EdgeInsets.all(24),
-                        child: Center(
-                          child: Text(
-                            context.i18n(NetLensTranslationKey.watcherNoFields),
-                          ),
-                        ),
-                      ),
-                    for (final NetLensWatchedField field in fields) ...[
-                      _FieldCard(
-                        key: ObjectKey(field),
-                        field: field,
-                        initiallyExpanded: fields.length == 1,
-                        onChanged: _onChanged,
-                        onDelete: () {
-                          _watcher.fields.remove(field);
-                          _onChanged();
-                        },
-                      ),
-                      const SizedBox(height: 12),
-                    ],
-                    Align(
-                      alignment: AlignmentDirectional.centerStart,
-                      child: FilledButton.icon(
-                        icon: const Icon(Icons.add),
-                        label: Text(
-                          context.i18n(NetLensTranslationKey.watcherAddField),
-                        ),
-                        onPressed: () => _addField(context),
-                      ),
-                    ),
-                  ],
+            ],
+          ),
+          body: ScrollConfiguration(
+            behavior: NetLensScrollBehavior(),
+            child: ListView(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
+              children: [
+                _Description(
+                  text: context.i18n(NetLensTranslationKey.watcherDescription),
                 ),
-              ),
+                const SizedBox(height: 12),
+                if (fields.isEmpty)
+                  Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Center(
+                      child: Text(
+                        context.i18n(NetLensTranslationKey.watcherNoFields),
+                      ),
+                    ),
+                  ),
+                for (final NetLensWatchedField field in fields) ...[
+                  _FieldCard(
+                    key: ObjectKey(field),
+                    field: field,
+                    initiallyExpanded: fields.length == 1,
+                    onChanged: _onChanged,
+                    onDelete: () {
+                      _watcher.fields.remove(field);
+                      _onChanged();
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                ],
+                Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: FilledButton.icon(
+                    icon: const Icon(Icons.add),
+                    label: Text(
+                      context.i18n(NetLensTranslationKey.watcherAddField),
+                    ),
+                    onPressed: () => _addField(context),
+                  ),
+                ),
+              ],
             ),
+          ),
+        ),
       ),
     );
   }
@@ -115,13 +112,12 @@ class _NetLensWatcherPageState extends State<NetLensWatcherPage>
   Future<void> _addField(BuildContext context) async {
     final String? path = await showDialog<String>(
       context: context,
-      builder:
-          (BuildContext dialogContext) => Theme(
-            data: NetLensTheme.getTheme(
-              brightness: NetLensTheme.resolveBrightness(context),
-            ),
-            child: const _AddFieldDialog(),
-          ),
+      builder: (BuildContext dialogContext) => Theme(
+        data: NetLensTheme.getTheme(
+          brightness: NetLensTheme.resolveBrightness(context),
+        ),
+        child: const _AddFieldDialog(),
+      ),
     );
     if (path == null || path.trim().isEmpty) {
       return;
@@ -233,14 +229,9 @@ class _FieldCard extends StatelessWidget {
       title: field.path.isEmpty ? '—' : field.path,
       count: field.values.length,
       initiallyExpanded: initiallyExpanded,
-      action:
-          field.useAsStatus
-              ? Icon(
-                Icons.check_circle,
-                size: 20,
-                color: theme.colorScheme.primary,
-              )
-              : null,
+      action: field.useAsStatus
+          ? Icon(Icons.check_circle, size: 20, color: theme.colorScheme.primary)
+          : null,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

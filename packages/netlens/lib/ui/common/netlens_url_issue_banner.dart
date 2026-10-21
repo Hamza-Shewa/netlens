@@ -21,8 +21,9 @@ class NetLensUrlIssueBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color color = getUrlIssueColor(context);
-    final List<NetLensUrlIssue> shownIssues =
-        compact ? issues.take(1).toList() : issues;
+    final List<NetLensUrlIssue> shownIssues = compact
+        ? issues.take(1).toList()
+        : issues;
     final int hiddenCount = issues.length - shownIssues.length;
 
     return Container(

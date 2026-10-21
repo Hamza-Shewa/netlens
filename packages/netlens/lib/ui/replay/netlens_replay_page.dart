@@ -116,9 +116,8 @@ class _NetLensReplayPageState extends State<NetLensReplayPage> {
                   for (final String method in methods)
                     DropdownMenuItem(value: method, child: Text(method)),
                 ],
-                onChanged:
-                    (String? method) =>
-                        setState(() => _method = method ?? _method),
+                onChanged: (String? method) =>
+                    setState(() => _method = method ?? _method),
               ),
               const SizedBox(height: 16),
               _CodeField(
@@ -156,16 +155,15 @@ class _NetLensReplayPageState extends State<NetLensReplayPage> {
                   textStyle: theme.textTheme.titleMedium,
                 ),
                 onPressed: _sending ? null : _send,
-                icon:
-                    _sending
-                        ? const SizedBox.square(
-                          dimension: 18,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: NetLensTheme.white,
-                          ),
-                        )
-                        : const Icon(Icons.send),
+                icon: _sending
+                    ? const SizedBox.square(
+                        dimension: 18,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: NetLensTheme.white,
+                        ),
+                      )
+                    : const Icon(Icons.send),
                 label: Text(context.i18n(NetLensTranslationKey.replaySend)),
               ),
             ],
@@ -184,16 +182,14 @@ class _NetLensReplayPageState extends State<NetLensReplayPage> {
     final ({Map<String, String> headers, int? invalidLine}) parsed =
         NetLensReplayRequest.parseHeaders(_headersController.text);
     setState(() {
-      _urlError =
-          isValidUrl
-              ? null
-              : context.i18n(NetLensTranslationKey.replayInvalidUrl);
-      _headersError =
-          parsed.invalidLine == null
-              ? null
-              : context
-                  .i18n(NetLensTranslationKey.replayInvalidHeader)
-                  .replaceAll('[line]', '${parsed.invalidLine}');
+      _urlError = isValidUrl
+          ? null
+          : context.i18n(NetLensTranslationKey.replayInvalidUrl);
+      _headersError = parsed.invalidLine == null
+          ? null
+          : context
+                .i18n(NetLensTranslationKey.replayInvalidHeader)
+                .replaceAll('[line]', '${parsed.invalidLine}');
     });
     if (!isValidUrl || parsed.invalidLine != null) {
       return;

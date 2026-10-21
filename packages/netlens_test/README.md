@@ -6,7 +6,7 @@ Flutter.
 
 ```yaml
 dev_dependencies:
-  netlens_test: ^1.0.0
+  netlens_test: ^1.1.0
 ```
 
 ## Credits

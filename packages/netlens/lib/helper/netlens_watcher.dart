@@ -240,10 +240,9 @@ class NetLensWatcher extends ChangeNotifier {
         current = current[part];
       } else if (current is List) {
         final int? index = int.tryParse(part);
-        current =
-            index != null && index >= 0 && index < current.length
-                ? current[index]
-                : null;
+        current = index != null && index >= 0 && index < current.length
+            ? current[index]
+            : null;
       } else {
         return null;
       }

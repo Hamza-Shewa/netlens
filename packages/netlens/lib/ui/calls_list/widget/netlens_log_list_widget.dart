@@ -119,34 +119,29 @@ class _NetLensLogListWidgetState extends State<NetLensLogListWidget> {
               },
             ),
             Expanded(
-              child:
-                  filtered.isEmpty
-                      ? Center(
-                        child: Text(
-                          context.i18n(NetLensTranslationKey.logsFilterEmpty),
-                          style: Theme.of(
-                            context,
-                          ).textTheme.bodyMedium?.copyWith(
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
+              child: filtered.isEmpty
+                  ? Center(
+                      child: Text(
+                        context.i18n(NetLensTranslationKey.logsFilterEmpty),
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
-                      )
-                      : SelectionArea(
-                        child: ScrollConfiguration(
-                          behavior: NetLensScrollBehavior(),
-                          child: ListView.builder(
-                            controller: widget.scrollController,
-                            padding: const EdgeInsets.symmetric(vertical: 8),
-                            itemCount: filtered.length,
-                            itemBuilder:
-                                (context, i) => _NetLensLogEntryWidget(
-                                  filtered[i].$1,
-                                  filtered[i].$2,
-                                ),
+                      ),
+                    )
+                  : SelectionArea(
+                      child: ScrollConfiguration(
+                        behavior: NetLensScrollBehavior(),
+                        child: ListView.builder(
+                          controller: widget.scrollController,
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          itemCount: filtered.length,
+                          itemBuilder: (context, i) => _NetLensLogEntryWidget(
+                            filtered[i].$1,
+                            filtered[i].$2,
                           ),
                         ),
                       ),
+                    ),
             ),
           ],
         );
@@ -242,10 +237,9 @@ class _NetLensLogEntryWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color:
-              isHighlighted
-                  ? kindColor.withValues(alpha: 0.07)
-                  : theme.colorScheme.onSurface.withValues(alpha: 0.03),
+          color: isHighlighted
+              ? kindColor.withValues(alpha: 0.07)
+              : theme.colorScheme.onSurface.withValues(alpha: 0.03),
           borderRadius: BorderRadius.circular(10),
           border: BorderDirectional(
             start: BorderSide(
@@ -286,8 +280,8 @@ class _NetLensLogEntryWidget extends StatelessWidget {
                     tooltip: context.i18n(
                       NetLensTranslationKey.callOverviewCopy,
                     ),
-                    onPressed:
-                        () => _copyToClipboard(context, error, stackTrace),
+                    onPressed: () =>
+                        _copyToClipboard(context, error, stackTrace),
                   ),
                 ],
               ),
@@ -344,14 +338,14 @@ class _NetLensLogEntryWidget extends StatelessWidget {
     String? error,
     String? stackTrace,
   ) async {
-    final StringBuffer text =
-        StringBuffer()..writeAll([
-          '${log.timestamp}: ${log.message}\n',
-          if (error != null)
-            '${context.i18n(NetLensTranslationKey.logsItemError)} $error\n',
-          if (stackTrace != null)
-            '${context.i18n(NetLensTranslationKey.logsItemStackTrace)}: $stackTrace\n',
-        ]);
+    final StringBuffer text = StringBuffer()
+      ..writeAll([
+        '${log.timestamp}: ${log.message}\n',
+        if (error != null)
+          '${context.i18n(NetLensTranslationKey.logsItemError)} $error\n',
+        if (stackTrace != null)
+          '${context.i18n(NetLensTranslationKey.logsItemStackTrace)}: $stackTrace\n',
+      ]);
 
     await Clipboard.setData(ClipboardData(text: text.toString()));
 

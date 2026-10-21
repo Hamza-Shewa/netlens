@@ -93,10 +93,9 @@ void main() {
     });
 
     test('should validate call built from server and endpoint', () {
-      final call =
-          NetLensHttpCall(0)
-            ..server = '192.168.1.1.505'
-            ..endpoint = '/api/login';
+      final call = NetLensHttpCall(0)
+        ..server = '192.168.1.1.505'
+        ..endpoint = '/api/login';
       expect(
         NetLensUrlValidator.validateCall(call).map((issue) => issue.type),
         [NetLensUrlIssueType.portWithDot],

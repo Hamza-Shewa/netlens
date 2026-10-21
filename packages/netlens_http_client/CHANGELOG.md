@@ -3,3 +3,4 @@
 * First release of NetLens, a fork of [Alice](https://github.com/jhomlala/alice) 1.0.0 under a new name.
 * Resends calls from the inspector, with an optional `replayClient`.
 * Fixes request headers that were not captured.
+* Needs Dart 3.11 and Flutter 3.41 or newer, and uses the latest versions of its dependencies.

@@ -10,33 +10,30 @@ import 'package:netlens/ui/common/netlens_language.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-NetLensHttpCall _call({int status = 200}) =>
-    NetLensHttpCall(1)
-      ..method = 'POST'
-      ..server = 'api.example.com'
-      ..endpoint = '/v1/users'
-      ..uri = 'https://api.example.com/v1/users?page=2'
-      ..client = 'Dio'
-      ..secure = true
-      ..loading = false
-      ..duration = 120
-      ..request =
-          (NetLensHttpRequest()
-            ..time = DateTime(2026, 10, 7, 14, 3, 1, 37)
-            ..size = 230
-            ..headers = {
-              'content-type': 'application/json',
-              'authorization': 'Bearer abc',
-            }
-            ..queryParameters = {'page': 2}
-            ..body = {'name': 'Ann'})
-      ..response =
-          (NetLensHttpResponse()
-            ..status = status
-            ..size = 99
-            ..headers = {'content-type': 'application/json'}
-            ..body = '{"ok":true}'
-            ..time = DateTime(2026, 10, 7, 14, 3, 1, 157));
+NetLensHttpCall _call({int status = 200}) => NetLensHttpCall(1)
+  ..method = 'POST'
+  ..server = 'api.example.com'
+  ..endpoint = '/v1/users'
+  ..uri = 'https://api.example.com/v1/users?page=2'
+  ..client = 'Dio'
+  ..secure = true
+  ..loading = false
+  ..duration = 120
+  ..request = (NetLensHttpRequest()
+    ..time = DateTime(2026, 10, 7, 14, 3, 1, 37)
+    ..size = 230
+    ..headers = {
+      'content-type': 'application/json',
+      'authorization': 'Bearer abc',
+    }
+    ..queryParameters = {'page': 2}
+    ..body = {'name': 'Ann'})
+  ..response = (NetLensHttpResponse()
+    ..status = status
+    ..size = 99
+    ..headers = {'content-type': 'application/json'}
+    ..body = '{"ok":true}'
+    ..time = DateTime(2026, 10, 7, 14, 3, 1, 157));
 
 Future<void> _pump(WidgetTester tester, Widget child) =>
     tester.pumpWidget(MaterialApp(home: Scaffold(body: child)));

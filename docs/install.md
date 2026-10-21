@@ -4,7 +4,7 @@
 
 ```yaml
 dependencies:
-  netlens: ^1.0.0
+  netlens: ^1.1.0
 ```
 
 2. Choose adapter based on your HTTP client. **pubspec.yaml** file:
@@ -13,21 +13,21 @@ dependencies:
 
 ```yaml
 dependencies:
-  netlens_dio: ^1.0.0
+  netlens_dio: ^1.1.0
 ```
 
 ### Chopper
 
 ```yaml
 dependencies:
-  netlens_chopper: ^1.0.0
+  netlens_chopper: ^1.1.0
 ```
 
 ### Http
 
 ```yaml
 dependencies:
-  netlens_http: ^1.0.0
+  netlens_http: ^1.1.0
 ```
 
 ### Http Client
@@ -44,7 +44,7 @@ dependencies:
 ```yaml
 dependencies:
   objectbox: any
-  netlens_objectbox: ^1.0.0
+  netlens_objectbox: ^1.1.0
 ```
 
 4. Run `get` command:

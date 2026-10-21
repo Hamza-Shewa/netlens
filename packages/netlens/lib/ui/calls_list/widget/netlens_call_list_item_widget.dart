@@ -26,10 +26,9 @@ class NetLensCallListItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
-    final Color statusColor =
-        call.loading
-            ? NetLensTheme.grey
-            : NetLensTheme.getStatusColor(context, call.response?.status);
+    final Color statusColor = call.loading
+        ? NetLensTheme.grey
+        : NetLensTheme.getStatusColor(context, call.response?.status);
     final List<NetLensUrlIssue> urlIssues = NetLensUrlValidator.validateCall(
       call,
     );
@@ -46,10 +45,9 @@ class NetLensCallListItemWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: hasUrlIssues ? urlIssueColor.withValues(alpha: 0.05) : null,
           border: BorderDirectional(
-            start:
-                hasUrlIssues
-                    ? BorderSide(color: urlIssueColor, width: _urlIssueBarWidth)
-                    : BorderSide(color: statusColor, width: _statusBarWidth),
+            start: hasUrlIssues
+                ? BorderSide(color: urlIssueColor, width: _urlIssueBarWidth)
+                : BorderSide(color: statusColor, width: _statusBarWidth),
             bottom: BorderSide(
               color: colorScheme.onSurface.withValues(alpha: 0.12),
             ),
@@ -143,10 +141,9 @@ class _Endpoint extends StatelessWidget {
           ?.copyWith(
             fontWeight: FontWeight.w600,
             height: 1.3,
-            color:
-                call.loading
-                    ? theme.colorScheme.onSurfaceVariant
-                    : theme.colorScheme.onSurface,
+            color: call.loading
+                ? theme.colorScheme.onSurfaceVariant
+                : theme.colorScheme.onSurface,
           )
           .merge(hasUrlIssues ? _urlIssueTextStyle(context) : null),
     );
@@ -205,10 +202,9 @@ class _ConnectionStats extends StatelessWidget {
       children: [
         _StatItem(
           icon: Icons.schedule,
-          text:
-              call.request?.time != null
-                  ? NetLensConversionHelper.formatClockTime(call.request!.time)
-                  : 'n/a',
+          text: call.request?.time != null
+              ? NetLensConversionHelper.formatClockTime(call.request!.time)
+              : 'n/a',
         ),
         _StatItem(
           icon: Icons.timer_outlined,

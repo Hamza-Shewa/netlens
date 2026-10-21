@@ -101,6 +101,7 @@ final _entities = <obx_int.ModelEntity>[
         type: 11,
         flags: 520,
         indexId: const obx_int.IdUid(2, 1736187189570129453),
+        relationField: 'requestRel',
         relationTarget: 'CachedNetLensHttpRequest',
       ),
       obx_int.ModelProperty(
@@ -109,6 +110,7 @@ final _entities = <obx_int.ModelEntity>[
         type: 11,
         flags: 520,
         indexId: const obx_int.IdUid(3, 736342038365124987),
+        relationField: 'responseRel',
         relationTarget: 'CachedNetLensHttpResponse',
       ),
       obx_int.ModelProperty(
@@ -117,6 +119,7 @@ final _entities = <obx_int.ModelEntity>[
         type: 11,
         flags: 520,
         indexId: const obx_int.IdUid(4, 6876753875053649510),
+        relationField: 'errorRel',
         relationTarget: 'CachedNetLensHttpError',
       ),
     ],
@@ -306,6 +309,11 @@ Future<obx.Store> openStore({
 /// [obx.Store.new].
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
+    // If this version is not found, it means that this file was generated
+    // with an older version of the ObjectBox Dart generator.
+    // Please regenerate this file with the current generator version.
+    // Typically, this is done with `dart run build_runner build`.
+    generatorVersion: obx_int.GeneratorVersion.v2025_12_16,
     entities: _entities,
     lastEntityId: const obx_int.IdUid(4, 8890972191143949164),
     lastIndexId: const obx_int.IdUid(4, 6876753875053649510),
@@ -323,12 +331,11 @@ obx_int.ModelDefinition getObjectBoxModel() {
   final bindings = <Type, obx_int.EntityDefinition>{
     CachedNetLensHttpCall: obx_int.EntityDefinition<CachedNetLensHttpCall>(
       model: _entities[0],
-      toOneRelations:
-          (CachedNetLensHttpCall object) => [
-            object.requestRel,
-            object.responseRel,
-            object.errorRel,
-          ],
+      toOneRelations: (CachedNetLensHttpCall object) => [
+        object.requestRel,
+        object.responseRel,
+        object.errorRel,
+      ],
       toManyRelations: (CachedNetLensHttpCall object) => {},
       getId: (CachedNetLensHttpCall object) => object.objectId,
       setId: (CachedNetLensHttpCall object, int id) {
@@ -456,12 +463,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
         object.objectId = id;
       },
       objectToFB: (CachedNetLensHttpError object, fb.Builder fbb) {
-        final dbErrorOffset =
-            object.dbError == null ? null : fbb.writeString(object.dbError!);
-        final dbStackTraceOffset =
-            object.dbStackTrace == null
-                ? null
-                : fbb.writeString(object.dbStackTrace!);
+        final dbErrorOffset = object.dbError == null
+            ? null
+            : fbb.writeString(object.dbError!);
+        final dbStackTraceOffset = object.dbStackTrace == null
+            ? null
+            : fbb.writeString(object.dbStackTrace!);
         fbb.startTable(4);
         fbb.addInt64(0, object.objectId);
         fbb.addOffset(1, dbErrorOffset);
@@ -478,14 +485,13 @@ obx_int.ModelDefinition getObjectBoxModel() {
           4,
           0,
         );
-        final object =
-            CachedNetLensHttpError(objectId: objectIdParam)
-              ..dbError = const fb.StringReader(
-                asciiOptimization: true,
-              ).vTableGetNullable(buffer, rootOffset, 6)
-              ..dbStackTrace = const fb.StringReader(
-                asciiOptimization: true,
-              ).vTableGetNullable(buffer, rootOffset, 8);
+        final object = CachedNetLensHttpError(objectId: objectIdParam)
+          ..dbError = const fb.StringReader(
+            asciiOptimization: true,
+          ).vTableGetNullable(buffer, rootOffset, 6)
+          ..dbStackTrace = const fb.StringReader(
+            asciiOptimization: true,
+          ).vTableGetNullable(buffer, rootOffset, 8);
 
         return object;
       },
@@ -500,35 +506,33 @@ obx_int.ModelDefinition getObjectBoxModel() {
             object.objectId = id;
           },
           objectToFB: (CachedNetLensHttpRequest object, fb.Builder fbb) {
-            final contentTypeOffset =
-                object.contentType == null
-                    ? null
-                    : fbb.writeString(object.contentType!);
+            final contentTypeOffset = object.contentType == null
+                ? null
+                : fbb.writeString(object.contentType!);
             final dbHeadersOffset = fbb.writeString(object.dbHeaders);
-            final dbBodyOffset =
-                object.dbBody == null ? null : fbb.writeString(object.dbBody!);
+            final dbBodyOffset = object.dbBody == null
+                ? null
+                : fbb.writeString(object.dbBody!);
             final dbCookiesOffset = fbb.writeList(
               object.dbCookies.map(fbb.writeString).toList(growable: false),
             );
             final dbQueryParametersOffset = fbb.writeString(
               object.dbQueryParameters,
             );
-            final dbFormDataFilesOffset =
-                object.dbFormDataFiles == null
-                    ? null
-                    : fbb.writeList(
-                      object.dbFormDataFiles!
-                          .map(fbb.writeString)
-                          .toList(growable: false),
-                    );
-            final dbFormDataFieldsOffset =
-                object.dbFormDataFields == null
-                    ? null
-                    : fbb.writeList(
-                      object.dbFormDataFields!
-                          .map(fbb.writeString)
-                          .toList(growable: false),
-                    );
+            final dbFormDataFilesOffset = object.dbFormDataFiles == null
+                ? null
+                : fbb.writeList(
+                    object.dbFormDataFiles!
+                        .map(fbb.writeString)
+                        .toList(growable: false),
+                  );
+            final dbFormDataFieldsOffset = object.dbFormDataFields == null
+                ? null
+                : fbb.writeList(
+                    object.dbFormDataFields!
+                        .map(fbb.writeString)
+                        .toList(growable: false),
+                  );
             fbb.startTable(11);
             fbb.addInt64(0, object.objectId);
             fbb.addInt64(1, object.size);
@@ -608,12 +612,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
             object.objectId = id;
           },
           objectToFB: (CachedNetLensHttpResponse object, fb.Builder fbb) {
-            final dbBodyOffset =
-                object.dbBody == null ? null : fbb.writeString(object.dbBody!);
-            final dbHeadersOffset =
-                object.dbHeaders == null
-                    ? null
-                    : fbb.writeString(object.dbHeaders!);
+            final dbBodyOffset = object.dbBody == null
+                ? null
+                : fbb.writeString(object.dbBody!);
+            final dbHeadersOffset = object.dbHeaders == null
+                ? null
+                : fbb.writeString(object.dbHeaders!);
             fbb.startTable(7);
             fbb.addInt64(0, object.objectId);
             fbb.addInt64(1, object.status);

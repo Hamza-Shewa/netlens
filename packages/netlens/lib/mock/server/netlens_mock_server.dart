@@ -30,10 +30,9 @@ class NetLensMockServer {
       return null;
     }
     final InternetAddress address = server.address;
-    final String host =
-        address.isLoopback || address == InternetAddress.anyIPv4
-            ? InternetAddress.loopbackIPv4.address
-            : address.address;
+    final String host = address.isLoopback || address == InternetAddress.anyIPv4
+        ? InternetAddress.loopbackIPv4.address
+        : address.address;
     return Uri(scheme: 'http', host: host, port: server.port);
   }
 

@@ -72,10 +72,9 @@ class NetLensIssueAnalyzer {
     if (status != null && status >= 500 && status < 600) {
       return NetLensIssue(
         origin: NetLensIssueOrigin.backend,
-        reason:
-            const [502, 503, 504].contains(status)
-                ? NetLensTranslationKey.issueReasonGateway
-                : NetLensTranslationKey.issueReasonServerError,
+        reason: const [502, 503, 504].contains(status)
+            ? NetLensTranslationKey.issueReasonGateway
+            : NetLensTranslationKey.issueReasonServerError,
         details: '$status',
       );
     }
@@ -100,14 +99,12 @@ class NetLensIssueAnalyzer {
     if (watch != null && watch.outcome != NetLensWatchOutcome.success) {
       // The HTTP status is fine, but the watched field reports a failure.
       return NetLensIssue(
-        origin:
-            watch.outcome == NetLensWatchOutcome.serverDown
-                ? NetLensIssueOrigin.backend
-                : NetLensIssueOrigin.frontend,
-        reason:
-            watch.outcome == NetLensWatchOutcome.serverDown
-                ? NetLensTranslationKey.issueReasonWatchServerDown
-                : NetLensTranslationKey.issueReasonWatchFailed,
+        origin: watch.outcome == NetLensWatchOutcome.serverDown
+            ? NetLensIssueOrigin.backend
+            : NetLensIssueOrigin.frontend,
+        reason: watch.outcome == NetLensWatchOutcome.serverDown
+            ? NetLensTranslationKey.issueReasonWatchServerDown
+            : NetLensTranslationKey.issueReasonWatchFailed,
         details:
             '${watch.path} = ${watch.value}'
             '${watch.meaning.isEmpty ? '' : ' (${watch.meaning})'}',

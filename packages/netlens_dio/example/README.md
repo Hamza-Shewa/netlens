@@ -16,4 +16,4 @@ adapter.replayClient = dio;
 ```
 
 A complete app is in
-[examples/netlens_dio](https://github.com/Hamza-Shewa/alice/tree/master/examples/netlens_dio).
+[examples/netlens_dio](https://github.com/Hamza-Shewa/netlens/tree/master/examples/netlens_dio).

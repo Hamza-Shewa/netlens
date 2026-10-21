@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'company.g.dart';
 
 @JsonSerializable()
-class Company with EquatableMixin {
+class Company with Equatable {
   const Company({
     required this.name,
     required this.catchPhrase,

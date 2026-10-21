@@ -1,18 +1,20 @@
 name: netlens_test
 description: "Test matchers and mocks for writing and testing adapters of the NetLens in-app HTTP inspector."
-version: 1.0.0
-repository: https://github.com/Hamza-Shewa/alice
-issue_tracker: https://github.com/Hamza-Shewa/alice/issues
+version: 1.1.0
+repository: https://github.com/Hamza-Shewa/netlens/tree/master/packages/netlens_test
+issue_tracker: https://github.com/Hamza-Shewa/netlens/issues
 
 environment:
-  sdk: ^3.7.0
+  sdk: ">=3.11.0 <4.0.0"
+
+resolution: workspace
 
 dependencies:
-  netlens: ^1.0.0
-  test: ^1.25.15
-  mocktail: ^1.0.4
+  netlens: ^1.1.0
+  test: ^1.31.1
+  mocktail: ^1.0.5
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0

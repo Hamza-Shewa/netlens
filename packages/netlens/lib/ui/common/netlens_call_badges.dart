@@ -143,8 +143,9 @@ class NetLensMockBadge extends StatelessWidget {
   /// [NetLensMockResponse.missingMockId] when no mock matched it, or null when
   /// mocks didn't answer it.
   static String? getMockId(NetLensHttpCall call) =>
-      NetLensMockHeaders.normalize(call.response?.headers)[NetLensMockResponse
-          .mockHeader];
+      NetLensMockHeaders.normalize(
+        call.response?.headers,
+      )[NetLensMockResponse.mockHeader];
 
   final String mockId;
 
@@ -158,10 +159,9 @@ class NetLensMockBadge extends StatelessWidget {
             ? NetLensTranslationKey.mockBadgeMissing
             : NetLensTranslationKey.mockBadge,
       ),
-      color:
-          missing
-              ? NetLensTheme.getStatusColor(context, 500)
-              : Theme.of(context).colorScheme.primary,
+      color: missing
+          ? NetLensTheme.getStatusColor(context, 500)
+          : Theme.of(context).colorScheme.primary,
     );
   }
 }

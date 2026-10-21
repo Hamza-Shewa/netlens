@@ -84,10 +84,9 @@ class NetLensGraphQL {
         (NetLensGraphQLOperationType type) => type.name == match?.group(1),
         orElse: () => NetLensGraphQLOperationType.query,
       ),
-      name:
-          (operationName != null && operationName.isNotEmpty)
-              ? operationName
-              : match?.group(2),
+      name: (operationName != null && operationName.isNotEmpty)
+          ? operationName
+          : match?.group(2),
       batchSize: payloads.length,
       hasErrors: _hasErrors(call.response?.body),
     );

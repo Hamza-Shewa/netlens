@@ -57,24 +57,22 @@ Future<void> showNetLensSettings(
   return showModalBottomSheet<void>(
     context: context,
     showDragHandle: true,
-    builder:
-        (BuildContext sheetContext) => ListenableBuilder(
-          listenable: Listenable.merge([
-            NetLensLanguage.current,
-            NetLensTheme.themeMode,
-          ]),
-          builder:
-              (BuildContext context, _) => Directionality(
-                textDirection: NetLensLanguage.textDirection,
-                child: Theme(
-                  data: NetLensTheme.getTheme(
-                    brightness: NetLensTheme.resolveBrightness(context),
-                  ),
-                  // Not const, so the sheet is rebuilt when a setting changes.
-                  child: _NetLensSettingsSheet(core: core),
-                ),
-              ),
+    builder: (BuildContext sheetContext) => ListenableBuilder(
+      listenable: Listenable.merge([
+        NetLensLanguage.current,
+        NetLensTheme.themeMode,
+      ]),
+      builder: (BuildContext context, _) => Directionality(
+        textDirection: NetLensLanguage.textDirection,
+        child: Theme(
+          data: NetLensTheme.getTheme(
+            brightness: NetLensTheme.resolveBrightness(context),
+          ),
+          // Not const, so the sheet is rebuilt when a setting changes.
+          child: _NetLensSettingsSheet(core: core),
         ),
+      ),
+    ),
   );
 }
 
@@ -118,9 +116,8 @@ class _NetLensSettingsSheet extends StatelessWidget {
                     ),
                 ],
                 selected: {NetLensLanguage.current.value},
-                onSelectionChanged:
-                    (Set<String> value) =>
-                        NetLensLanguage.current.value = value.first,
+                onSelectionChanged: (Set<String> value) =>
+                    NetLensLanguage.current.value = value.first,
               ),
               const SizedBox(height: 20),
               _SettingTitle(
@@ -149,9 +146,8 @@ class _NetLensSettingsSheet extends StatelessWidget {
                   ),
                 ],
                 selected: {NetLensTheme.themeMode.value},
-                onSelectionChanged:
-                    (Set<ThemeMode> value) =>
-                        NetLensTheme.themeMode.value = value.first,
+                onSelectionChanged: (Set<ThemeMode> value) =>
+                    NetLensTheme.themeMode.value = value.first,
               ),
               const SizedBox(height: 20),
               _WatcherTile(core: core),

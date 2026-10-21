@@ -193,8 +193,9 @@ class _NetLensCodeBlockState extends State<NetLensCodeBlock>
 
   void _computePreview() {
     final String text = widget.text;
-    final int maxScan =
-        text.length > _collapsedChars ? _collapsedChars : text.length;
+    final int maxScan = text.length > _collapsedChars
+        ? _collapsedChars
+        : text.length;
     int newlineCount = 0;
     int cutIndex = maxScan;
 
@@ -222,8 +223,9 @@ class _NetLensCodeBlockState extends State<NetLensCodeBlock>
     super.build(context);
     final ThemeData theme = Theme.of(context);
     final bool isLong = _isLong;
-    final String shownText =
-        (isLong && !_expanded) ? _collapsedPreview : widget.text;
+    final String shownText = (isLong && !_expanded)
+        ? _collapsedPreview
+        : widget.text;
 
     final Color errorColor = getUrlIssueColor(context);
 
@@ -232,10 +234,9 @@ class _NetLensCodeBlockState extends State<NetLensCodeBlock>
       decoration: BoxDecoration(
         color: theme.colorScheme.onSurface.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(8),
-        border:
-            widget.isError
-                ? Border.all(color: errorColor.withValues(alpha: 0.5))
-                : null,
+        border: widget.isError
+            ? Border.all(color: errorColor.withValues(alpha: 0.5))
+            : null,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -256,10 +257,9 @@ class _NetLensCodeBlockState extends State<NetLensCodeBlock>
                       fontFamilyFallback: const ['Courier', 'Menlo'],
                       fontSize: 12.5,
                       height: 1.45,
-                      color:
-                          widget.isError
-                              ? errorColor
-                              : theme.colorScheme.onSurface,
+                      color: widget.isError
+                          ? errorColor
+                          : theme.colorScheme.onSurface,
                     ),
                   ),
                 ),
@@ -300,12 +300,11 @@ class NetLensCopyIconButton extends StatelessWidget {
       icon: const Icon(Icons.copy, size: 18),
       visualDensity: VisualDensity.compact,
       tooltip: context.i18n(NetLensTranslationKey.callOverviewCopy),
-      onPressed:
-          () => netLensCopyToClipboard(
-            context,
-            text,
-            context.i18n(NetLensTranslationKey.callOverviewCopiedValue),
-          ),
+      onPressed: () => netLensCopyToClipboard(
+        context,
+        text,
+        context.i18n(NetLensTranslationKey.callOverviewCopiedValue),
+      ),
     );
   }
 }
@@ -608,13 +607,12 @@ class _NetLensCollapsibleSectionState extends State<NetLensCollapsibleSection> {
           AnimatedSize(
             duration: const Duration(milliseconds: 200),
             alignment: Alignment.topCenter,
-            child:
-                _expanded
-                    ? Padding(
-                      padding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
-                      child: widget.child,
-                    )
-                    : const SizedBox(width: double.infinity),
+            child: _expanded
+                ? Padding(
+                    padding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
+                    child: widget.child,
+                  )
+                : const SizedBox(width: double.infinity),
           ),
         ],
       ),
@@ -667,17 +665,18 @@ class _NetLensFormattedBodyBlockState extends State<NetLensFormattedBodyBlock>
       _json = NetLensJsonTree.tryDecode(widget.body);
       _text =
           _json != null &&
-                  !(widget.body is String && widget.body.contains('\n'))
-              ? NetLensJsonTree.copyText(_json)
-              : NetLensParser.formatBody(
-                context: context,
-                body: widget.body,
-                contentType: widget.contentType,
-              );
+              !(widget.body is String && widget.body.contains('\n'))
+          ? NetLensJsonTree.copyText(_json)
+          : NetLensParser.formatBody(
+              context: context,
+              body: widget.body,
+              contentType: widget.contentType,
+            );
     }
     final dynamic json = _json;
-    final bool hasChildren =
-        json is Map ? json.isNotEmpty : (json is List && json.isNotEmpty);
+    final bool hasChildren = json is Map
+        ? json.isNotEmpty
+        : (json is List && json.isNotEmpty);
     if (hasChildren) {
       return NetLensJsonViewer(json: json, rawText: _text!);
     }

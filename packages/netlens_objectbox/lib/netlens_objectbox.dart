@@ -26,26 +26,21 @@ class NetLensObjectBox implements NetLensStorage {
   final int maxCallsCount;
 
   @override
-  Stream<List<NetLensHttpCall>> get callsStream =>
-      _store.httpCalls
-          .query()
-          .order<int>(
-            CachedNetLensHttpCall_.createdTime,
-            flags: Order.descending,
-          )
-          .watch(triggerImmediately: true)
-          .map((Query<CachedNetLensHttpCall> query) => query.find())
-          .asBroadcastStream();
+  Stream<List<NetLensHttpCall>> get callsStream => _store.httpCalls
+      .query()
+      .order<int>(CachedNetLensHttpCall_.createdTime, flags: Order.descending)
+      .watch(triggerImmediately: true)
+      .map((Query<CachedNetLensHttpCall> query) => query.find())
+      .asBroadcastStream();
 
   @override
   List<NetLensHttpCall> getCalls() => _store.httpCalls.getAll();
 
   @override
-  CachedNetLensHttpCall? selectCall(int requestId) =>
-      _store.httpCalls
-          .query(CachedNetLensHttpCall_.id.equals(requestId))
-          .build()
-          .findFirst();
+  CachedNetLensHttpCall? selectCall(int requestId) => _store.httpCalls
+      .query(CachedNetLensHttpCall_.id.equals(requestId))
+      .build()
+      .findFirst();
 
   Future<void> _removeOverQuota() async {
     if (maxCallsCount > 0 && _store.httpCalls.count() >= maxCallsCount) {
@@ -140,10 +135,9 @@ class NetLensObjectBox implements NetLensStorage {
             ))
             .build()
             .count(),
-    loading:
-        _store.httpCalls
-            .query(CachedNetLensHttpCall_.loading.equals(true))
-            .build()
-            .count(),
+    loading: _store.httpCalls
+        .query(CachedNetLensHttpCall_.loading.equals(true))
+        .build()
+        .count(),
   );
 }

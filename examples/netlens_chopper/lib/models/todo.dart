@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'todo.g.dart';
 
 @JsonSerializable()
-class Todo with EquatableMixin {
+class Todo with Equatable {
   const Todo({
     this.id,
     required this.userId,

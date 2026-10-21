@@ -17,20 +17,18 @@ NetLensHttpCall _call(
   required int status,
   int duration = 100,
   String method = 'GET',
-}) =>
-    NetLensHttpCall(id)
-      ..method = method
-      ..server = 'api.example.com'
-      ..endpoint = '/v1/users'
-      ..uri = 'https://api.example.com/v1/users'
-      ..secure = true
-      ..loading = false
-      ..duration = duration
-      ..request = (NetLensHttpRequest()..size = 100)
-      ..response =
-          (NetLensHttpResponse()
-            ..status = status
-            ..size = 2048);
+}) => NetLensHttpCall(id)
+  ..method = method
+  ..server = 'api.example.com'
+  ..endpoint = '/v1/users'
+  ..uri = 'https://api.example.com/v1/users'
+  ..secure = true
+  ..loading = false
+  ..duration = duration
+  ..request = (NetLensHttpRequest()..size = 100)
+  ..response = (NetLensHttpResponse()
+    ..status = status
+    ..size = 2048);
 
 void main() {
   late NetLensCore core;
@@ -142,20 +140,18 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Builder(
-            builder:
-                (BuildContext context) => TextButton(
-                  onPressed: () async {
-                    result = await showDialog<NetLensSortDialogResult>(
-                      context: context,
-                      builder:
-                          (_) => NetLensSortDialog(
-                            sortOption: option,
-                            sortAscending: ascending,
-                          ),
-                    );
-                  },
-                  child: const Text('open'),
-                ),
+            builder: (BuildContext context) => TextButton(
+              onPressed: () async {
+                result = await showDialog<NetLensSortDialogResult>(
+                  context: context,
+                  builder: (_) => NetLensSortDialog(
+                    sortOption: option,
+                    sortAscending: ascending,
+                  ),
+                );
+              },
+              child: const Text('open'),
+            ),
           ),
         ),
       );
@@ -188,20 +184,18 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Builder(
-            builder:
-                (BuildContext context) => TextButton(
-                  onPressed: () async {
-                    result = await showDialog<NetLensSortDialogResult>(
-                      context: context,
-                      builder:
-                          (_) => const NetLensSortDialog(
-                            sortOption: NetLensCallsListSortOption.time,
-                            sortAscending: false,
-                          ),
-                    );
-                  },
-                  child: const Text('open'),
-                ),
+            builder: (BuildContext context) => TextButton(
+              onPressed: () async {
+                result = await showDialog<NetLensSortDialogResult>(
+                  context: context,
+                  builder: (_) => const NetLensSortDialog(
+                    sortOption: NetLensCallsListSortOption.time,
+                    sortAscending: false,
+                  ),
+                );
+              },
+              child: const Text('open'),
+            ),
           ),
         ),
       );

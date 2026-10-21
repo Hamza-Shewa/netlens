@@ -1,4 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format width=80
 
 part of 'broken_articles_service.dart';
 
@@ -21,23 +22,59 @@ final class _$BrokenArticlesService extends BrokenArticlesService {
   Future<Response<List<BrokenArticle>>> getAll({int? userId}) {
     final Uri $url = Uri.parse('/posts/');
     final Map<String, dynamic> $params = <String, dynamic>{'userId': userId};
+    final ChopperCompleter<void> $abortTrigger = ChopperCompleter<void>();
+    final ChopperTimer $timeout = ChopperTimer(
+      const Duration(microseconds: 10000000),
+      () {
+        if (!$abortTrigger.isCompleted) $abortTrigger.complete();
+      },
+    );
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
       parameters: $params,
+      abortTrigger: $abortTrigger.future,
     );
     return client
         .send<List<BrokenArticle>, BrokenArticle>($request)
-        .timeout(const Duration(microseconds: 10000000));
+        .catchError(
+          (_) => Future<Response<List<BrokenArticle>>>.error(
+            ChopperTimeoutException('Request timed out after 10 seconds'),
+          ),
+          test: (Object err) =>
+              err is ChopperRequestAbortedException &&
+              $abortTrigger.isCompleted,
+        )
+        .whenComplete($timeout.cancel);
   }
 
   @override
   Future<Response<BrokenArticle>> get(int id) {
     final Uri $url = Uri.parse('/posts/${id}');
-    final Request $request = Request('GET', $url, client.baseUrl);
+    final ChopperCompleter<void> $abortTrigger = ChopperCompleter<void>();
+    final ChopperTimer $timeout = ChopperTimer(
+      const Duration(microseconds: 10000000),
+      () {
+        if (!$abortTrigger.isCompleted) $abortTrigger.complete();
+      },
+    );
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      abortTrigger: $abortTrigger.future,
+    );
     return client
         .send<BrokenArticle, BrokenArticle>($request)
-        .timeout(const Duration(microseconds: 10000000));
+        .catchError(
+          (_) => Future<Response<BrokenArticle>>.error(
+            ChopperTimeoutException('Request timed out after 10 seconds'),
+          ),
+          test: (Object err) =>
+              err is ChopperRequestAbortedException &&
+              $abortTrigger.isCompleted,
+        )
+        .whenComplete($timeout.cancel);
   }
 }

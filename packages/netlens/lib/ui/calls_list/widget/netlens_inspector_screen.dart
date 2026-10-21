@@ -68,33 +68,27 @@ class _NetLensInspectorScreenState extends State<NetLensInspectorScreen>
             NetLensCallFilterBar(
               calls: allCalls,
               filter: _quickFilters,
-              onChanged:
-                  (NetLensCallFilter value) =>
-                      setState(() => _quickFilters = value),
+              onChanged: (NetLensCallFilter value) =>
+                  setState(() => _quickFilters = value),
             ),
             Expanded(
-              child:
-                  calls.isNotEmpty
-                      ? NetLensCallsListScreen(
-                        calls: calls,
-                        sortOption: widget.sortOption,
-                        sortAscending: widget.sortAscending,
-                        onListItemClicked: widget.onListItemPressed,
-                      )
-                      : NetLensEmptyStateWidget(
-                        icon: Icons.search_off,
-                        title:
-                            query.trim().isNotEmpty
-                                ? context
-                                    .i18n(
-                                      NetLensTranslationKey.callsListNoResults,
-                                    )
-                                    .replaceAll('[query]', query)
-                                : context.i18n(
-                                  NetLensTranslationKey
-                                      .callsListNoFilterResults,
-                                ),
-                      ),
+              child: calls.isNotEmpty
+                  ? NetLensCallsListScreen(
+                      calls: calls,
+                      sortOption: widget.sortOption,
+                      sortAscending: widget.sortAscending,
+                      onListItemClicked: widget.onListItemPressed,
+                    )
+                  : NetLensEmptyStateWidget(
+                      icon: Icons.search_off,
+                      title: query.trim().isNotEmpty
+                          ? context
+                                .i18n(NetLensTranslationKey.callsListNoResults)
+                                .replaceAll('[query]', query)
+                          : context.i18n(
+                              NetLensTranslationKey.callsListNoFilterResults,
+                            ),
+                    ),
             ),
           ],
         );

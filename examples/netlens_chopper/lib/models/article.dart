@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'article.g.dart';
 
 @JsonSerializable()
-class Article with EquatableMixin {
+class Article with Equatable {
   const Article({
     this.id,
     required this.title,

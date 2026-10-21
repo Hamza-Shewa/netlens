@@ -26,15 +26,13 @@ NetLensHttpCall finishedCall({
     ..client = 'Dio'
     ..loading = loading
     ..duration = 250
-    ..request =
-        (NetLensHttpRequest()
-          ..body = requestBody
-          ..queryParameters = url.queryParameters)
-    ..response =
-        (NetLensHttpResponse()
-          ..status = status
-          ..headers = responseHeaders
-          ..body = responseBody);
+    ..request = (NetLensHttpRequest()
+      ..body = requestBody
+      ..queryParameters = url.queryParameters)
+    ..response = (NetLensHttpResponse()
+      ..status = status
+      ..headers = responseHeaders
+      ..body = responseBody);
 }
 
 /// Returns a mock of `GET` [url] which answers with [body].

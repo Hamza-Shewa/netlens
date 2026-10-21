@@ -15,4 +15,4 @@ http
 ```
 
 A complete app is in
-[examples/netlens_http](https://github.com/Hamza-Shewa/alice/tree/master/examples/netlens_http).
+[examples/netlens_http](https://github.com/Hamza-Shewa/netlens/tree/master/examples/netlens_http).

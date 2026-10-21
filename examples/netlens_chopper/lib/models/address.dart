@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'address.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class Address with EquatableMixin {
+class Address with Equatable {
   const Address({
     required this.street,
     required this.suite,

@@ -15,4 +15,4 @@ HttpClient()
 ```
 
 A complete app is in
-[examples/netlens_http_client](https://github.com/Hamza-Shewa/alice/tree/master/examples/netlens_http_client).
+[examples/netlens_http_client](https://github.com/Hamza-Shewa/netlens/tree/master/examples/netlens_http_client).

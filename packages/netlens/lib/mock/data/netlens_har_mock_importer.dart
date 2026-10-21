@@ -47,8 +47,9 @@ class NetLensHarMockImporter implements NetLensMockImporter {
       id: '',
       method: '${request['method'] ?? 'GET'}'.toUpperCase(),
       url: url,
-      requestBody:
-          requestBody == null || requestBody.isEmpty ? null : requestBody,
+      requestBody: requestBody == null || requestBody.isEmpty
+          ? null
+          : requestBody,
       createdTime:
           DateTime.tryParse('${entry['startedDateTime']}')?.toLocal() ??
           DateTime.now(),
@@ -56,10 +57,9 @@ class NetLensHarMockImporter implements NetLensMockImporter {
         status: status,
         headers: NetLensMockHeaders.normalize(_headers(response['headers'])),
         body: '${content['text'] ?? ''}',
-        bodyEncoding:
-            content['encoding'] == 'base64'
-                ? NetLensMockBodyEncoding.base64
-                : NetLensMockBodyEncoding.text,
+        bodyEncoding: content['encoding'] == 'base64'
+            ? NetLensMockBodyEncoding.base64
+            : NetLensMockBodyEncoding.text,
         delay: Duration(milliseconds: (entry['time'] as num? ?? 0).round()),
       ),
     );
