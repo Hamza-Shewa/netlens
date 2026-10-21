@@ -5,22 +5,20 @@ publish_to: 'none'
 version: 1.0.0+3
 
 environment:
-  sdk: ">=3.7.0 <4.0.0"
+  sdk: ">=3.11.0 <4.0.0"
+  flutter: ">=3.41.0"
+
+resolution: workspace
 
 dependencies:
   flutter:
     sdk: flutter
-  netlens:
-  netlens_http_client:
+  netlens: ^1.1.0
+  netlens_http_client: ^1.0.0
 
 dev_dependencies:
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
 
-dependency_overrides:
-  netlens:
-    path: ../../packages/netlens
-  netlens_http_client:
-    path: ../../packages/netlens_http_client
 
 flutter:
   uses-material-design: true

@@ -3,6 +3,8 @@
 * Adds mocks: records calls as mock endpoints and replays them, so the app runs offline. Switch between off, record and replay on the new Mocks page, save one call from its details and see a Mock badge on mocked calls. Configure it with `NetLensConfiguration.mocks`.
 * Adds `NetLensMockServer`, a local HTTP server which answers any client with mocks, and the `netlens_mock_server` command, which serves mock and HAR files from a computer.
 * Imports mocks from NetLens mocks JSON files and HAR files, and keeps them after a restart with `NetLensFileMockRepository`.
+* Needs Dart 3.11 and Flutter 3.41 or newer, and uses the latest versions of its dependencies.
+* Works with flutter_local_notifications 22, sensors_plus 7, open_filex 5 and equatable 3.
 
 # 1.0.0
 

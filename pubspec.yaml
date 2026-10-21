@@ -1,8 +1,51 @@
 name: netlens_workspace
-# The packages are published from their own folders under packages/.
+# This is the workspace root, not a package. Each package is published from
+# its own folder under packages/, for example:
+#   cd packages/netlens && dart pub publish
 publish_to: none
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: ">=3.11.0 <4.0.0"
+
+workspace:
+  - packages/netlens
+  - packages/netlens_chopper
+  - packages/netlens_dio
+  - packages/netlens_http
+  - packages/netlens_http_client
+  - packages/netlens_objectbox
+  - packages/netlens_test
+  - examples/netlens
+  - examples/netlens_chopper
+  - examples/netlens_dio
+  - examples/netlens_http
+  - examples/netlens_http_client
+  - examples/netlens_objectbox
+
 dev_dependencies:
-  melos: ^6.0.0
+  melos: ^8.9.0
+
+melos:
+  name: netlens
+
+  # "melos analyze" and "melos format" are built-in commands.
+  scripts:
+    fix:
+      exec: dart fix --apply
+    test:
+      description: Run tests in a specific package.
+      exec:
+        command: flutter test
+        concurrency: 1
+      packageFilters:
+        dirExists:
+          - test
+      # This tells Melos tests to ignore env variables passed to tests from `melos run test`
+      # as they could change the behaviour of how tests filter packages.
+      env:
+        MELOS_TEST: true
+    publish:check:
+      description: Check that every package can be published to pub.dev.
+      exec: dart pub publish --dry-run
+      packageFilters:
+        noPrivate: true

@@ -1,8 +1,8 @@
 name: netlens_http
 description: "NetLens adapter for the http package. Catches http calls for the NetLens in-app HTTP inspector and lets NetLens resend them."
 version: 1.1.0
-repository: https://github.com/Hamza-Shewa/alice
-issue_tracker: https://github.com/Hamza-Shewa/alice/issues
+repository: https://github.com/Hamza-Shewa/netlens/tree/master/packages/netlens_http
+issue_tracker: https://github.com/Hamza-Shewa/netlens/issues
 topics:
   - http
   - inspector
@@ -10,15 +10,17 @@ topics:
   - interceptor
 
 environment:
-  sdk: ">=3.7.0 <4.0.0"
-  flutter: ">=3.29.0"
+  sdk: ">=3.11.0 <4.0.0"
+  flutter: ">=3.41.0"
+
+resolution: workspace
 
 dependencies:
   netlens: ^1.1.0
-  http: ^1.4.0
+  http: ^1.6.0
 
 dev_dependencies:
-  flutter_lints: ^5.0.0
-  netlens_test: ^1.0.0
-  mocktail: ^1.0.4
-  test: ^1.25.15
+  flutter_lints: ^6.0.0
+  netlens_test: ^1.1.0
+  mocktail: ^1.0.5
+  test: ^1.31.1
