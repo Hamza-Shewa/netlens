@@ -86,6 +86,23 @@ MaterialApp(
 You can find the documentation
 [here](https://github.com/Hamza-Shewa/netlens/tree/master/docs).
 
+## Publishing
+
+The repository root is the Melos workspace, not a package, so running
+`flutter pub publish` here fails with errors about a missing version,
+description, `examples` and `docs`. Publish from the packages instead:
+
+```sh
+dart pub global activate melos
+melos bootstrap
+melos publish                    # dry run of every package with a new version
+melos publish --no-dry-run --yes # publishes them in dependency order
+```
+
+To publish one package by hand, run `flutter pub publish` in its folder, for
+example `cd packages/netlens && flutter pub publish`. Publish `netlens` first,
+then `netlens_test`, then the adapters.
+
 ## Credits
 
 NetLens is a fork of [Alice](https://github.com/jhomlala/alice) by Jakub

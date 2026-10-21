@@ -1,7 +1,8 @@
 name: netlens_workspace
 # This is the workspace root, not a package. Each package is published from
 # its own folder under packages/, for example:
-#   cd packages/netlens && dart pub publish
+#   melos publish --no-dry-run   (or: cd packages/netlens && flutter pub publish)
+# Running "pub publish" here fails, see "Publishing" in README.md.
 publish_to: none
 
 environment:
