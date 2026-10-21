@@ -9,7 +9,7 @@ for Flutter, to HttpClient from dart:io.
 
 ```yaml
 dependencies:
-  netlens: ^1.0.0
+  netlens: ^1.1.0
   netlens_http_client: ^1.0.0
 ```
 
@@ -39,11 +39,11 @@ final server = NetLensMockServer(resolver: netLens.mocks);
 final Uri baseUrl = await server.start();
 ```
 
-See [Mocks](https://github.com/Hamza-Shewa/alice/blob/master/docs/mocks.md).
+See [Mocks](https://github.com/Hamza-Shewa/netlens/blob/master/docs/mocks.md).
 
 ## Documentation
 
-You can find the documentation [here](https://github.com/Hamza-Shewa/alice/tree/master/docs).
+You can find the documentation [here](https://github.com/Hamza-Shewa/netlens/tree/master/docs).
 
 ## Credits
 

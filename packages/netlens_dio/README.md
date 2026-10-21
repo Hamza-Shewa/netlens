@@ -9,8 +9,8 @@ for Flutter, to Dio.
 
 ```yaml
 dependencies:
-  netlens: ^1.0.0
-  netlens_dio: ^1.0.0
+  netlens: ^1.1.0
+  netlens_dio: ^1.1.0
 ```
 
 ## Use
@@ -40,11 +40,11 @@ NetLensDioMockAdapter.install(dio, netLens.mocks);
 netLens.mocks.mode = NetLensMockMode.replay;
 ```
 
-See [Mocks](https://github.com/Hamza-Shewa/alice/blob/master/docs/mocks.md).
+See [Mocks](https://github.com/Hamza-Shewa/netlens/blob/master/docs/mocks.md).
 
 ## Documentation
 
-You can find the documentation [here](https://github.com/Hamza-Shewa/alice/tree/master/docs).
+You can find the documentation [here](https://github.com/Hamza-Shewa/netlens/tree/master/docs).
 
 ## Credits
 

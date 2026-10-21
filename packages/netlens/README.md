@@ -6,7 +6,7 @@
 [![pub package](https://img.shields.io/pub/v/netlens_http.svg?label=netlens_http)](https://pub.dev/packages/netlens_http)
 [![pub package](https://img.shields.io/pub/v/netlens_http_client.svg?label=netlens_http_client)](https://pub.dev/packages/netlens_http_client)
 [![pub package](https://img.shields.io/pub/v/netlens_objectbox.svg?label=netlens_objectbox)](https://pub.dev/packages/netlens_objectbox)
-[![platform](https://img.shields.io/badge/platform-flutter-blue.svg)](https://github.com/Hamza-Shewa/alice)
+[![platform](https://img.shields.io/badge/platform-flutter-blue.svg)](https://github.com/Hamza-Shewa/netlens)
 [![melos](https://img.shields.io/badge/maintained%20with-melos-f700ff.svg?style=flat-square)](https://github.com/invertase/melos)
 
 NetLens is an in-app HTTP inspector for Flutter. It catches the requests and
@@ -15,14 +15,14 @@ them and send them again, right on the device.
 
 <table>
   <tr>
-    <td><img width="200" alt="Calls list with quick filters, status and GraphQL badges" src="https://raw.githubusercontent.com/Hamza-Shewa/alice/master/packages/netlens/screenshots/1_calls.png"></td>
-    <td><img width="200" alt="Response body in the collapsible JSON viewer" src="https://raw.githubusercontent.com/Hamza-Shewa/alice/master/packages/netlens/screenshots/2_json_viewer.png"></td>
-    <td><img width="200" alt="Request with the API key and password hidden" src="https://raw.githubusercontent.com/Hamza-Shewa/alice/master/packages/netlens/screenshots/3_request_redacted.png"></td>
+    <td><img width="200" alt="Calls list with quick filters, status and GraphQL badges" src="https://raw.githubusercontent.com/Hamza-Shewa/netlens/master/packages/netlens/screenshots/1_calls.png"></td>
+    <td><img width="200" alt="Response body in the collapsible JSON viewer" src="https://raw.githubusercontent.com/Hamza-Shewa/netlens/master/packages/netlens/screenshots/2_json_viewer.png"></td>
+    <td><img width="200" alt="Request with the API key and password hidden" src="https://raw.githubusercontent.com/Hamza-Shewa/netlens/master/packages/netlens/screenshots/3_request_redacted.png"></td>
   </tr>
   <tr>
-    <td><img width="200" alt="Editing a call before sending it again" src="https://raw.githubusercontent.com/Hamza-Shewa/alice/master/packages/netlens/screenshots/4_edit_and_resend.png"></td>
-    <td><img width="200" alt="Timeline of calls as a waterfall" src="https://raw.githubusercontent.com/Hamza-Shewa/alice/master/packages/netlens/screenshots/5_timeline.png"></td>
-    <td><img width="200" alt="Statistics with the slowest endpoints" src="https://raw.githubusercontent.com/Hamza-Shewa/alice/master/packages/netlens/screenshots/6_statistics.png"></td>
+    <td><img width="200" alt="Editing a call before sending it again" src="https://raw.githubusercontent.com/Hamza-Shewa/netlens/master/packages/netlens/screenshots/4_edit_and_resend.png"></td>
+    <td><img width="200" alt="Timeline of calls as a waterfall" src="https://raw.githubusercontent.com/Hamza-Shewa/netlens/master/packages/netlens/screenshots/5_timeline.png"></td>
+    <td><img width="200" alt="Statistics with the slowest endpoints" src="https://raw.githubusercontent.com/Hamza-Shewa/netlens/master/packages/netlens/screenshots/6_statistics.png"></td>
   </tr>
 </table>
 
@@ -57,8 +57,8 @@ Calls are kept in memory by default, or in a database with
 
 ```yaml
 dependencies:
-  netlens: ^1.0.0
-  netlens_dio: ^1.0.0
+  netlens: ^1.1.0
+  netlens_dio: ^1.1.0
 ```
 
 ```dart
@@ -84,12 +84,12 @@ MaterialApp(
 ## Documentation
 
 You can find the documentation
-[here](https://github.com/Hamza-Shewa/alice/tree/master/docs).
+[here](https://github.com/Hamza-Shewa/netlens/tree/master/docs).
 
 ## Credits
 
 NetLens is a fork of [Alice](https://github.com/jhomlala/alice) by Jakub
 Homlala and its contributors, licensed under the Apache License 2.0. See
-[NOTICE](https://github.com/Hamza-Shewa/alice/blob/master/NOTICE) for details.
+[NOTICE](https://github.com/Hamza-Shewa/netlens/blob/master/NOTICE) for details.
 Alice itself was inspired by [Chuck](https://github.com/jgilfelt/chuck) and
 [Chucker](https://github.com/ChuckerTeam/chucker).

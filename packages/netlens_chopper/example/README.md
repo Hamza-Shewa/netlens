@@ -13,4 +13,4 @@ final chopper = ChopperClient(interceptors: [adapter]);
 ```
 
 A complete app is in
-[examples/netlens_chopper](https://github.com/Hamza-Shewa/alice/tree/master/examples/netlens_chopper).
+[examples/netlens_chopper](https://github.com/Hamza-Shewa/netlens/tree/master/examples/netlens_chopper).
