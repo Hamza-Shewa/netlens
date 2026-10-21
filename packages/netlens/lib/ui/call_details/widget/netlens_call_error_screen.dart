@@ -27,10 +27,9 @@ class NetLensCallErrorScreen extends StatelessWidget {
       );
     }
 
-    final String message =
-        error != null
-            ? error.toString()
-            : context.i18n(NetLensTranslationKey.callErrorScreenErrorEmpty);
+    final String message = error != null
+        ? error.toString()
+        : context.i18n(NetLensTranslationKey.callErrorScreenErrorEmpty);
 
     return SelectionArea(
       child: ScrollConfiguration(

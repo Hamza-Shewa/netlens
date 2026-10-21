@@ -34,19 +34,19 @@ class _NetLensStatsPageState extends State<NetLensStatsPage>
     return NetLensPage(
       core: widget.netLensCore,
       child: Builder(
-        builder:
-            (BuildContext context) => Scaffold(
-              appBar: NetLensAppBar(
-                title: Text(
-                  '${context.i18n(NetLensTranslationKey.netLens)} - '
-                  '${context.i18n(NetLensTranslationKey.statsTitle)}',
-                ),
-                actions: [NetLensSettingsButton(core: widget.netLensCore)],
-              ),
-              body: StreamBuilder<List<NetLensHttpCall>>(
-                stream: widget.netLensCore.callsStream,
-                initialData: widget.netLensCore.getCalls(),
-                builder: (
+        builder: (BuildContext context) => Scaffold(
+          appBar: NetLensAppBar(
+            title: Text(
+              '${context.i18n(NetLensTranslationKey.netLens)} - '
+              '${context.i18n(NetLensTranslationKey.statsTitle)}',
+            ),
+            actions: [NetLensSettingsButton(core: widget.netLensCore)],
+          ),
+          body: StreamBuilder<List<NetLensHttpCall>>(
+            stream: widget.netLensCore.callsStream,
+            initialData: widget.netLensCore.getCalls(),
+            builder:
+                (
                   BuildContext context,
                   AsyncSnapshot<List<NetLensHttpCall>> snapshot,
                 ) {
@@ -82,8 +82,8 @@ class _NetLensStatsPageState extends State<NetLensStatsPage>
                     ),
                   );
                 },
-              ),
-            ),
+          ),
+        ),
       ),
     );
   }
@@ -224,19 +224,18 @@ class _StackedBar extends StatelessWidget {
       borderRadius: BorderRadius.circular(6),
       child: SizedBox(
         height: 12,
-        child:
-            total == 0
-                ? ColoredBox(color: track)
-                : Row(
-                  children: [
-                    for (final _Segment segment in segments)
-                      if (segment.count > 0)
-                        Expanded(
-                          flex: segment.count,
-                          child: ColoredBox(color: segment.color),
-                        ),
-                  ],
-                ),
+        child: total == 0
+            ? ColoredBox(color: track)
+            : Row(
+                children: [
+                  for (final _Segment segment in segments)
+                    if (segment.count > 0)
+                      Expanded(
+                        flex: segment.count,
+                        child: ColoredBox(color: segment.color),
+                      ),
+                ],
+              ),
       ),
     );
   }
@@ -345,10 +344,9 @@ class _IssueTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final Color color =
-        count == 0
-            ? theme.colorScheme.onSurfaceVariant
-            : NetLensTheme.getIssueColor(context, origin);
+    final Color color = count == 0
+        ? theme.colorScheme.onSurfaceVariant
+        : NetLensTheme.getIssueColor(context, origin);
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -622,9 +620,8 @@ class _MethodsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<MapEntry<String, int>> methods =
-        stats.methods.entries.toList()
-          ..sort((a, b) => b.value.compareTo(a.value));
+    final List<MapEntry<String, int>> methods = stats.methods.entries.toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
     final int max = methods.first.value;
     return NetLensDetailSection(
       title: context.i18n(NetLensTranslationKey.statsSectionMethods),
@@ -649,8 +646,9 @@ class _SecuritySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int max =
-        stats.secured > stats.unsecured ? stats.secured : stats.unsecured;
+    final int max = stats.secured > stats.unsecured
+        ? stats.secured
+        : stats.unsecured;
     return NetLensDetailSection(
       title: context.i18n(NetLensTranslationKey.statsSectionSecurity),
       children: [
@@ -695,10 +693,9 @@ class _BarRow extends StatelessWidget {
           child: Text(
             label,
             textDirection: TextDirection.ltr,
-            textAlign:
-                Directionality.of(context) == TextDirection.rtl
-                    ? TextAlign.right
-                    : TextAlign.left,
+            textAlign: Directionality.of(context) == TextDirection.rtl
+                ? TextAlign.right
+                : TextAlign.left,
             style: theme.textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.w600,
             ),

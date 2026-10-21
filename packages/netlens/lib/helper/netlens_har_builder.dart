@@ -65,8 +65,8 @@ class NetLensHarBuilder {
     final String? body = NetLensReplayRequest.encodeBody(request?.body);
     final String? contentType =
         (request?.contentType?.trim().isNotEmpty ?? false)
-            ? request!.contentType
-            : NetLensParser.tryGetContentType(request?.headers);
+        ? request!.contentType
+        : NetLensParser.tryGetContentType(request?.headers);
     return {
       'method': call.method.toUpperCase(),
       'url': url,
@@ -107,7 +107,7 @@ class NetLensHarBuilder {
         'mimeType':
             NetLensParser.tryGetContentType(response?.headers) ??
             _defaultMimeType,
-        if (text != null) 'text': text,
+        'text': ?text,
       },
       'redirectURL': _getHeader(response?.headers, 'location') ?? '',
       'headersSize': -1,

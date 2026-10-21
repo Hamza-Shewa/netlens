@@ -6,7 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'user.g.dart';
 
 @JsonSerializable()
-class User with EquatableMixin {
+class User with Equatable {
   const User({
     this.id,
     required this.name,

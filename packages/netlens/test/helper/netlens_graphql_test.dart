@@ -9,15 +9,13 @@ NetLensHttpCall _call({
   dynamic body,
   Map<String, dynamic> query = const {},
   dynamic responseBody,
-}) =>
-    NetLensHttpCall(1)
-      ..method = method
-      ..endpoint = '/graphql'
-      ..request =
-          (NetLensHttpRequest()
-            ..body = body
-            ..queryParameters = query)
-      ..response = (NetLensHttpResponse()..body = responseBody);
+}) => NetLensHttpCall(1)
+  ..method = method
+  ..endpoint = '/graphql'
+  ..request = (NetLensHttpRequest()
+    ..body = body
+    ..queryParameters = query)
+  ..response = (NetLensHttpResponse()..body = responseBody);
 
 void main() {
   group('NetLensGraphQL', () {

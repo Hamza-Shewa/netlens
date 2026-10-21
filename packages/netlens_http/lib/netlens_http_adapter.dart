@@ -50,12 +50,11 @@ class NetLensHttpAdapter with NetLensAdapter implements NetLensCallReplayer {
     }
     final request = response.request!;
 
-    final call =
-        NetLensHttpCall(response.request.hashCode)
-          ..loading = true
-          ..client = clientName
-          ..uri = request.url.toString()
-          ..method = request.method;
+    final call = NetLensHttpCall(response.request.hashCode)
+      ..loading = true
+      ..client = clientName
+      ..uri = request.url.toString()
+      ..method = request.method;
     var path = request.url.path;
     if (path.isEmpty) {
       path = '/';
@@ -100,13 +99,12 @@ class NetLensHttpAdapter with NetLensAdapter implements NetLensCallReplayer {
       ..contentType = contentType
       ..queryParameters = response.request!.url.queryParameters;
 
-    final httpResponse =
-        NetLensHttpResponse()
-          ..status = response.statusCode
-          ..body = response.body
-          // ignore: noop_primitive_operations
-          ..size = utf8.encode(response.body.toString()).length
-          ..time = DateTime.now();
+    final httpResponse = NetLensHttpResponse()
+      ..status = response.statusCode
+      ..body = response.body
+      // ignore: noop_primitive_operations
+      ..size = utf8.encode(response.body.toString()).length
+      ..time = DateTime.now();
     final responseHeaders = <String, String>{};
     response.headers.forEach((header, values) {
       responseHeaders[header] = values;

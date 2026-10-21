@@ -7,28 +7,25 @@ import 'package:netlens/model/netlens_http_request.dart';
 import 'package:netlens/model/netlens_http_response.dart';
 import 'package:test/test.dart';
 
-NetLensHttpCall _call(int id, DateTime time) =>
-    NetLensHttpCall(id)
-      ..method = 'post'
-      ..server = 'api.example.com'
-      ..endpoint = '/items'
-      ..uri = 'https://api.example.com/items?page=2'
-      ..secure = true
-      ..loading = false
-      ..duration = 120
-      ..request =
-          (NetLensHttpRequest()
-            ..time = time
-            ..size = 12
-            ..contentType = 'application/json'
-            ..headers = {'Accept': 'application/json'}
-            ..body = {'name': 'a'})
-      ..response =
-          (NetLensHttpResponse()
-            ..status = 201
-            ..size = 9
-            ..headers = {'content-type': 'application/json'}
-            ..body = '{"id": 2}');
+NetLensHttpCall _call(int id, DateTime time) => NetLensHttpCall(id)
+  ..method = 'post'
+  ..server = 'api.example.com'
+  ..endpoint = '/items'
+  ..uri = 'https://api.example.com/items?page=2'
+  ..secure = true
+  ..loading = false
+  ..duration = 120
+  ..request = (NetLensHttpRequest()
+    ..time = time
+    ..size = 12
+    ..contentType = 'application/json'
+    ..headers = {'Accept': 'application/json'}
+    ..body = {'name': 'a'})
+  ..response = (NetLensHttpResponse()
+    ..status = 201
+    ..size = 9
+    ..headers = {'content-type': 'application/json'}
+    ..body = '{"id": 2}');
 
 void main() {
   group('NetLensHarBuilder', () {
@@ -75,10 +72,9 @@ void main() {
     });
 
     test('reports failed calls with status 0 and the error', () {
-      final NetLensHttpCall call =
-          _call(1, DateTime.utc(2026))
-            ..response = (NetLensHttpResponse()..status = -1)
-            ..error = (NetLensHttpError()..error = 'SocketException');
+      final NetLensHttpCall call = _call(1, DateTime.utc(2026))
+        ..response = (NetLensHttpResponse()..status = -1)
+        ..error = (NetLensHttpError()..error = 'SocketException');
       final Map<String, dynamic> entry = NetLensHarBuilder.buildEntry(call);
       expect(entry['response']['status'], 0);
       expect(entry['comment'], 'SocketException');

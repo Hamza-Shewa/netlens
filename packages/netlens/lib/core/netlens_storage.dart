@@ -5,8 +5,13 @@ import 'package:netlens/model/netlens_http_error.dart';
 import 'package:netlens/model/netlens_http_response.dart';
 
 /// Definition of call stats.
-typedef NetLensStats =
-    ({int total, int successes, int redirects, int errors, int loading});
+typedef NetLensStats = ({
+  int total,
+  int successes,
+  int redirects,
+  int errors,
+  int loading,
+});
 
 /// Definition of storage
 abstract interface class NetLensStorage {

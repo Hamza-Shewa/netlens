@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'broken_article.g.dart';
 
 @JsonSerializable()
-class BrokenArticle with EquatableMixin {
+class BrokenArticle with Equatable {
   const BrokenArticle({
     this.id,
     required this.title,

@@ -90,51 +90,44 @@ class _NetLensCallsListPageState extends State<NetLensCallsListPage>
             tooltip: MaterialLocalizations.of(context).backButtonTooltip,
             onPressed: _onBackPressed,
           ),
-          title:
-              _searchEnabled
-                  ? _SearchTextField(
-                    textEditingController: _queryTextEditingController,
-                    onChanged: _updateSearchQuery,
-                    onClearPressed: _onClearSearchPressed,
-                  )
-                  : Text(context.i18n(NetLensTranslationKey.netLens)),
-          actions:
-              isLoggerTab
-                  ? <Widget>[
-                    NetLensSettingsButton(core: widget.core),
-                    if (OperatingSystem.isAndroid)
-                      IconButton(
-                        icon: const Icon(Icons.terminal),
-                        tooltip: context.i18n(
-                          NetLensTranslationKey.callsListRawLogs,
-                        ),
-                        isSelected: isAndroidRawLogsEnabled,
-                        onPressed: _onLogsChangePressed,
-                      ),
+          title: _searchEnabled
+              ? _SearchTextField(
+                  textEditingController: _queryTextEditingController,
+                  onChanged: _updateSearchQuery,
+                  onClearPressed: _onClearSearchPressed,
+                )
+              : Text(context.i18n(NetLensTranslationKey.netLens)),
+          actions: isLoggerTab
+              ? <Widget>[
+                  NetLensSettingsButton(core: widget.core),
+                  if (OperatingSystem.isAndroid)
                     IconButton(
-                      icon: const Icon(Icons.delete_outline),
+                      icon: const Icon(Icons.terminal),
                       tooltip: context.i18n(
-                        NetLensTranslationKey.callsListDelete,
+                        NetLensTranslationKey.callsListRawLogs,
                       ),
-                      onPressed: _onClearLogsPressed,
+                      isSelected: isAndroidRawLogsEnabled,
+                      onPressed: _onLogsChangePressed,
                     ),
-                  ]
-                  : <Widget>[
-                    NetLensSettingsButton(core: widget.core),
-                    IconButton(
-                      icon: Icon(_searchEnabled ? Icons.close : Icons.search),
-                      tooltip:
-                          _searchEnabled
-                              ? MaterialLocalizations.of(
-                                context,
-                              ).closeButtonTooltip
-                              : context.i18n(
-                                NetLensTranslationKey.callsListSearch,
-                              ),
-                      onPressed: _onSearchPressed,
+                  IconButton(
+                    icon: const Icon(Icons.delete_outline),
+                    tooltip: context.i18n(
+                      NetLensTranslationKey.callsListDelete,
                     ),
-                    _ContextMenuButton(onMenuItemSelected: _onMenuItemSelected),
-                  ],
+                    onPressed: _onClearLogsPressed,
+                  ),
+                ]
+              : <Widget>[
+                  NetLensSettingsButton(core: widget.core),
+                  IconButton(
+                    icon: Icon(_searchEnabled ? Icons.close : Icons.search),
+                    tooltip: _searchEnabled
+                        ? MaterialLocalizations.of(context).closeButtonTooltip
+                        : context.i18n(NetLensTranslationKey.callsListSearch),
+                    onPressed: _onSearchPressed,
+                  ),
+                  _ContextMenuButton(onMenuItemSelected: _onMenuItemSelected),
+                ],
           bottom: TabBar(
             controller: _tabController,
             indicatorColor: NetLensTheme.lightRed,
@@ -143,10 +136,9 @@ class _NetLensCallsListPageState extends State<NetLensCallsListPage>
               fontSize: 15,
               fontWeight: FontWeight.w600,
             ),
-            tabs:
-                NetLensCallsListTabItem.values.map((item) {
-                  return Tab(text: _getTabName(item: item));
-                }).toList(),
+            tabs: NetLensCallsListTabItem.values.map((item) {
+              return Tab(text: _getTabName(item: item));
+            }).toList(),
           ),
         ),
         body: TabBarView(
@@ -166,10 +158,9 @@ class _NetLensCallsListPageState extends State<NetLensCallsListPage>
             ),
           ],
         ),
-        floatingActionButton:
-            isLoggerTab
-                ? _LoggerFloatingActionButtons(scrollLogsList: _scrollLogsList)
-                : null,
+        floatingActionButton: isLoggerTab
+            ? _LoggerFloatingActionButtons(scrollLogsList: _scrollLogsList)
+            : null,
       ),
     );
   }
@@ -291,13 +282,11 @@ class _NetLensCallsListPageState extends State<NetLensCallsListPage>
         description: context
             .i18n(NetLensTranslationKey.saveSuccessDescription)
             .replaceAll("[path]", result.path!),
-        secondButtonTitle:
-            OperatingSystem.isAndroid
-                ? context.i18n(NetLensTranslationKey.saveSuccessView)
-                : null,
-        secondButtonAction:
-            () =>
-                OperatingSystem.isAndroid ? OpenFilex.open(result.path!) : null,
+        secondButtonTitle: OperatingSystem.isAndroid
+            ? context.i18n(NetLensTranslationKey.saveSuccessView)
+            : null,
+        secondButtonAction: () =>
+            OperatingSystem.isAndroid ? OpenFilex.open(result.path!) : null,
       );
     } else {
       final [String title, String description] = switch (result.error) {
@@ -369,11 +358,10 @@ class _NetLensCallsListPageState extends State<NetLensCallsListPage>
   Future<void> _onSortPressed() async {
     NetLensSortDialogResult? result = await showDialog<NetLensSortDialogResult>(
       context: context,
-      builder:
-          (_) => NetLensSortDialog(
-            sortOption: _sortOption,
-            sortAscending: _sortAscending,
-          ),
+      builder: (_) => NetLensSortDialog(
+        sortOption: _sortOption,
+        sortAscending: _sortAscending,
+      ),
     );
     if (result != null) {
       setState(() {
@@ -433,17 +421,15 @@ class _SearchTextField extends StatelessWidget {
         border: InputBorder.none,
         suffixIcon: ValueListenableBuilder<TextEditingValue>(
           valueListenable: textEditingController,
-          builder:
-              (context, value, _) =>
-                  value.text.isEmpty
-                      ? const SizedBox.shrink()
-                      : IconButton(
-                        icon: const Icon(Icons.backspace_outlined, size: 20),
-                        tooltip: context.i18n(
-                          NetLensTranslationKey.callsListClearSearch,
-                        ),
-                        onPressed: onClearPressed,
-                      ),
+          builder: (context, value, _) => value.text.isEmpty
+              ? const SizedBox.shrink()
+              : IconButton(
+                  icon: const Icon(Icons.backspace_outlined, size: 20),
+                  tooltip: context.i18n(
+                    NetLensTranslationKey.callsListClearSearch,
+                  ),
+                  onPressed: onClearPressed,
+                ),
         ),
       ),
       style: const TextStyle(fontSize: 16),
@@ -464,24 +450,20 @@ class _ContextMenuButton extends StatelessWidget {
     return PopupMenuButton<NetLensCallDetailsMenuItemType>(
       icon: const Icon(Icons.more_vert),
       onSelected: onMenuItemSelected,
-      itemBuilder:
-          (BuildContext context) => [
-            for (final NetLensCallDetailsMenuItemType item
-                in NetLensCallDetailsMenuItemType.values)
-              PopupMenuItem<NetLensCallDetailsMenuItemType>(
-                value: item,
-                child: Row(
-                  children: [
-                    Icon(
-                      _getIcon(itemType: item),
-                      color: NetLensTheme.lightRed,
-                    ),
-                    const SizedBox(width: 12),
-                    Text(_getTitle(context: context, itemType: item)),
-                  ],
-                ),
-              ),
-          ],
+      itemBuilder: (BuildContext context) => [
+        for (final NetLensCallDetailsMenuItemType item
+            in NetLensCallDetailsMenuItemType.values)
+          PopupMenuItem<NetLensCallDetailsMenuItemType>(
+            value: item,
+            child: Row(
+              children: [
+                Icon(_getIcon(itemType: item), color: NetLensTheme.lightRed),
+                const SizedBox(width: 12),
+                Text(_getTitle(context: context, itemType: item)),
+              ],
+            ),
+          ),
+      ],
     );
   }
 

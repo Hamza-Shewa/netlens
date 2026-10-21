@@ -8,13 +8,11 @@ NetLensHttpCall _call(
   int startMs,
   int duration, {
   bool loading = false,
-}) =>
-    NetLensHttpCall(id)
-      ..loading = loading
-      ..duration = duration
-      ..request =
-          (NetLensHttpRequest()
-            ..time = DateTime(2026).add(Duration(milliseconds: startMs)));
+}) => NetLensHttpCall(id)
+  ..loading = loading
+  ..duration = duration
+  ..request = (NetLensHttpRequest()
+    ..time = DateTime(2026).add(Duration(milliseconds: startMs)));
 
 void main() {
   group('NetLensTimeline', () {

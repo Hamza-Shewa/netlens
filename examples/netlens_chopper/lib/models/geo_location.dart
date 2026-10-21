@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'geo_location.g.dart';
 
 @JsonSerializable()
-class GeoLocation with EquatableMixin {
+class GeoLocation with Equatable {
   const GeoLocation({required this.latitude, required this.longitude});
 
   @JsonKey(

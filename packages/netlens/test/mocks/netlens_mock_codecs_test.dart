@@ -101,27 +101,23 @@ void main() {
     });
 
     test('reads base64 bodies', () {
-      final NetLensMock mock =
-          importer.import({
-            'log': {
-              'entries': [
-                {
-                  'request': {
-                    'method': 'GET',
-                    'url': 'https://cdn.example.com/a',
-                  },
-                  'response': {
-                    'status': 200,
-                    'headers': <dynamic>[],
-                    'content': {
-                      'text': base64Encode([1, 2]),
-                      'encoding': 'base64',
-                    },
-                  },
+      final NetLensMock mock = importer.import({
+        'log': {
+          'entries': [
+            {
+              'request': {'method': 'GET', 'url': 'https://cdn.example.com/a'},
+              'response': {
+                'status': 200,
+                'headers': <dynamic>[],
+                'content': {
+                  'text': base64Encode([1, 2]),
+                  'encoding': 'base64',
                 },
-              ],
+              },
             },
-          }).single;
+          ],
+        },
+      }).single;
       expect(mock.response.bodyBytes, [1, 2]);
     });
 

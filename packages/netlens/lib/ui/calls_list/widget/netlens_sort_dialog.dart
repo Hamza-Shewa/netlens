@@ -125,9 +125,8 @@ class _NetLensSortDialogState extends State<NetLensSortDialog> {
                         ),
                       ],
                       selected: {_sortAscending},
-                      onSelectionChanged:
-                          (Set<bool> value) =>
-                              setState(() => _sortAscending = value.first),
+                      onSelectionChanged: (Set<bool> value) =>
+                          setState(() => _sortAscending = value.first),
                     ),
                   ],
                 ),
@@ -151,13 +150,12 @@ class _NetLensSortDialogState extends State<NetLensSortDialog> {
                       backgroundColor: NetLensTheme.lightRed,
                       foregroundColor: NetLensTheme.white,
                     ),
-                    onPressed:
-                        () => Navigator.of(context).pop(
-                          NetLensSortDialogResult(
-                            sortOption: _sortOption,
-                            sortAscending: _sortAscending,
-                          ),
-                        ),
+                    onPressed: () => Navigator.of(context).pop(
+                      NetLensSortDialogResult(
+                        sortOption: _sortOption,
+                        sortAscending: _sortAscending,
+                      ),
+                    ),
                     child: Text(
                       context.i18n(NetLensTranslationKey.sortDialogAccept),
                     ),
@@ -222,8 +220,9 @@ class _OptionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final Color color =
-        selected ? NetLensTheme.lightRed : theme.colorScheme.onSurfaceVariant;
+    final Color color = selected
+        ? NetLensTheme.lightRed
+        : theme.colorScheme.onSurfaceVariant;
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Semantics(
@@ -235,16 +234,14 @@ class _OptionTile extends StatelessWidget {
           child: Ink(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             decoration: BoxDecoration(
-              color:
-                  selected
-                      ? NetLensTheme.lightRed.withValues(alpha: 0.1)
-                      : theme.colorScheme.onSurface.withValues(alpha: 0.03),
+              color: selected
+                  ? NetLensTheme.lightRed.withValues(alpha: 0.1)
+                  : theme.colorScheme.onSurface.withValues(alpha: 0.03),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color:
-                    selected
-                        ? NetLensTheme.lightRed
-                        : theme.colorScheme.onSurface.withValues(alpha: 0.1),
+                color: selected
+                    ? NetLensTheme.lightRed
+                    : theme.colorScheme.onSurface.withValues(alpha: 0.1),
                 width: selected ? 1.5 : 1,
               ),
             ),

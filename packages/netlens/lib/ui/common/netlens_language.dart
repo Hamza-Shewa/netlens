@@ -34,6 +34,6 @@ class NetLensLanguage {
   /// Text direction of the currently selected language.
   static TextDirection get textDirection =>
       supported.any((option) => option.code == current.value && option.isRtl)
-          ? TextDirection.rtl
-          : TextDirection.ltr;
+      ? TextDirection.rtl
+      : TextDirection.ltr;
 }

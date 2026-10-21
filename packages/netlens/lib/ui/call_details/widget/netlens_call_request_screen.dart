@@ -34,8 +34,8 @@ class NetLensCallRequestScreen extends StatelessWidget {
     final String? rawContentType = request?.contentType;
     final String? contentType =
         (rawContentType != null && rawContentType.trim().isNotEmpty)
-            ? rawContentType
-            : NetLensParser.tryGetContentType(request?.headers);
+        ? rawContentType
+        : NetLensParser.tryGetContentType(request?.headers);
 
     return SelectionArea(
       child: ScrollConfiguration(
@@ -107,14 +107,13 @@ class NetLensCallRequestScreen extends StatelessWidget {
               ),
               count: headers.length,
               initiallyExpanded: headers.length <= 8,
-              action:
-                  headers.isEmpty
-                      ? null
-                      : NetLensCopyIconButton(
-                        text: headers.entries
-                            .map((e) => '${e.key}: ${e.value}')
-                            .join('\n'),
-                      ),
+              action: headers.isEmpty
+                  ? null
+                  : NetLensCopyIconButton(
+                      text: headers.entries
+                          .map((e) => '${e.key}: ${e.value}')
+                          .join('\n'),
+                    ),
               child: NetLensKeyValueList(
                 values: headers.map(
                   (String key, dynamic value) => MapEntry(key, '$value'),
@@ -180,10 +179,9 @@ class _RequestSummary extends StatelessWidget {
             children: [
               NetLensInfoChip(
                 icon: Icons.schedule,
-                text:
-                    time != null
-                        ? NetLensConversionHelper.formatDateTime(time)
-                        : '-',
+                text: time != null
+                    ? NetLensConversionHelper.formatDateTime(time)
+                    : '-',
                 color: muted,
               ),
               NetLensInfoChip(

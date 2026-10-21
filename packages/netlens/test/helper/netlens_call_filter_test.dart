@@ -12,17 +12,15 @@ NetLensHttpCall _call(
   bool loading = false,
   Map<String, String> headers = const {},
   dynamic body = '',
-}) =>
-    NetLensHttpCall(id)
-      ..method = method
-      ..server = server
-      ..endpoint = '/users/$id'
-      ..loading = loading
-      ..request =
-          (NetLensHttpRequest()
-            ..headers = headers
-            ..body = body)
-      ..response = (NetLensHttpResponse()..status = status);
+}) => NetLensHttpCall(id)
+  ..method = method
+  ..server = server
+  ..endpoint = '/users/$id'
+  ..loading = loading
+  ..request = (NetLensHttpRequest()
+    ..headers = headers
+    ..body = body)
+  ..response = (NetLensHttpResponse()..status = status);
 
 void main() {
   group('NetLensCallStatusGroup', () {

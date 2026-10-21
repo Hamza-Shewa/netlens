@@ -17,22 +17,20 @@ NetLensHttpCall _call(
   int received = 0,
   dynamic body,
 }) {
-  final NetLensHttpCall call =
-      NetLensHttpCall(id)
-        ..method = method
-        ..secure = secure
-        ..loading = loading
-        ..duration = duration
-        ..uri = 'https://a.com/b'
-        ..server = 'a.com'
-        ..endpoint = '/b'
-        ..request = (NetLensHttpRequest()..size = sent);
+  final NetLensHttpCall call = NetLensHttpCall(id)
+    ..method = method
+    ..secure = secure
+    ..loading = loading
+    ..duration = duration
+    ..uri = 'https://a.com/b'
+    ..server = 'a.com'
+    ..endpoint = '/b'
+    ..request = (NetLensHttpRequest()..size = sent);
   if (status != null) {
-    call.response =
-        NetLensHttpResponse()
-          ..status = status
-          ..size = received
-          ..body = body;
+    call.response = NetLensHttpResponse()
+      ..status = status
+      ..size = received
+      ..body = body;
   }
   return call;
 }

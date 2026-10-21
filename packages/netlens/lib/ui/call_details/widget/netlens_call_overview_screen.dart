@@ -46,193 +46,177 @@ class NetLensCallOverviewScreen extends StatelessWidget {
         // Lays out a few screens around the visible area ahead of time, so
         // sections are ready before they scroll in.
         child: LayoutBuilder(
-          builder:
-              (BuildContext context, BoxConstraints constraints) => ListView(
-                // `scrollCacheExtent` replaces this from Flutter 3.44, but
-                // NetLens still supports Flutter 3.29.
-                // ignore: deprecated_member_use
-                cacheExtent:
-                    constraints.maxHeight.isFinite
-                        ? constraints.maxHeight * _cacheViewports
-                        : null,
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
-                children: [
-                  if (urlIssues.isNotEmpty) ...[
-                    NetLensUrlIssueBanner(issues: urlIssues),
-                    const SizedBox(height: 16),
-                  ],
-                  _SummaryCard(call: call, hasUrlIssues: urlIssues.isNotEmpty),
-                  if (issue != null) ...[
-                    const SizedBox(height: 12),
-                    NetLensIssueBanner(issue: issue),
-                  ],
-                  const SizedBox(height: 12),
-                  // Stretch makes all tiles as tall as the tallest one.
-                  IntrinsicHeight(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Expanded(
-                          child: _StatTile(
-                            icon: Icons.timer_outlined,
-                            label: _label(
-                              context,
-                              NetLensTranslationKey.callOverviewDuration,
-                            ),
-                            value:
-                                call.loading
-                                    ? pending
-                                    : NetLensConversionHelper.formatTime(
-                                      call.duration,
-                                    ),
-                          ),
+          builder: (BuildContext context, BoxConstraints constraints) => ListView(
+            // `scrollCacheExtent` replaces this from Flutter 3.44, but
+            // NetLens still supports Flutter 3.29.
+            // ignore: deprecated_member_use
+            cacheExtent: constraints.maxHeight.isFinite
+                ? constraints.maxHeight * _cacheViewports
+                : null,
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
+            children: [
+              if (urlIssues.isNotEmpty) ...[
+                NetLensUrlIssueBanner(issues: urlIssues),
+                const SizedBox(height: 16),
+              ],
+              _SummaryCard(call: call, hasUrlIssues: urlIssues.isNotEmpty),
+              if (issue != null) ...[
+                const SizedBox(height: 12),
+                NetLensIssueBanner(issue: issue),
+              ],
+              const SizedBox(height: 12),
+              // Stretch makes all tiles as tall as the tallest one.
+              IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(
+                      child: _StatTile(
+                        icon: Icons.timer_outlined,
+                        label: _label(
+                          context,
+                          NetLensTranslationKey.callOverviewDuration,
                         ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: _StatTile(
-                            icon: Icons.upload_outlined,
-                            label: _label(
-                              context,
-                              NetLensTranslationKey.callOverviewBytesSent,
-                            ),
-                            value: NetLensConversionHelper.formatBytes(
-                              call.request?.size ?? 0,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: _StatTile(
-                            icon: Icons.download_outlined,
-                            label: _label(
-                              context,
-                              NetLensTranslationKey.callOverviewBytesReceived,
-                            ),
-                            value: NetLensConversionHelper.formatBytes(
-                              call.response?.size ?? 0,
-                            ),
-                          ),
-                        ),
-                      ],
+                        value: call.loading
+                            ? pending
+                            : NetLensConversionHelper.formatTime(call.duration),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  NetLensInfoSection(
-                    title: context.i18n(
-                      NetLensTranslationKey.callOverviewTiming,
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: _StatTile(
+                        icon: Icons.upload_outlined,
+                        label: _label(
+                          context,
+                          NetLensTranslationKey.callOverviewBytesSent,
+                        ),
+                        value: NetLensConversionHelper.formatBytes(
+                          call.request?.size ?? 0,
+                        ),
+                      ),
                     ),
-                    rows: [
-                      NetLensInfoRow(
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: _StatTile(
+                        icon: Icons.download_outlined,
                         label: _label(
                           context,
-                          NetLensTranslationKey.callOverviewStarted,
+                          NetLensTranslationKey.callOverviewBytesReceived,
                         ),
-                        value:
-                            started != null
-                                ? NetLensConversionHelper.formatDateTime(
-                                  started,
-                                )
-                                : pending,
-                      ),
-                      NetLensInfoRow(
-                        label: _label(
-                          context,
-                          NetLensTranslationKey.callOverviewFinished,
-                        ),
-                        value:
-                            finished != null
-                                ? NetLensConversionHelper.formatDateTime(
-                                  finished,
-                                )
-                                : pending,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  NetLensInfoSection(
-                    title: context.i18n(
-                      NetLensTranslationKey.callOverviewConnection,
-                    ),
-                    rows: [
-                      NetLensInfoRow(
-                        label: _label(
-                          context,
-                          NetLensTranslationKey.callOverviewMethod,
-                        ),
-                        value: call.method,
-                      ),
-                      NetLensInfoRow(
-                        label: _label(
-                          context,
-                          NetLensTranslationKey.callOverviewServer,
-                        ),
-                        value: call.server,
-                        hasError: urlIssues.isNotEmpty,
-                      ),
-                      NetLensInfoRow(
-                        label: _label(
-                          context,
-                          NetLensTranslationKey.callOverviewEndpoint,
-                        ),
-                        value: call.endpoint,
-                        hasError: urlIssues.isNotEmpty,
-                      ),
-                      if (graphQL != null)
-                        NetLensInfoRow(
-                          label: _label(
-                            context,
-                            NetLensTranslationKey.callOverviewGraphQL,
-                          ),
-                          value:
-                              graphQL.hasErrors
-                                  ? '${graphQL.title} (${context.i18n(NetLensTranslationKey.graphQLErrors)})'
-                                  : graphQL.title,
-                          hasError: graphQL.hasErrors,
-                        ),
-                      NetLensInfoRow(
-                        label: _label(
-                          context,
-                          NetLensTranslationKey.callOverviewClient,
-                        ),
-                        value: call.client.isEmpty ? '-' : call.client,
-                      ),
-                      NetLensInfoRow(
-                        label: _label(
-                          context,
-                          NetLensTranslationKey.callOverviewSecure,
-                        ),
-                        value: context.i18n(
-                          call.secure
-                              ? NetLensTranslationKey.callsListYes
-                              : NetLensTranslationKey.callsListNo,
+                        value: NetLensConversionHelper.formatBytes(
+                          call.response?.size ?? 0,
                         ),
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  _RequestSection(call: call),
-                  const SizedBox(height: 20),
-                  _ResponseSection(call: call),
-                  if (call.error != null) ...[
-                    const SizedBox(height: 20),
-                    NetLensDetailSection(
-                      title: context.i18n(
-                        NetLensTranslationKey.callDetailsError,
-                      ),
-                      children: [
-                        NetLensCodeBlock(
-                          text: [
-                            '${call.error?.error}',
-                            if (call.error?.stackTrace != null)
-                              '${call.error?.stackTrace}',
-                          ].join('\n\n'),
-                          isError: true,
-                        ),
-                      ],
                     ),
                   ],
+                ),
+              ),
+              const SizedBox(height: 20),
+              NetLensInfoSection(
+                title: context.i18n(NetLensTranslationKey.callOverviewTiming),
+                rows: [
+                  NetLensInfoRow(
+                    label: _label(
+                      context,
+                      NetLensTranslationKey.callOverviewStarted,
+                    ),
+                    value: started != null
+                        ? NetLensConversionHelper.formatDateTime(started)
+                        : pending,
+                  ),
+                  NetLensInfoRow(
+                    label: _label(
+                      context,
+                      NetLensTranslationKey.callOverviewFinished,
+                    ),
+                    value: finished != null
+                        ? NetLensConversionHelper.formatDateTime(finished)
+                        : pending,
+                  ),
                 ],
               ),
+              const SizedBox(height: 20),
+              NetLensInfoSection(
+                title: context.i18n(
+                  NetLensTranslationKey.callOverviewConnection,
+                ),
+                rows: [
+                  NetLensInfoRow(
+                    label: _label(
+                      context,
+                      NetLensTranslationKey.callOverviewMethod,
+                    ),
+                    value: call.method,
+                  ),
+                  NetLensInfoRow(
+                    label: _label(
+                      context,
+                      NetLensTranslationKey.callOverviewServer,
+                    ),
+                    value: call.server,
+                    hasError: urlIssues.isNotEmpty,
+                  ),
+                  NetLensInfoRow(
+                    label: _label(
+                      context,
+                      NetLensTranslationKey.callOverviewEndpoint,
+                    ),
+                    value: call.endpoint,
+                    hasError: urlIssues.isNotEmpty,
+                  ),
+                  if (graphQL != null)
+                    NetLensInfoRow(
+                      label: _label(
+                        context,
+                        NetLensTranslationKey.callOverviewGraphQL,
+                      ),
+                      value: graphQL.hasErrors
+                          ? '${graphQL.title} (${context.i18n(NetLensTranslationKey.graphQLErrors)})'
+                          : graphQL.title,
+                      hasError: graphQL.hasErrors,
+                    ),
+                  NetLensInfoRow(
+                    label: _label(
+                      context,
+                      NetLensTranslationKey.callOverviewClient,
+                    ),
+                    value: call.client.isEmpty ? '-' : call.client,
+                  ),
+                  NetLensInfoRow(
+                    label: _label(
+                      context,
+                      NetLensTranslationKey.callOverviewSecure,
+                    ),
+                    value: context.i18n(
+                      call.secure
+                          ? NetLensTranslationKey.callsListYes
+                          : NetLensTranslationKey.callsListNo,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              _RequestSection(call: call),
+              const SizedBox(height: 20),
+              _ResponseSection(call: call),
+              if (call.error != null) ...[
+                const SizedBox(height: 20),
+                NetLensDetailSection(
+                  title: context.i18n(NetLensTranslationKey.callDetailsError),
+                  children: [
+                    NetLensCodeBlock(
+                      text: [
+                        '${call.error?.error}',
+                        if (call.error?.stackTrace != null)
+                          '${call.error?.stackTrace}',
+                      ].join('\n\n'),
+                      isError: true,
+                    ),
+                  ],
+                ),
+              ],
+            ],
+          ),
         ),
       ),
     );
@@ -260,8 +244,8 @@ class _RequestSection extends StatelessWidget {
     final String? rawContentType = request?.contentType;
     final String? contentType =
         (rawContentType != null && rawContentType.trim().isNotEmpty)
-            ? rawContentType
-            : NetLensParser.tryGetContentType(request?.headers);
+        ? rawContentType
+        : NetLensParser.tryGetContentType(request?.headers);
 
     return NetLensDetailSection(
       title: context.i18n(NetLensTranslationKey.callDetailsRequest),
@@ -382,42 +366,37 @@ class _ResponseSectionState extends State<_ResponseSection> {
           title: netLensStripColon(
             context.i18n(NetLensTranslationKey.callResponseBody),
           ),
-          child:
-              lowerContentType.contains('image')
-                  ? Text(
-                    context.i18n(NetLensTranslationKey.callResponseBodyImage),
-                  )
-                  : lowerContentType.contains('video')
-                  ? Text(
-                    context.i18n(NetLensTranslationKey.callResponseBodyVideo),
-                  )
-                  : (isLargeBody && !_showLargeBody)
-                  ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      NetLensInfoChip(
-                        icon: Icons.scale_outlined,
-                        text:
-                            '${context.i18n(NetLensTranslationKey.callResponseTooLargeToShow)}'
-                            ' (${NetLensConversionHelper.formatBytes(bodyLength)})',
-                        color: NetLensTheme.getStatusColor(context, 300),
-                      ),
-                      const SizedBox(height: 10),
-                      FilledButton.tonalIcon(
-                        onPressed: () => setState(() => _showLargeBody = true),
-                        icon: const Icon(Icons.article_outlined, size: 18),
-                        label: Text(
-                          context.i18n(
-                            NetLensTranslationKey.callResponseBodyShow,
-                          ),
+          child: lowerContentType.contains('image')
+              ? Text(context.i18n(NetLensTranslationKey.callResponseBodyImage))
+              : lowerContentType.contains('video')
+              ? Text(context.i18n(NetLensTranslationKey.callResponseBodyVideo))
+              : (isLargeBody && !_showLargeBody)
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    NetLensInfoChip(
+                      icon: Icons.scale_outlined,
+                      text:
+                          '${context.i18n(NetLensTranslationKey.callResponseTooLargeToShow)}'
+                          ' (${NetLensConversionHelper.formatBytes(bodyLength)})',
+                      color: NetLensTheme.getStatusColor(context, 300),
+                    ),
+                    const SizedBox(height: 10),
+                    FilledButton.tonalIcon(
+                      onPressed: () => setState(() => _showLargeBody = true),
+                      icon: const Icon(Icons.article_outlined, size: 18),
+                      label: Text(
+                        context.i18n(
+                          NetLensTranslationKey.callResponseBodyShow,
                         ),
                       ),
-                    ],
-                  )
-                  : NetLensFormattedBodyBlock(
-                    body: response?.body,
-                    contentType: contentType,
-                  ),
+                    ),
+                  ],
+                )
+              : NetLensFormattedBodyBlock(
+                  body: response?.body,
+                  contentType: contentType,
+                ),
         ),
       ],
     );
@@ -466,11 +445,10 @@ class _SummaryCard extends StatelessWidget {
                   message: context.i18n(NetLensTranslationKey.statusTapHint),
                   child: InkWell(
                     borderRadius: BorderRadius.circular(16),
-                    onTap:
-                        () => showNetLensStatusInfo(
-                          context: context,
-                          status: call.response?.status,
-                        ),
+                    onTap: () => showNetLensStatusInfo(
+                      context: context,
+                      status: call.response?.status,
+                    ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -547,12 +525,11 @@ class _CopyButton extends StatelessWidget {
       ),
       icon: const Icon(Icons.copy, size: 16),
       label: Text(context.i18n(NetLensTranslationKey.callOverviewCopyUrl)),
-      onPressed:
-          () => netLensCopyToClipboard(
-            context,
-            url,
-            context.i18n(NetLensTranslationKey.callOverviewCopied),
-          ),
+      onPressed: () => netLensCopyToClipboard(
+        context,
+        url,
+        context.i18n(NetLensTranslationKey.callOverviewCopied),
+      ),
     );
   }
 }
@@ -585,10 +562,9 @@ class _StatTile extends StatelessWidget {
             maxLines: 2,
             // Values like "342 ms" must not be reordered in RTL layouts.
             textDirection: TextDirection.ltr,
-            textAlign:
-                Directionality.of(context) == TextDirection.rtl
-                    ? TextAlign.right
-                    : TextAlign.left,
+            textAlign: Directionality.of(context) == TextDirection.rtl
+                ? TextAlign.right
+                : TextAlign.left,
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w700,
               fontFeatures: const [FontFeature.tabularFigures()],

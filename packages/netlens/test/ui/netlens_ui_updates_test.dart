@@ -18,33 +18,33 @@ NetLensHttpCall _call({
   NetLensHttpError? error,
   int requestSize = 230,
   int responseSize = 1840,
-}) =>
-    NetLensHttpCall(1)
-      ..method = 'GET'
-      ..server = 'api.example.com'
-      ..endpoint = '/v1/users'
-      ..uri = 'https://api.example.com/v1/users'
-      ..client = 'Dio'
-      ..secure = true
-      ..loading = false
-      ..duration = 342
-      ..error = error
-      ..request =
-          (NetLensHttpRequest()
-            ..time = DateTime(2026, 10, 7, 14, 3, 1, 37)
-            ..size = requestSize
-            ..body = 'request body text')
-      ..response =
-          (NetLensHttpResponse()
-            ..status = 200
-            ..size = responseSize
-            ..headers = {if (contentType != null) 'content-type': contentType}
-            ..body = 'response body text'
-            ..time = DateTime(2026, 10, 7, 14, 3, 1, 379));
+}) => NetLensHttpCall(1)
+  ..method = 'GET'
+  ..server = 'api.example.com'
+  ..endpoint = '/v1/users'
+  ..uri = 'https://api.example.com/v1/users'
+  ..client = 'Dio'
+  ..secure = true
+  ..loading = false
+  ..duration = 342
+  ..error = error
+  ..request = (NetLensHttpRequest()
+    ..time = DateTime(2026, 10, 7, 14, 3, 1, 37)
+    ..size = requestSize
+    ..body = 'request body text')
+  ..response = (NetLensHttpResponse()
+    ..status = 200
+    ..size = responseSize
+    ..headers = {'content-type': ?contentType}
+    ..body = 'response body text'
+    ..time = DateTime(2026, 10, 7, 14, 3, 1, 379));
 
 Future<void> _pump(WidgetTester tester, Widget screen, {Locale? locale}) =>
     tester.pumpWidget(
-      MaterialApp(locale: locale, home: Scaffold(body: screen)),
+      MaterialApp(
+        locale: locale,
+        home: Scaffold(body: screen),
+      ),
     );
 
 final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
@@ -124,10 +124,9 @@ void main() {
   testWidgets('error screen shows type, message and stack trace', (
     tester,
   ) async {
-    final NetLensHttpError error =
-        NetLensHttpError()
-          ..error = const FormatException('bad payload')
-          ..stackTrace = StackTrace.fromString('#0 main (file.dart:1:1)');
+    final NetLensHttpError error = NetLensHttpError()
+      ..error = const FormatException('bad payload')
+      ..stackTrace = StackTrace.fromString('#0 main (file.dart:1:1)');
     await _pump(tester, NetLensCallErrorScreen(call: _call(error: error)));
 
     expect(find.text('FormatException'), findsOneWidget);

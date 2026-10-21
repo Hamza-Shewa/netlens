@@ -36,14 +36,16 @@ Future<void> _loadFonts() async {
     roboto.addFont(read('Roboto-$weight.ttf'));
   }
   await roboto.load();
-  await (FontLoader('MaterialIcons')
-    ..addFont(read('MaterialIcons-Regular.otf'))).load();
+  await (FontLoader(
+    'MaterialIcons',
+  )..addFont(read('MaterialIcons-Regular.otf'))).load();
 
   // The JSON viewer asks for 'monospace', which the SDK has no font for.
   const mono = '/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf';
   if (File(mono).existsSync()) {
-    await (FontLoader('monospace')
-      ..addFont(File(mono).readAsBytes().then(ByteData.sublistView))).load();
+    await (FontLoader(
+      'monospace',
+    )..addFont(File(mono).readAsBytes().then(ByteData.sublistView))).load();
   }
 }
 
@@ -62,42 +64,40 @@ NetLensHttpCall _call(
   Object? error,
 }) {
   final requestTime = _start.add(Duration(milliseconds: startOffset));
-  final call =
-      NetLensHttpCall(id)
-        ..method = method
-        ..server = server
-        ..endpoint = endpoint
-        ..uri = 'https://$server$endpoint'
-        ..client = 'Dio'
-        ..secure = true
-        ..loading = status == null && error == null
-        ..duration = duration
-        ..request =
-            (NetLensHttpRequest()
-              ..time = requestTime
-              ..headers = {
-                'accept': 'application/json',
-                'user-agent': 'shop-app/4.2.0 (Android 15)',
-                ...requestHeaders,
-              }
-              ..queryParameters = queryParameters
-              ..contentType = 'application/json'
-              ..body = requestBody
-              ..size = utf8.encode('$requestBody').length);
+  final call = NetLensHttpCall(id)
+    ..method = method
+    ..server = server
+    ..endpoint = endpoint
+    ..uri = 'https://$server$endpoint'
+    ..client = 'Dio'
+    ..secure = true
+    ..loading = status == null && error == null
+    ..duration = duration
+    ..request = (NetLensHttpRequest()
+      ..time = requestTime
+      ..headers = {
+        'accept': 'application/json',
+        'user-agent': 'shop-app/4.2.0 (Android 15)',
+        ...requestHeaders,
+      }
+      ..queryParameters = queryParameters
+      ..contentType = 'application/json'
+      ..body = requestBody
+      ..size = utf8.encode('$requestBody').length);
   if (status != null) {
-    final body =
-        responseBody is String ? responseBody : jsonEncode(responseBody);
-    call.response =
-        NetLensHttpResponse()
-          ..status = status
-          ..time = requestTime.add(Duration(milliseconds: duration))
-          ..headers = {
-            'content-type': 'application/json; charset=utf-8',
-            'set-cookie': 'session=8f1c2e9a; HttpOnly; Secure',
-            'cache-control': 'no-cache',
-          }
-          ..body = body
-          ..size = utf8.encode(body).length;
+    final body = responseBody is String
+        ? responseBody
+        : jsonEncode(responseBody);
+    call.response = NetLensHttpResponse()
+      ..status = status
+      ..time = requestTime.add(Duration(milliseconds: duration))
+      ..headers = {
+        'content-type': 'application/json; charset=utf-8',
+        'set-cookie': 'session=8f1c2e9a; HttpOnly; Secure',
+        'cache-control': 'no-cache',
+      }
+      ..body = body
+      ..size = utf8.encode(body).length;
   }
   if (error != null) {
     call.error = NetLensHttpError()..error = error;

@@ -95,8 +95,9 @@ class _MyAppState extends State<MyApp> {
 
           final HttpClientResponse httpResponse = await request.close();
 
-          final String responseBody =
-              await utf8.decoder.bind(httpResponse).join();
+          final String responseBody = await utf8.decoder
+              .bind(httpResponse)
+              .join();
 
           _httpClientAdapter.onResponse(
             httpResponse,
@@ -114,8 +115,9 @@ class _MyAppState extends State<MyApp> {
 
           final HttpClientResponse httpResponse = await request.close();
 
-          final String responseBody =
-              await utf8.decoder.bind(httpResponse).join();
+          final String responseBody = await utf8.decoder
+              .bind(httpResponse)
+              .join();
 
           _httpClientAdapter.onResponse(
             httpResponse,
@@ -132,8 +134,9 @@ class _MyAppState extends State<MyApp> {
           request.write(body);
 
           final HttpClientResponse httpResponse = await request.close();
-          final String responseBody =
-              await utf8.decoder.bind(httpResponse).join();
+          final String responseBody = await utf8.decoder
+              .bind(httpResponse)
+              .join();
 
           _httpClientAdapter.onResponse(
             httpResponse,
@@ -149,8 +152,9 @@ class _MyAppState extends State<MyApp> {
 
           final HttpClientResponse httpResponse = await request.close();
 
-          final String responseBody =
-              await utf8.decoder.bind(httpResponse).join();
+          final String responseBody = await utf8.decoder
+              .bind(httpResponse)
+              .join();
 
           _httpClientAdapter.onResponse(
             httpResponse,
@@ -166,8 +170,9 @@ class _MyAppState extends State<MyApp> {
 
           final HttpClientResponse httpResponse = await request.close();
 
-          final String responseBody =
-              await utf8.decoder.bind(httpResponse).join();
+          final String responseBody = await utf8.decoder
+              .bind(httpResponse)
+              .join();
 
           _httpClientAdapter.onResponse(
             httpResponse,

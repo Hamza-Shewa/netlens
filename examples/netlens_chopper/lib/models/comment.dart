@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'comment.g.dart';
 
 @JsonSerializable()
-class Comment with EquatableMixin {
+class Comment with Equatable {
   const Comment({
     this.id,
     required this.postId,

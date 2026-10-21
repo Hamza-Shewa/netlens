@@ -3,7 +3,6 @@ import 'package:netlens/model/netlens_configuration.dart';
 import 'package:netlens_http/netlens_http_adapter.dart';
 import 'package:netlens_http/netlens_http_extensions.dart';
 import 'package:netlens_objectbox/netlens_objectbox.dart';
-import 'package:netlens_objectbox/netlens_objectbox_store.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 

@@ -66,11 +66,8 @@ class NetLensCallsListScreen extends StatelessWidget {
       child: ListView.builder(
         padding: const EdgeInsets.only(bottom: 24),
         itemCount: sortedCalls.length,
-        itemBuilder:
-            (_, int index) => NetLensCallListItemWidget(
-              sortedCalls[index],
-              onListItemClicked,
-            ),
+        itemBuilder: (_, int index) =>
+            NetLensCallListItemWidget(sortedCalls[index], onListItemClicked),
       ),
     );
   }

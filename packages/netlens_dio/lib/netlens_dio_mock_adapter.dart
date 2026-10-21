@@ -40,8 +40,9 @@ class NetLensDioMockAdapter implements HttpClientAdapter {
     Future<void>? cancelFuture,
   ) async {
     // The body can be read only once, so it's kept for the network request.
-    final Uint8List? body =
-        requestStream == null ? null : await _readBody(requestStream);
+    final Uint8List? body = requestStream == null
+        ? null
+        : await _readBody(requestStream);
     final NetLensMockResponse? response = await resolver.resolve(
       NetLensMockRequest(
         method: options.method,

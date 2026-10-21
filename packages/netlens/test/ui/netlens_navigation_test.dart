@@ -34,10 +34,9 @@ void main() {
         ..secure = true
         ..loading = false
         ..request = (NetLensHttpRequest()..time = DateTime(2026))
-        ..response =
-            (NetLensHttpResponse()
-              ..status = 200
-              ..time = DateTime(2026)),
+        ..response = (NetLensHttpResponse()
+          ..status = 200
+          ..time = DateTime(2026)),
     );
   });
 

@@ -88,10 +88,9 @@ class _NetLensJsonViewerState extends State<NetLensJsonViewer> {
   }
 
   void _toggle(String path) => setState(() {
-    _expanded =
-        _expanded.contains(path)
-            ? ({..._expanded}..remove(path))
-            : {..._expanded, path};
+    _expanded = _expanded.contains(path)
+        ? ({..._expanded}..remove(path))
+        : {..._expanded, path};
   });
 
   @override
@@ -125,9 +124,8 @@ class _NetLensJsonViewerState extends State<NetLensJsonViewer> {
                 ),
               ],
               selected: {_mode},
-              onSelectionChanged:
-                  (Set<_NetLensJsonViewMode> selection) =>
-                      setState(() => _mode = selection.first),
+              onSelectionChanged: (Set<_NetLensJsonViewMode> selection) =>
+                  setState(() => _mode = selection.first),
             ),
             if (_mode == _NetLensJsonViewMode.tree)
               Row(
@@ -147,13 +145,11 @@ class _NetLensJsonViewerState extends State<NetLensJsonViewer> {
                     icon: const Icon(Icons.unfold_more, size: 20),
                     visualDensity: VisualDensity.compact,
                     tooltip: context.i18n(NetLensTranslationKey.jsonExpandAll),
-                    onPressed:
-                        () => setState(
-                          () =>
-                              _expanded = NetLensJsonTree.allContainers(
-                                widget.json,
-                              ),
-                        ),
+                    onPressed: () => setState(
+                      () => _expanded = NetLensJsonTree.allContainers(
+                        widget.json,
+                      ),
+                    ),
                   ),
                   IconButton(
                     icon: const Icon(Icons.unfold_less, size: 20),
@@ -184,14 +180,13 @@ class _NetLensJsonViewerState extends State<NetLensJsonViewer> {
                 prefixIcon: const Icon(Icons.search, size: 20),
                 hintText: context.i18n(NetLensTranslationKey.jsonSearchHint),
                 border: const OutlineInputBorder(),
-                suffixText:
-                    _searchController.text.trim().isEmpty
-                        ? null
-                        : _matches.isEmpty
-                        ? context.i18n(NetLensTranslationKey.jsonNoMatches)
-                        : context
-                            .i18n(NetLensTranslationKey.jsonMatches)
-                            .replaceAll('[count]', '${_matches.length}'),
+                suffixText: _searchController.text.trim().isEmpty
+                    ? null
+                    : _matches.isEmpty
+                    ? context.i18n(NetLensTranslationKey.jsonNoMatches)
+                    : context
+                          .i18n(NetLensTranslationKey.jsonMatches)
+                          .replaceAll('[count]', '${_matches.length}'),
               ),
             ),
             const SizedBox(height: 8),
@@ -208,8 +203,9 @@ class _NetLensJsonViewerState extends State<NetLensJsonViewer> {
       widget.json,
       _expanded,
     );
-    final List<NetLensJsonRow> shownRows =
-        rows.length > _rowLimit ? rows.sublist(0, _rowLimit) : rows;
+    final List<NetLensJsonRow> shownRows = rows.length > _rowLimit
+        ? rows.sublist(0, _rowLimit)
+        : rows;
     return Container(
       decoration: BoxDecoration(
         color: theme.colorScheme.onSurface.withValues(alpha: 0.05),
@@ -270,14 +266,14 @@ class _JsonRowWidget extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     final bool isDark = theme.brightness == Brightness.dark;
     final Color muted = theme.colorScheme.onSurfaceVariant;
-    final Color keyColor =
-        isDark ? const Color(0xff9cdcfe) : const Color(0xff0451a5);
+    final Color keyColor = isDark
+        ? const Color(0xff9cdcfe)
+        : const Color(0xff0451a5);
 
     return Material(
-      color:
-          highlighted
-              ? NetLensTheme.orange.withValues(alpha: isDark ? 0.25 : 0.2)
-              : Colors.transparent,
+      color: highlighted
+          ? NetLensTheme.orange.withValues(alpha: isDark ? 0.25 : 0.2)
+          : Colors.transparent,
       child: InkWell(
         onTap: row.isContainer ? onToggle : () => _showMenu(context),
         onLongPress: () => _showMenu(context),
@@ -288,16 +284,15 @@ class _JsonRowWidget extends StatelessWidget {
             children: [
               SizedBox(
                 width: 18,
-                child:
-                    row.isContainer
-                        ? Icon(
-                          row.isExpanded
-                              ? Icons.arrow_drop_down
-                              : Icons.arrow_right,
-                          size: 18,
-                          color: muted,
-                        )
-                        : null,
+                child: row.isContainer
+                    ? Icon(
+                        row.isExpanded
+                            ? Icons.arrow_drop_down
+                            : Icons.arrow_right,
+                        size: 18,
+                        color: muted,
+                      )
+                    : null,
               ),
               Expanded(
                 child: Text.rich(
@@ -313,7 +308,10 @@ class _JsonRowWidget extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      TextSpan(text: ': ', style: TextStyle(color: muted)),
+                      TextSpan(
+                        text: ': ',
+                        style: TextStyle(color: muted),
+                      ),
                       _valueSpan(context),
                     ],
                   ),
@@ -356,7 +354,10 @@ class _JsonRowWidget extends StatelessWidget {
     } catch (_) {
       text = '$value';
     }
-    return TextSpan(text: text, style: TextStyle(color: color));
+    return TextSpan(
+      text: text,
+      style: TextStyle(color: color),
+    );
   }
 
   Future<void> _showMenu(BuildContext context) async {

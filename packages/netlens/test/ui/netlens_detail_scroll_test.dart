@@ -33,24 +33,22 @@ NetLensHttpCall _largeCall() {
     ..secure = true
     ..loading = false
     ..duration = 342
-    ..request =
-        (NetLensHttpRequest()
-          ..time = DateTime(2026, 10, 7, 14, 3, 1)
-          ..size = body.length
-          ..contentType = 'application/json'
-          ..headers = {for (int i = 0; i < 8; i++) 'x-header-$i': 'value $i'}
-          ..queryParameters = {for (int i = 0; i < 20; i++) 'param$i': '$i'}
-          ..formDataFields = [
-            for (int i = 0; i < 20; i++) NetLensFormDataField('field$i', '$i'),
-          ]
-          ..body = body)
-    ..response =
-        (NetLensHttpResponse()
-          ..status = 200
-          ..size = body.length
-          ..headers = {'content-type': 'application/json'}
-          ..body = body
-          ..time = DateTime(2026, 10, 7, 14, 3, 2));
+    ..request = (NetLensHttpRequest()
+      ..time = DateTime(2026, 10, 7, 14, 3, 1)
+      ..size = body.length
+      ..contentType = 'application/json'
+      ..headers = {for (int i = 0; i < 8; i++) 'x-header-$i': 'value $i'}
+      ..queryParameters = {for (int i = 0; i < 20; i++) 'param$i': '$i'}
+      ..formDataFields = [
+        for (int i = 0; i < 20; i++) NetLensFormDataField('field$i', '$i'),
+      ]
+      ..body = body)
+    ..response = (NetLensHttpResponse()
+      ..status = 200
+      ..size = body.length
+      ..headers = {'content-type': 'application/json'}
+      ..body = body
+      ..time = DateTime(2026, 10, 7, 14, 3, 2));
 }
 
 /// Work done by the framework while the screen scrolls.
@@ -73,8 +71,9 @@ Future<_ScrollWork> _scrollUpAndDown(
 }) async {
   final _ScrollWork work = _ScrollWork();
   final Finder scrollable = find.byType(Scrollable).first;
-  final ScrollPosition position =
-      tester.state<ScrollableState>(scrollable).position;
+  final ScrollPosition position = tester
+      .state<ScrollableState>(scrollable)
+      .position;
 
   debugOnRebuildDirtyWidget = (Element element, bool builtOnce) {
     final Map<Type, int> target = builtOnce ? work.rebuilt : work.mounted;

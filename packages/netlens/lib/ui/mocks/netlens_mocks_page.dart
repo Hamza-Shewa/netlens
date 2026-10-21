@@ -117,9 +117,8 @@ class _NetLensMocksPageState extends State<NetLensMocksPage>
               _MockTile(
                 key: ValueKey<String>(mock.id),
                 mock: mock,
-                onEnabledChanged:
-                    (bool enabled) =>
-                        _mocks.setEnabled(mock.id, enabled: enabled),
+                onEnabledChanged: (bool enabled) =>
+                    _mocks.setEnabled(mock.id, enabled: enabled),
                 onDelete: () => _mocks.remove(mock.id),
               ),
           ],
@@ -220,8 +219,8 @@ class _ModeCard extends StatelessWidget {
                   ),
               ],
               selected: {mode},
-              onSelectionChanged:
-                  (Set<NetLensMockMode> selected) => onChanged(selected.first),
+              onSelectionChanged: (Set<NetLensMockMode> selected) =>
+                  onChanged(selected.first),
             ),
           ),
           const SizedBox(height: 8),
@@ -317,8 +316,8 @@ class _MockTile extends StatelessWidget {
                 thumbIcon: WidgetStateProperty.resolveWith(
                   (Set<WidgetState> states) =>
                       states.contains(WidgetState.selected)
-                          ? const Icon(Icons.check)
-                          : null,
+                      ? const Icon(Icons.check)
+                      : null,
                 ),
               ),
             ),

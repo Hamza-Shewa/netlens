@@ -96,8 +96,9 @@ class _NetLensCallDetailsPageState extends State<NetLensCallDetailsPage>
               _cachedSignature = signature;
               final NetLensCallRedactor redactor = widget.core.redactor;
               final bool canRedact = !redactor.redaction.isEmpty;
-              final NetLensHttpCall shownCall =
-                  _revealSensitive ? currentCall : redactor.redact(currentCall);
+              final NetLensHttpCall shownCall = _revealSensitive
+                  ? currentCall
+                  : redactor.redact(currentCall);
               return _cachedPage = Scaffold(
                 appBar: NetLensAppBar(
                   actions: [
@@ -113,12 +114,11 @@ class _NetLensCallDetailsPageState extends State<NetLensCallDetailsPage>
                           _revealSensitive
                               ? NetLensTranslationKey.callDetailsHideSensitive
                               : NetLensTranslationKey
-                                  .callDetailsRevealSensitive,
+                                    .callDetailsRevealSensitive,
                         ),
-                        onPressed:
-                            () => setState(
-                              () => _revealSensitive = !_revealSensitive,
-                            ),
+                        onPressed: () => setState(
+                          () => _revealSensitive = !_revealSensitive,
+                        ),
                       ),
                     if (!currentCall.loading &&
                         widget.core.canReplay(currentCall))
@@ -127,11 +127,10 @@ class _NetLensCallDetailsPageState extends State<NetLensCallDetailsPage>
                         tooltip: context.i18n(
                           NetLensTranslationKey.replayAction,
                         ),
-                        onPressed:
-                            () => NetLensNavigation.navigateToReplay(
-                              call: currentCall,
-                              core: widget.core,
-                            ),
+                        onPressed: () => NetLensNavigation.navigateToReplay(
+                          call: currentCall,
+                          core: widget.core,
+                        ),
                       ),
                     if (NetLensCallMockMapper.canMap(currentCall))
                       IconButton(
@@ -152,13 +151,12 @@ class _NetLensCallDetailsPageState extends State<NetLensCallDetailsPage>
                   bottom: TabBar(
                     controller: _tabController,
                     indicatorColor: NetLensTheme.lightRed,
-                    tabs:
-                        NetLensCallDetailsTabItem.values.map((item) {
-                          return Tab(
-                            icon: _getTabIcon(item: item),
-                            text: _getTabName(item: item),
-                          );
-                        }).toList(),
+                    tabs: NetLensCallDetailsTabItem.values.map((item) {
+                      return Tab(
+                        icon: _getTabIcon(item: item),
+                        text: _getTabName(item: item),
+                      );
+                    }).toList(),
                   ),
                   title: Text(
                     '${context.i18n(NetLensTranslationKey.netLens)} -'
@@ -174,18 +172,17 @@ class _NetLensCallDetailsPageState extends State<NetLensCallDetailsPage>
                     NetLensCallErrorScreen(call: shownCall),
                   ],
                 ),
-                floatingActionButton:
-                    widget.core.configuration.showShareButton
-                        ? FloatingActionButton(
-                          backgroundColor: NetLensTheme.lightRed,
-                          key: const Key('share_key'),
-                          onPressed: () => _shareCall(currentCall),
-                          child: const Icon(
-                            Icons.share,
-                            color: NetLensTheme.white,
-                          ),
-                        )
-                        : null,
+                floatingActionButton: widget.core.configuration.showShareButton
+                    ? FloatingActionButton(
+                        backgroundColor: NetLensTheme.lightRed,
+                        key: const Key('share_key'),
+                        onPressed: () => _shareCall(currentCall),
+                        child: const Icon(
+                          Icons.share,
+                          color: NetLensTheme.white,
+                        ),
+                      )
+                    : null,
               );
             }
           }

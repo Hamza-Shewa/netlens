@@ -4,17 +4,15 @@ import 'package:netlens/model/netlens_http_call.dart';
 import 'package:netlens/model/netlens_http_response.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-NetLensHttpCall _call(dynamic body, {int status = 200}) =>
-    NetLensHttpCall(1)
-      ..loading = false
-      ..uri = 'https://a.com/b'
-      ..server = 'a.com'
-      ..endpoint = '/b'
-      ..secure = true
-      ..response =
-          (NetLensHttpResponse()
-            ..status = status
-            ..body = body);
+NetLensHttpCall _call(dynamic body, {int status = 200}) => NetLensHttpCall(1)
+  ..loading = false
+  ..uri = 'https://a.com/b'
+  ..server = 'a.com'
+  ..endpoint = '/b'
+  ..secure = true
+  ..response = (NetLensHttpResponse()
+    ..status = status
+    ..body = body);
 
 void main() {
   final NetLensWatcher watcher = NetLensWatcher.instance;

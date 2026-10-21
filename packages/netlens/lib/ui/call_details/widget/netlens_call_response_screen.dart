@@ -65,14 +65,13 @@ class NetLensCallResponseScreen extends StatelessWidget {
               ),
               count: headers.length,
               initiallyExpanded: headers.length <= 8,
-              action:
-                  headers.isEmpty
-                      ? null
-                      : NetLensCopyIconButton(
-                        text: headers.entries
-                            .map((e) => '${e.key}: ${e.value}')
-                            .join('\n'),
-                      ),
+              action: headers.isEmpty
+                  ? null
+                  : NetLensCopyIconButton(
+                      text: headers.entries
+                          .map((e) => '${e.key}: ${e.value}')
+                          .join('\n'),
+                    ),
               child: NetLensKeyValueList(
                 values: headers,
                 emptyText: context.i18n(
@@ -105,10 +104,9 @@ class _StatusSummary extends StatelessWidget {
       status: status,
       languageCode: NetLensLanguage.current.value,
     );
-    final String name =
-        status == -1
-            ? context.i18n(NetLensTranslationKey.callResponseError)
-            : info?.name ?? context.i18n(NetLensTranslationKey.unknown);
+    final String name = status == -1
+        ? context.i18n(NetLensTranslationKey.callResponseError)
+        : info?.name ?? context.i18n(NetLensTranslationKey.unknown);
     final String? contentType = NetLensParser.getContentType(
       context: context,
       headers: call.response?.headers,
@@ -121,8 +119,8 @@ class _StatusSummary extends StatelessWidget {
         children: [
           InkWell(
             borderRadius: BorderRadius.circular(8),
-            onTap:
-                () => showNetLensStatusInfo(context: context, status: status),
+            onTap: () =>
+                showNetLensStatusInfo(context: context, status: status),
             child: Row(
               children: [
                 Text(
@@ -157,12 +155,11 @@ class _StatusSummary extends StatelessWidget {
             children: [
               NetLensInfoChip(
                 icon: Icons.schedule,
-                text:
-                    call.response != null
-                        ? NetLensConversionHelper.formatDateTime(
-                          call.response!.time,
-                        )
-                        : '-',
+                text: call.response != null
+                    ? NetLensConversionHelper.formatDateTime(
+                        call.response!.time,
+                      )
+                    : '-',
                 color: muted,
               ),
               NetLensInfoChip(
@@ -232,8 +229,8 @@ class _BodyDataColumnState extends State<_BodyDataColumn> {
       return _UnknownBody(
         call: call,
         showUnsupportedBody: _showUnsupportedBody,
-        onShowUnsupportedBodyPressed:
-            () => setState(() => _showUnsupportedBody = true),
+        onShowUnsupportedBodyPressed: () =>
+            setState(() => _showUnsupportedBody = true),
       );
     }
   }
@@ -292,25 +289,25 @@ class _ImageBody extends StatelessWidget {
           errorBuilder:
               (BuildContext context, Object error, StackTrace? stackTrace) =>
                   NetLensCodeBlock(text: '$error', isError: true),
-          loadingBuilder: (
-            BuildContext context,
-            Widget child,
-            ImageChunkEvent? loadingProgress,
-          ) {
-            if (loadingProgress == null) return child;
-            return Padding(
-              padding: const EdgeInsets.all(24),
-              child: Center(
-                child: CircularProgressIndicator(
-                  value:
-                      loadingProgress.expectedTotalBytes != null
+          loadingBuilder:
+              (
+                BuildContext context,
+                Widget child,
+                ImageChunkEvent? loadingProgress,
+              ) {
+                if (loadingProgress == null) return child;
+                return Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      value: loadingProgress.expectedTotalBytes != null
                           ? loadingProgress.cumulativeBytesLoaded /
-                              loadingProgress.expectedTotalBytes!
+                                loadingProgress.expectedTotalBytes!
                           : null,
-                ),
-              ),
-            );
-          },
+                    ),
+                  ),
+                );
+              },
         ),
       ),
     );

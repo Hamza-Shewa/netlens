@@ -15,7 +15,10 @@ import 'package:flutter/material.dart';
 class NetLensNavigation {
   /// Navigates to calls list page.
   static Future<void> navigateToCallsList({required NetLensCore core}) {
-    return _navigateToPage(core: core, child: NetLensCallsListPage(core: core));
+    return _navigateToPage(
+      core: core,
+      child: NetLensCallsListPage(core: core),
+    );
   }
 
   /// Navigates to call details page.
@@ -129,25 +132,20 @@ class NetLensRoute<T> extends MaterialPageRoute<T> {
         brightness: NetLensTheme.resolveBrightness(context),
       ),
       child: Builder(
-        builder:
-            (BuildContext context) =>
-                fade
-                    ? FadeTransition(
-                      opacity: animation.drive(
-                        CurveTween(curve: Curves.easeInOut),
-                      ),
-                      child: child,
-                    )
-                    : const CupertinoPageTransitionsBuilder()
-                        .buildTransitions<T>(
-                          this,
-                          context,
-                          animation,
-                          // No parallax: pages which are opened later
-                          // fade in place and the page below stays put.
-                          const AlwaysStoppedAnimation<double>(0),
-                          child,
-                        ),
+        builder: (BuildContext context) => fade
+            ? FadeTransition(
+                opacity: animation.drive(CurveTween(curve: Curves.easeInOut)),
+                child: child,
+              )
+            : const CupertinoPageTransitionsBuilder().buildTransitions<T>(
+                this,
+                context,
+                animation,
+                // No parallax: pages which are opened later
+                // fade in place and the page below stays put.
+                const AlwaysStoppedAnimation<double>(0),
+                child,
+              ),
       ),
     );
   }

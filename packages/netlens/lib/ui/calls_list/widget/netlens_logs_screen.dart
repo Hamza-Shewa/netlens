@@ -18,17 +18,16 @@ class NetLensLogsScreen extends StatelessWidget {
   final bool isAndroidRawLogsEnabled;
 
   @override
-  Widget build(BuildContext context) =>
-      netLensLogger != null
-          ? isAndroidRawLogsEnabled
-              ? NetLensRawLogListWidget(
+  Widget build(BuildContext context) => netLensLogger != null
+      ? isAndroidRawLogsEnabled
+            ? NetLensRawLogListWidget(
                 scrollController: scrollController,
                 getRawLogs: netLensLogger?.getAndroidRawLogs(),
               )
-              : NetLensLogListWidget(
+            : NetLensLogListWidget(
                 logsStream: netLensLogger?.logsStream,
                 initialLogs: netLensLogger?.logs,
                 scrollController: scrollController,
               )
-          : const NetLensEmptyLogsWidget();
+      : const NetLensEmptyLogsWidget();
 }

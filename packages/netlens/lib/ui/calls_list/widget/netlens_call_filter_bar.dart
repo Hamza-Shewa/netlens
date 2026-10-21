@@ -22,18 +22,14 @@ class NetLensCallFilterBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> methods =
-        {
-            for (final NetLensHttpCall call in calls) call.method.toUpperCase(),
-            ...filter.methods,
-          }.where((String method) => method.isNotEmpty).toList()
-          ..sort();
-    final List<String> hosts =
-        {
-            for (final NetLensHttpCall call in calls) call.server,
-            ...filter.hosts,
-          }.where((String host) => host.isNotEmpty).toList()
-          ..sort();
+    final List<String> methods = {
+      for (final NetLensHttpCall call in calls) call.method.toUpperCase(),
+      ...filter.methods,
+    }.where((String method) => method.isNotEmpty).toList()..sort();
+    final List<String> hosts = {
+      for (final NetLensHttpCall call in calls) call.server,
+      ...filter.hosts,
+    }.where((String host) => host.isNotEmpty).toList()..sort();
 
     return SizedBox(
       height: 48,
@@ -56,16 +52,11 @@ class NetLensCallFilterBar extends StatelessWidget {
             _StatusChip(
               group: group,
               selected: filter.statusGroups.contains(group),
-              onSelected:
-                  (bool selected) => onChanged(
-                    filter.copyWith(
-                      statusGroups: _toggle(
-                        filter.statusGroups,
-                        group,
-                        selected,
-                      ),
-                    ),
-                  ),
+              onSelected: (bool selected) => onChanged(
+                filter.copyWith(
+                  statusGroups: _toggle(filter.statusGroups, group, selected),
+                ),
+              ),
             ),
             const SizedBox(width: 8),
           ],
@@ -75,12 +66,11 @@ class NetLensCallFilterBar extends StatelessWidget {
                 key: Key('netlens_filter_method_$method'),
                 label: Text(method),
                 selected: filter.methods.contains(method),
-                onSelected:
-                    (bool selected) => onChanged(
-                      filter.copyWith(
-                        methods: _toggle(filter.methods, method, selected),
-                      ),
-                    ),
+                onSelected: (bool selected) => onChanged(
+                  filter.copyWith(
+                    methods: _toggle(filter.methods, method, selected),
+                  ),
+                ),
               ),
               const SizedBox(width: 8),
             ],
@@ -167,30 +157,27 @@ class _HostChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Set<String> selected = filter.hosts;
-    final String label =
-        selected.isEmpty
-            ? context.i18n(NetLensTranslationKey.filtersAllHosts)
-            : selected.length == 1
-            ? selected.first
-            : '${context.i18n(NetLensTranslationKey.filtersHost)} (${selected.length})';
+    final String label = selected.isEmpty
+        ? context.i18n(NetLensTranslationKey.filtersAllHosts)
+        : selected.length == 1
+        ? selected.first
+        : '${context.i18n(NetLensTranslationKey.filtersHost)} (${selected.length})';
     return PopupMenuButton<String>(
       key: const Key('netlens_filter_hosts'),
       tooltip: context.i18n(NetLensTranslationKey.filtersHost),
-      onSelected:
-          (String host) => onChanged(
-            filter.copyWith(
-              hosts: _toggle(selected, host, !selected.contains(host)),
-            ),
+      onSelected: (String host) => onChanged(
+        filter.copyWith(
+          hosts: _toggle(selected, host, !selected.contains(host)),
+        ),
+      ),
+      itemBuilder: (BuildContext context) => [
+        for (final String host in hosts)
+          CheckedPopupMenuItem<String>(
+            value: host,
+            checked: selected.contains(host),
+            child: Text(host, overflow: TextOverflow.ellipsis),
           ),
-      itemBuilder:
-          (BuildContext context) => [
-            for (final String host in hosts)
-              CheckedPopupMenuItem<String>(
-                value: host,
-                checked: selected.contains(host),
-                child: Text(host, overflow: TextOverflow.ellipsis),
-              ),
-          ],
+      ],
       child: IgnorePointer(
         child: FilterChip(
           avatar: const Icon(Icons.dns_outlined, size: 18),

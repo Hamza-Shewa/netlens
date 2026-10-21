@@ -60,14 +60,15 @@ class NetLensEndpointStatistics {
       (groups[key] ??= []).add(call);
     }
 
-    final List<NetLensEndpointTiming> timings = [
-      for (final MapEntry<(String, String), List<NetLensHttpCall>> group
-          in groups.entries)
-        _buildTiming(group.key.$1, group.key.$2, group.value),
-    ]..sort((a, b) {
-      final int byP95 = b.p95.compareTo(a.p95);
-      return byP95 != 0 ? byP95 : b.count.compareTo(a.count);
-    });
+    final List<NetLensEndpointTiming> timings =
+        [
+          for (final MapEntry<(String, String), List<NetLensHttpCall>> group
+              in groups.entries)
+            _buildTiming(group.key.$1, group.key.$2, group.value),
+        ]..sort((a, b) {
+          final int byP95 = b.p95.compareTo(a.p95);
+          return byP95 != 0 ? byP95 : b.count.compareTo(a.count);
+        });
     return timings.take(limit).toList();
   }
 
@@ -75,8 +76,9 @@ class NetLensEndpointStatistics {
   /// by `{id}`, so calls of the same endpoint are grouped together.
   static String normalizePath(String path) {
     final int queryStart = path.indexOf('?');
-    final String pathOnly =
-        queryStart == -1 ? path : path.substring(0, queryStart);
+    final String pathOnly = queryStart == -1
+        ? path
+        : path.substring(0, queryStart);
     return pathOnly
         .split('/')
         .map(
@@ -103,13 +105,12 @@ class NetLensEndpointStatistics {
   ) {
     final List<int> durations =
         calls.map((NetLensHttpCall call) => call.duration).toList()..sort();
-    final int failures =
-        calls.where((NetLensHttpCall call) {
-          final NetLensCallStatusGroup group = NetLensCallStatusGroup.of(call);
-          return group == NetLensCallStatusGroup.clientError ||
-              group == NetLensCallStatusGroup.serverError ||
-              group == NetLensCallStatusGroup.failed;
-        }).length;
+    final int failures = calls.where((NetLensHttpCall call) {
+      final NetLensCallStatusGroup group = NetLensCallStatusGroup.of(call);
+      return group == NetLensCallStatusGroup.clientError ||
+          group == NetLensCallStatusGroup.serverError ||
+          group == NetLensCallStatusGroup.failed;
+    }).length;
     return NetLensEndpointTiming(
       method: method,
       path: path,

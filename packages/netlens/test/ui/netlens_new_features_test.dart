@@ -25,27 +25,24 @@ NetLensHttpCall _call(
   String client = 'Dio',
   dynamic requestBody = '',
   dynamic responseBody = '{"name": "NetLens", "items": [1, 2]}',
-}) =>
-    NetLensHttpCall(id)
-      ..method = method
-      ..server = 'api.example.com'
-      ..endpoint = endpoint
-      ..uri = 'https://api.example.com$endpoint'
-      ..client = client
-      ..secure = true
-      ..loading = false
-      ..duration = 100 * id
-      ..request =
-          (NetLensHttpRequest()
-            ..time = DateTime(2026).add(Duration(milliseconds: 50 * id))
-            ..headers = {'Authorization': 'Bearer secret-token'}
-            ..body = requestBody)
-      ..response =
-          (NetLensHttpResponse()
-            ..status = status
-            ..time = DateTime(2026)
-            ..headers = {'content-type': 'application/json'}
-            ..body = responseBody);
+}) => NetLensHttpCall(id)
+  ..method = method
+  ..server = 'api.example.com'
+  ..endpoint = endpoint
+  ..uri = 'https://api.example.com$endpoint'
+  ..client = client
+  ..secure = true
+  ..loading = false
+  ..duration = 100 * id
+  ..request = (NetLensHttpRequest()
+    ..time = DateTime(2026).add(Duration(milliseconds: 50 * id))
+    ..headers = {'Authorization': 'Bearer secret-token'}
+    ..body = requestBody)
+  ..response = (NetLensHttpResponse()
+    ..status = status
+    ..time = DateTime(2026)
+    ..headers = {'content-type': 'application/json'}
+    ..body = responseBody);
 
 /// Adapter which records replayed requests instead of sending them.
 class _FakeReplayer with NetLensAdapter implements NetLensCallReplayer {
@@ -351,16 +348,14 @@ void main() {
 
         final Map<String, VoidCallback> pages = {
           'calls list': () => NetLensNavigation.navigateToCallsList(core: core),
-          'call details':
-              () => NetLensNavigation.navigateToCallDetails(
-                call: core.getCalls().first,
-                core: core,
-              ),
-          'replay':
-              () => NetLensNavigation.navigateToReplay(
-                call: core.getCalls().first,
-                core: core,
-              ),
+          'call details': () => NetLensNavigation.navigateToCallDetails(
+            call: core.getCalls().first,
+            core: core,
+          ),
+          'replay': () => NetLensNavigation.navigateToReplay(
+            call: core.getCalls().first,
+            core: core,
+          ),
           'timeline': () => NetLensNavigation.navigateToTimeline(core: core),
           'stats': () => NetLensNavigation.navigateToStats(core: core),
         };

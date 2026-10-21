@@ -16,23 +16,23 @@ NetLensHttpCall _call({String uri = 'https://api.example.com/v1/users'}) =>
       ..secure = true
       ..loading = false
       ..duration = 342
-      ..request =
-          (NetLensHttpRequest()
-            ..time = DateTime(2026, 10, 7, 14, 3, 1, 37)
-            ..size = 230
-            ..headers = {'x-request-header': 'request-value'}
-            ..body = 'request body text')
-      ..response =
-          (NetLensHttpResponse()
-            ..status = 200
-            ..size = 1840
-            ..headers = {'x-response-header': 'response-value'}
-            ..body = 'response body text'
-            ..time = DateTime(2026, 10, 7, 14, 3, 1, 379));
+      ..request = (NetLensHttpRequest()
+        ..time = DateTime(2026, 10, 7, 14, 3, 1, 37)
+        ..size = 230
+        ..headers = {'x-request-header': 'request-value'}
+        ..body = 'request body text')
+      ..response = (NetLensHttpResponse()
+        ..status = 200
+        ..size = 1840
+        ..headers = {'x-response-header': 'response-value'}
+        ..body = 'response body text'
+        ..time = DateTime(2026, 10, 7, 14, 3, 1, 379));
 
 Future<void> _pump(WidgetTester tester, NetLensHttpCall call) =>
     tester.pumpWidget(
-      MaterialApp(home: Scaffold(body: NetLensCallOverviewScreen(call: call))),
+      MaterialApp(
+        home: Scaffold(body: NetLensCallOverviewScreen(call: call)),
+      ),
     );
 
 void main() {

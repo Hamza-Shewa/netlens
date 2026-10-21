@@ -15,11 +15,10 @@ Future<void> showNetLensStatusInfo({
     context: context,
     showDragHandle: true,
     isScrollControlled: true,
-    builder:
-        (_) => Directionality(
-          textDirection: NetLensLanguage.textDirection,
-          child: NetLensStatusInfoSheet(status: status),
-        ),
+    builder: (_) => Directionality(
+      textDirection: NetLensLanguage.textDirection,
+      child: NetLensStatusInfoSheet(status: status),
+    ),
   );
 }
 

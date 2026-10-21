@@ -203,29 +203,29 @@ class NetLensExportHelper {
     required BuildContext context,
     required NetLensHttpCall call,
   }) {
-    final StringBuffer stringBuffer =
-        StringBuffer()..writeAll([
-          '===========================================\n',
-          '${context.i18n(NetLensTranslationKey.saveLogId)} ${call.id}\n',
-          '============================================\n',
-          '--------------------------------------------\n',
-          '${context.i18n(NetLensTranslationKey.saveLogGeneralData)}\n',
-          '--------------------------------------------\n',
-          '${context.i18n(NetLensTranslationKey.saveLogServer)} ${call.server} \n',
-          '${context.i18n(NetLensTranslationKey.saveLogMethod)} ${call.method} \n',
-          '${context.i18n(NetLensTranslationKey.saveLogEndpoint)} ${call.endpoint} \n',
-          '${context.i18n(NetLensTranslationKey.saveLogClient)} ${call.client} \n',
-          '${context.i18n(NetLensTranslationKey.saveLogDuration)} ${NetLensConversionHelper.formatTime(call.duration)}\n',
-          '${context.i18n(NetLensTranslationKey.saveLogSecured)} ${call.secure}\n',
-          '${context.i18n(NetLensTranslationKey.saveLogCompleted)} ${!call.loading} \n',
-          '--------------------------------------------\n',
-          '${context.i18n(NetLensTranslationKey.saveLogRequest)}\n',
-          '--------------------------------------------\n',
-          '${context.i18n(NetLensTranslationKey.saveLogRequestTime)} ${call.request?.time}\n',
-          '${context.i18n(NetLensTranslationKey.saveLogRequestContentType)} ${call.request?.contentType}\n',
-          '${context.i18n(NetLensTranslationKey.saveLogRequestCookies)} ${_encoder.convert(call.request?.cookies)}\n',
-          '${context.i18n(NetLensTranslationKey.saveLogRequestHeaders)} ${_encoder.convert(call.request?.headers)}\n',
-        ]);
+    final StringBuffer stringBuffer = StringBuffer()
+      ..writeAll([
+        '===========================================\n',
+        '${context.i18n(NetLensTranslationKey.saveLogId)} ${call.id}\n',
+        '============================================\n',
+        '--------------------------------------------\n',
+        '${context.i18n(NetLensTranslationKey.saveLogGeneralData)}\n',
+        '--------------------------------------------\n',
+        '${context.i18n(NetLensTranslationKey.saveLogServer)} ${call.server} \n',
+        '${context.i18n(NetLensTranslationKey.saveLogMethod)} ${call.method} \n',
+        '${context.i18n(NetLensTranslationKey.saveLogEndpoint)} ${call.endpoint} \n',
+        '${context.i18n(NetLensTranslationKey.saveLogClient)} ${call.client} \n',
+        '${context.i18n(NetLensTranslationKey.saveLogDuration)} ${NetLensConversionHelper.formatTime(call.duration)}\n',
+        '${context.i18n(NetLensTranslationKey.saveLogSecured)} ${call.secure}\n',
+        '${context.i18n(NetLensTranslationKey.saveLogCompleted)} ${!call.loading} \n',
+        '--------------------------------------------\n',
+        '${context.i18n(NetLensTranslationKey.saveLogRequest)}\n',
+        '--------------------------------------------\n',
+        '${context.i18n(NetLensTranslationKey.saveLogRequestTime)} ${call.request?.time}\n',
+        '${context.i18n(NetLensTranslationKey.saveLogRequestContentType)} ${call.request?.contentType}\n',
+        '${context.i18n(NetLensTranslationKey.saveLogRequestCookies)} ${_encoder.convert(call.request?.cookies)}\n',
+        '${context.i18n(NetLensTranslationKey.saveLogRequestHeaders)} ${_encoder.convert(call.request?.headers)}\n',
+      ]);
 
     if (call.request?.queryParameters.isNotEmpty ?? false) {
       stringBuffer.write(
@@ -243,7 +243,11 @@ class NetLensExportHelper {
       '${context.i18n(NetLensTranslationKey.saveLogResponseStatus)} ${call.response?.status}\n',
       '${context.i18n(NetLensTranslationKey.saveLogResponseSize)} ${NetLensConversionHelper.formatBytes(call.response?.size ?? 0)}\n',
       '${context.i18n(NetLensTranslationKey.saveLogResponseHeaders)} ${_encoder.convert(call.response?.headers)}\n',
-      '${context.i18n(NetLensTranslationKey.saveLogResponseBody)} ${NetLensParser.formatBody(context: context, body: call.response?.body, contentType: NetLensParser.getContentType(context: context, headers: call.response?.headers))}\n',
+      '${context.i18n(NetLensTranslationKey.saveLogResponseBody)} ${NetLensParser.formatBody(
+        context: context,
+        body: call.response?.body,
+        contentType: NetLensParser.getContentType(context: context, headers: call.response?.headers),
+      )}\n',
     ]);
 
     if (call.error != null) {

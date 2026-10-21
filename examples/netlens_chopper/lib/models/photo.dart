@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'photo.g.dart';
 
 @JsonSerializable()
-class Photo with EquatableMixin {
+class Photo with Equatable {
   const Photo({
     this.id,
     required this.albumId,

@@ -44,43 +44,44 @@ class _NetLensTimelinePageState extends State<NetLensTimelinePage>
         body: StreamBuilder<List<NetLensHttpCall>>(
           stream: widget.core.callsStream,
           initialData: widget.core.getCalls(),
-          builder: (
-            BuildContext context,
-            AsyncSnapshot<List<NetLensHttpCall>> snapshot,
-          ) {
-            final NetLensTimeline timeline = NetLensTimeline.from(
-              snapshot.data ?? const [],
-            );
-            if (timeline.spans.isEmpty) {
-              return NetLensEmptyStateWidget(
-                icon: Icons.view_timeline_outlined,
-                title: context.i18n(NetLensTranslationKey.timelineEmpty),
-              );
-            }
-            return ScrollConfiguration(
-              behavior: NetLensScrollBehavior(),
-              child: ListView.builder(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
-                itemCount: timeline.spans.length + 1,
-                itemBuilder: (BuildContext context, int index) {
-                  if (index == 0) {
-                    return _Header(timeline: timeline);
-                  }
-                  final NetLensTimelineSpan span = timeline.spans[index - 1];
-                  return _SpanRow(
-                    key: ValueKey(span.call.id),
-                    span: span,
-                    length: timeline.length,
-                    onTap:
-                        () => NetLensNavigation.navigateToCallDetails(
+          builder:
+              (
+                BuildContext context,
+                AsyncSnapshot<List<NetLensHttpCall>> snapshot,
+              ) {
+                final NetLensTimeline timeline = NetLensTimeline.from(
+                  snapshot.data ?? const [],
+                );
+                if (timeline.spans.isEmpty) {
+                  return NetLensEmptyStateWidget(
+                    icon: Icons.view_timeline_outlined,
+                    title: context.i18n(NetLensTranslationKey.timelineEmpty),
+                  );
+                }
+                return ScrollConfiguration(
+                  behavior: NetLensScrollBehavior(),
+                  child: ListView.builder(
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+                    itemCount: timeline.spans.length + 1,
+                    itemBuilder: (BuildContext context, int index) {
+                      if (index == 0) {
+                        return _Header(timeline: timeline);
+                      }
+                      final NetLensTimelineSpan span =
+                          timeline.spans[index - 1];
+                      return _SpanRow(
+                        key: ValueKey(span.call.id),
+                        span: span,
+                        length: timeline.length,
+                        onTap: () => NetLensNavigation.navigateToCallDetails(
                           call: span.call,
                           core: widget.core,
                         ),
-                  );
-                },
-              ),
-            );
-          },
+                      );
+                    },
+                  ),
+                );
+              },
         ),
       ),
     );
@@ -131,12 +132,11 @@ class _Header extends StatelessWidget {
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      textAlign:
-                          tick == 0
-                              ? TextAlign.left
-                              : tick == _ticks
-                              ? TextAlign.right
-                              : TextAlign.center,
+                      textAlign: tick == 0
+                          ? TextAlign.left
+                          : tick == _ticks
+                          ? TextAlign.right
+                          : TextAlign.center,
                       style: theme.textTheme.labelSmall?.copyWith(color: muted),
                     ),
                   ),
@@ -171,10 +171,9 @@ class _SpanRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final NetLensHttpCall call = span.call;
-    final Color color =
-        call.loading
-            ? NetLensTheme.grey
-            : NetLensTheme.getStatusColor(context, call.response?.status);
+    final Color color = call.loading
+        ? NetLensTheme.grey
+        : NetLensTheme.getStatusColor(context, call.response?.status);
     final String title = NetLensGraphQL.detect(call)?.title ?? call.endpoint;
     return InkWell(
       onTap: onTap,

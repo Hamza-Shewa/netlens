@@ -41,10 +41,9 @@ class NetLensTimeline {
     final DateTime end = now ?? DateTime.now();
     final List<NetLensHttpCall> sorted = [...calls]
       ..sort((a, b) => _startOf(a).compareTo(_startOf(b)));
-    final List<NetLensHttpCall> latest =
-        sorted.length > maxCalls
-            ? sorted.sublist(sorted.length - maxCalls)
-            : sorted;
+    final List<NetLensHttpCall> latest = sorted.length > maxCalls
+        ? sorted.sublist(sorted.length - maxCalls)
+        : sorted;
     if (latest.isEmpty) {
       return NetLensTimeline(
         start: end,
@@ -101,16 +100,17 @@ class NetLensTimeline {
 
   /// Sweeps over starts and ends to find how many calls overlapped at most.
   static int _maxConcurrency(List<NetLensTimelineSpan> spans) {
-    final List<(int, int)> events = [
-      for (final NetLensTimelineSpan span in spans) ...[
-        (span.start, 1),
-        (span.end, -1),
-      ],
-    ]..sort((a, b) {
-      final int byTime = a.$1.compareTo(b.$1);
-      // An end and a start at the same time don't overlap.
-      return byTime != 0 ? byTime : a.$2.compareTo(b.$2);
-    });
+    final List<(int, int)> events =
+        [
+          for (final NetLensTimelineSpan span in spans) ...[
+            (span.start, 1),
+            (span.end, -1),
+          ],
+        ]..sort((a, b) {
+          final int byTime = a.$1.compareTo(b.$1);
+          // An end and a start at the same time don't overlap.
+          return byTime != 0 ? byTime : a.$2.compareTo(b.$2);
+        });
     int current = 0;
     int max = 0;
     for (final (int, int) event in events) {

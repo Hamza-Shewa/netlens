@@ -77,8 +77,9 @@ class NetLensReplayRequest with Equatable {
         continue;
       }
       final int separator = line.indexOf(':');
-      final String name =
-          separator > 0 ? line.substring(0, separator).trim() : '';
+      final String name = separator > 0
+          ? line.substring(0, separator).trim()
+          : '';
       if (name.isEmpty || name.contains(' ')) {
         return (headers: headers, invalidLine: index + 1);
       }
@@ -113,12 +114,11 @@ class NetLensReplayRequest with Equatable {
     final String scheme = call.secure ? 'https' : 'http';
     return Uri.parse('$scheme://${call.server}${call.endpoint}')
         .replace(
-          queryParameters:
-              query.isEmpty
-                  ? null
-                  : query.map(
-                    (String key, dynamic value) => MapEntry(key, '$value'),
-                  ),
+          queryParameters: query.isEmpty
+              ? null
+              : query.map(
+                  (String key, dynamic value) => MapEntry(key, '$value'),
+                ),
         )
         .toString();
   }

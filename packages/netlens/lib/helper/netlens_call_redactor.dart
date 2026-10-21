@@ -29,15 +29,14 @@ class NetLensCallRedactor {
         ..cookies = _redactCookies(request.cookies)
         ..queryParameters = _redactQueryParameters(request.queryParameters)
         ..body = redactBody(request.body)
-        ..formDataFields =
-            request.formDataFields
-                ?.map(
-                  (NetLensFormDataField field) =>
-                      redaction.isSensitiveBodyField(field.name)
-                          ? NetLensFormDataField(field.name, redaction.mask)
-                          : field,
-                )
-                .toList();
+        ..formDataFields = request.formDataFields
+            ?.map(
+              (NetLensFormDataField field) =>
+                  redaction.isSensitiveBodyField(field.name)
+                  ? NetLensFormDataField(field.name, redaction.mask)
+                  : field,
+            )
+            .toList();
     }
     final NetLensHttpResponse? response = copy.response;
     if (response != null) {
@@ -52,10 +51,9 @@ class NetLensCallRedactor {
   /// Returns [headers] with sensitive values replaced by the mask.
   Map<String, String> redactHeaders(Map<String, String> headers) => {
     for (final MapEntry<String, String> header in headers.entries)
-      header.key:
-          redaction.isSensitiveHeader(header.key)
-              ? redaction.mask
-              : header.value,
+      header.key: redaction.isSensitiveHeader(header.key)
+          ? redaction.mask
+          : header.value,
   };
 
   /// Returns [url] with sensitive query parameter values replaced by the
@@ -74,10 +72,9 @@ class NetLensCallRedactor {
           queryParameters: {
             for (final MapEntry<String, List<String>> parameter
                 in parameters.entries)
-              parameter.key:
-                  redaction.isSensitiveQueryParameter(parameter.key)
-                      ? [redaction.mask]
-                      : parameter.value,
+              parameter.key: redaction.isSensitiveQueryParameter(parameter.key)
+                  ? [redaction.mask]
+                  : parameter.value,
           },
         )
         .toString();
@@ -115,10 +112,9 @@ class NetLensCallRedactor {
     if (value is Map) {
       return {
         for (final MapEntry<dynamic, dynamic> entry in value.entries)
-          entry.key:
-              redaction.isSensitiveBodyField('${entry.key}')
-                  ? redaction.mask
-                  : _redactJson(entry.value),
+          entry.key: redaction.isSensitiveBodyField('${entry.key}')
+              ? redaction.mask
+              : _redactJson(entry.value),
       };
     }
     if (value is List) {
@@ -143,10 +139,9 @@ class NetLensCallRedactor {
 
   Map<String, dynamic> _redactQueryParameters(Map<String, dynamic> values) => {
     for (final MapEntry<String, dynamic> entry in values.entries)
-      entry.key:
-          redaction.isSensitiveQueryParameter(entry.key)
-              ? redaction.mask
-              : entry.value,
+      entry.key: redaction.isSensitiveQueryParameter(entry.key)
+          ? redaction.mask
+          : entry.value,
   };
 
   List<Cookie> _redactCookies(List<Cookie> cookies) {

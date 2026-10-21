@@ -11,14 +11,13 @@ void main() {
         NetLensHttpCall(1)
           ..method = 'post'
           ..uri = 'https://api.example.com/items?page=1'
-          ..request =
-              (NetLensHttpRequest()
-                ..headers = {
-                  'content-type': 'application/json',
-                  'Content-Length': '12',
-                  'Host': 'api.example.com',
-                }
-                ..body = {'name': 'a'}),
+          ..request = (NetLensHttpRequest()
+            ..headers = {
+              'content-type': 'application/json',
+              'Content-Length': '12',
+              'Host': 'api.example.com',
+            }
+            ..body = {'name': 'a'}),
       );
       expect(request.method, 'POST');
       expect(request.url, 'https://api.example.com/items?page=1');
@@ -45,10 +44,9 @@ void main() {
         NetLensHttpCall(1)
           ..method = 'POST'
           ..uri = 'https://api.example.com/upload'
-          ..request =
-              (NetLensHttpRequest()
-                ..body = 'Form data'
-                ..formDataFields = [const NetLensFormDataField('a', 'b')]),
+          ..request = (NetLensHttpRequest()
+            ..body = 'Form data'
+            ..formDataFields = [const NetLensFormDataField('a', 'b')]),
       );
       expect(request.body, null);
       expect(request.omitsFormData, true);

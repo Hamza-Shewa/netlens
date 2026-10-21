@@ -55,8 +55,8 @@ void main() {
       ),
     );
 
-    final NetLensDioAdapter adapter =
-        NetLensDioAdapter()..injectCore(netLensCore);
+    final NetLensDioAdapter adapter = NetLensDioAdapter()
+      ..injectCore(netLensCore);
     dio = Dio()..interceptors.add(adapter);
     network = http_mock_adapter.DioAdapter(dio: dio);
     NetLensDioMockAdapter.install(dio, mocks);

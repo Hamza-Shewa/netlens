@@ -14,23 +14,21 @@ import 'package:netlens/ui/watcher/netlens_watcher_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-NetLensHttpCall _call(dynamic body) =>
-    NetLensHttpCall(1)
-      ..method = 'POST'
-      ..server = 'api.example.com'
-      ..endpoint = '/v1/users'
-      ..uri = 'https://api.example.com/v1/users'
-      ..client = 'Dio'
-      ..secure = true
-      ..loading = false
-      ..duration = 120
-      ..request = (NetLensHttpRequest()..time = DateTime(2026))
-      ..response =
-          (NetLensHttpResponse()
-            ..status = 200
-            ..headers = {'content-type': 'application/json'}
-            ..body = body
-            ..time = DateTime(2026));
+NetLensHttpCall _call(dynamic body) => NetLensHttpCall(1)
+  ..method = 'POST'
+  ..server = 'api.example.com'
+  ..endpoint = '/v1/users'
+  ..uri = 'https://api.example.com/v1/users'
+  ..client = 'Dio'
+  ..secure = true
+  ..loading = false
+  ..duration = 120
+  ..request = (NetLensHttpRequest()..time = DateTime(2026))
+  ..response = (NetLensHttpResponse()
+    ..status = 200
+    ..headers = {'content-type': 'application/json'}
+    ..body = body
+    ..time = DateTime(2026));
 
 void main() {
   final NetLensWatcher watcher = NetLensWatcher.instance;
