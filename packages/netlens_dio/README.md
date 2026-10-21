@@ -30,6 +30,18 @@ final dio = Dio()..interceptors.add(adapter);
 adapter.replayClient = dio;
 ```
 
+## Mocks
+
+`NetLensDioMockAdapter` answers requests with mocks recorded by NetLens, so the
+app can run offline:
+
+```dart
+NetLensDioMockAdapter.install(dio, netLens.mocks);
+netLens.mocks.mode = NetLensMockMode.replay;
+```
+
+See [Mocks](https://github.com/Hamza-Shewa/alice/blob/master/docs/mocks.md).
+
 ## Documentation
 
 You can find the documentation [here](https://github.com/Hamza-Shewa/alice/tree/master/docs).

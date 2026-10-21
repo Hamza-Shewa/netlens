@@ -4,6 +4,7 @@ import 'package:netlens/core/netlens_core.dart';
 import 'package:netlens/helper/netlens_call_redactor.dart';
 import 'package:netlens/helper/netlens_export_helper.dart';
 import 'package:netlens/helper/netlens_watcher.dart';
+import 'package:netlens/mock/data/netlens_call_mock_mapper.dart';
 import 'package:netlens/model/netlens_http_call.dart';
 import 'package:netlens/model/netlens_translation.dart';
 import 'package:netlens/ui/call_details/model/netlens_call_details_tab.dart';
@@ -132,6 +133,14 @@ class _NetLensCallDetailsPageState extends State<NetLensCallDetailsPage>
                               core: widget.core,
                             ),
                       ),
+                    if (NetLensCallMockMapper.canMap(currentCall))
+                      IconButton(
+                        icon: const Icon(Icons.dns_outlined),
+                        tooltip: context.i18n(
+                          NetLensTranslationKey.callDetailsSaveAsMock,
+                        ),
+                        onPressed: () => _saveAsMock(currentCall),
+                      ),
                     IconButton(
                       icon: const Icon(Icons.copy_all),
                       tooltip: context.i18n(
@@ -196,6 +205,24 @@ class _NetLensCallDetailsPageState extends State<NetLensCallDetailsPage>
       context: context,
       call: widget.core.redactor.redact(call),
     );
+  }
+
+  /// Saves [call] as a mock endpoint, so it can be replayed offline.
+  Future<void> _saveAsMock(NetLensHttpCall call) async {
+    await widget.core.mocks.record(call);
+    if (!mounted) {
+      return;
+    }
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(
+            context.i18n(NetLensTranslationKey.callDetailsSavedAsMock),
+          ),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
   }
 
   /// Copies everything related to [call] (general data, request and

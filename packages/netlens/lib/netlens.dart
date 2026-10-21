@@ -1,5 +1,6 @@
 import 'package:netlens/core/netlens_adapter.dart';
 import 'package:netlens/core/netlens_core.dart';
+import 'package:netlens/mock/application/netlens_mocks.dart';
 import 'package:netlens/model/netlens_configuration.dart';
 import 'package:netlens/model/netlens_http_call.dart';
 import 'package:netlens/model/netlens_log.dart';
@@ -11,6 +12,7 @@ export 'package:netlens/model/netlens_log.dart';
 export 'package:netlens/model/netlens_redaction.dart';
 export 'package:netlens/model/netlens_replay_request.dart';
 export 'package:netlens/core/netlens_memory_storage.dart';
+export 'package:netlens/netlens_mocks.dart';
 export 'package:netlens/utils/netlens_parser.dart';
 
 class NetLens {
@@ -56,6 +58,10 @@ class NetLens {
 
   /// Returns flag which determines whether inspector is opened
   bool get isInspectorOpened => _netLensCore.isInspectorOpened;
+
+  /// Records calls as mock endpoints and replays them, so the app can run
+  /// offline. Pass it to the mock adapter of your HTTP client.
+  NetLensMocks get mocks => _netLensCore.mocks;
 
   /// Adds new adapter to NetLens.
   void addAdapter(NetLensAdapter adapter) => _netLensCore.addAdapter(adapter);

@@ -1,6 +1,6 @@
 name: netlens
 description: "In-app HTTP inspector for Flutter. Browse calls, filter and search them, hide secrets, resend requests, export HAR, read GraphQL and see a timeline."
-version: 1.0.0
+version: 1.1.0
 repository: https://github.com/Hamza-Shewa/alice
 issue_tracker: https://github.com/Hamza-Shewa/alice/issues
 topics:

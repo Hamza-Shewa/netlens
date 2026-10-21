@@ -249,6 +249,8 @@ class _NetLensCallsListPageState extends State<NetLensCallsListPage>
         _saveToFile();
       case NetLensCallDetailsMenuItemType.exportHar:
         _exportHar();
+      case NetLensCallDetailsMenuItemType.mocks:
+        NetLensNavigation.navigateToMocks(core: netLensCore);
     }
   }
 
@@ -501,6 +503,8 @@ class _ContextMenuButton extends StatelessWidget {
         return context.i18n(NetLensTranslationKey.callsListSave);
       case NetLensCallDetailsMenuItemType.exportHar:
         return context.i18n(NetLensTranslationKey.callsListExportHar);
+      case NetLensCallDetailsMenuItemType.mocks:
+        return context.i18n(NetLensTranslationKey.callsListMocks);
     }
   }
 
@@ -519,6 +523,8 @@ class _ContextMenuButton extends StatelessWidget {
         return Icons.save_outlined;
       case NetLensCallDetailsMenuItemType.exportHar:
         return Icons.ios_share;
+      case NetLensCallDetailsMenuItemType.mocks:
+        return Icons.dns_outlined;
     }
   }
 }

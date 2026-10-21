@@ -38,6 +38,7 @@ class NetLensCallListItemWidget extends StatelessWidget {
     final NetLensIssue? issue = NetLensIssueAnalyzer.analyze(call);
     final NetLensWatchResult? watch = NetLensWatcher.instance.evaluate(call);
     final NetLensGraphQLOperation? graphQL = NetLensGraphQL.detect(call);
+    final String? mockId = NetLensMockBadge.getMockId(call);
 
     return InkWell(
       onTap: () => itemClickAction.call(call),
@@ -98,6 +99,10 @@ class NetLensCallListItemWidget extends StatelessWidget {
               if (graphQL != null) ...[
                 const SizedBox(height: 6),
                 NetLensGraphQLBadge(operation: graphQL),
+              ],
+              if (mockId != null) ...[
+                const SizedBox(height: 6),
+                NetLensMockBadge(mockId: mockId),
               ],
               if (hasUrlIssues) ...[
                 const SizedBox(height: 10),

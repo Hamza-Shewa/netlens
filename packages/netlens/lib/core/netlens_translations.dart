@@ -362,6 +362,35 @@ class NetLensTranslations {
         NetLensTranslationKey.jsonMatches: "[count] matches",
         NetLensTranslationKey.jsonNoMatches: "No matches",
         NetLensTranslationKey.callsListExportHar: "Export HAR",
+        NetLensTranslationKey.callsListMocks: "Mocks",
+        NetLensTranslationKey.mocks: "Mocks",
+        NetLensTranslationKey.mocksDescription:
+            "Record calls as mock endpoints, then replay them to run the app offline. Calls are replayed by the mock adapters of Dio and http, and by the local mock server.",
+        NetLensTranslationKey.mocksModeOff: "Off",
+        NetLensTranslationKey.mocksModeRecord: "Record",
+        NetLensTranslationKey.mocksModeReplay: "Replay",
+        NetLensTranslationKey.mocksModeOffHint:
+            "Calls go to the network and aren't recorded.",
+        NetLensTranslationKey.mocksModeRecordHint:
+            "Every finished call is saved as a mock.",
+        NetLensTranslationKey.mocksModeReplayHint:
+            "Matching calls are answered by mocks instead of the network.",
+        NetLensTranslationKey.mocksRecordCalls: "Save caught calls",
+        NetLensTranslationKey.mocksRecorded: "[count] mocks saved",
+        NetLensTranslationKey.mocksExport: "Export mocks",
+        NetLensTranslationKey.mocksExportFailed: "Mocks couldn't be exported",
+        NetLensTranslationKey.mocksDelete: "Delete mock",
+        NetLensTranslationKey.mocksDeleteAll: "Delete all mocks",
+        NetLensTranslationKey.mocksDeleteAllConfirm:
+            "Delete all mocks? Calls will go to the network again.",
+        NetLensTranslationKey.mocksEmpty:
+            "No mocks yet. Switch to Record, or save a call from its details.",
+        NetLensTranslationKey.mocksEnabled: "Use this mock",
+        NetLensTranslationKey.callDetailsSaveAsMock: "Save as mock",
+        NetLensTranslationKey.callDetailsSavedAsMock:
+            "Saved as mock. Switch mocks to Replay to use it.",
+        NetLensTranslationKey.mockBadge: "Mock",
+        NetLensTranslationKey.mockBadgeMissing: "No mock",
         NetLensTranslationKey.callOverviewGraphQL: "GraphQL:",
         NetLensTranslationKey.graphQLErrors: "GraphQL errors",
         NetLensTranslationKey.callsListTimeline: "Timeline",
@@ -716,6 +745,35 @@ class NetLensTranslations {
         NetLensTranslationKey.jsonMatches: "عدد النتائج: [count]",
         NetLensTranslationKey.jsonNoMatches: "لا توجد نتائج",
         NetLensTranslationKey.callsListExportHar: "تصدير HAR",
+        NetLensTranslationKey.callsListMocks: "المحاكاة",
+        NetLensTranslationKey.mocks: "المحاكاة",
+        NetLensTranslationKey.mocksDescription:
+            "سجّل الطلبات كنقاط محاكاة ثم أعد تشغيلها لتشغيل التطبيق دون اتصال. تعيد محولات المحاكاة لـ Dio و http وخادم المحاكاة المحلي تشغيل الطلبات.",
+        NetLensTranslationKey.mocksModeOff: "متوقف",
+        NetLensTranslationKey.mocksModeRecord: "تسجيل",
+        NetLensTranslationKey.mocksModeReplay: "تشغيل",
+        NetLensTranslationKey.mocksModeOffHint:
+            "تذهب الطلبات إلى الشبكة ولا تُسجَّل.",
+        NetLensTranslationKey.mocksModeRecordHint:
+            "يُحفظ كل طلب منتهٍ كمحاكاة.",
+        NetLensTranslationKey.mocksModeReplayHint:
+            "يُرد على الطلبات المطابقة من المحاكاة بدل الشبكة.",
+        NetLensTranslationKey.mocksRecordCalls: "حفظ الطلبات الملتقطة",
+        NetLensTranslationKey.mocksRecorded: "تم حفظ [count] من المحاكاة",
+        NetLensTranslationKey.mocksExport: "تصدير المحاكاة",
+        NetLensTranslationKey.mocksExportFailed: "تعذر تصدير المحاكاة",
+        NetLensTranslationKey.mocksDelete: "حذف المحاكاة",
+        NetLensTranslationKey.mocksDeleteAll: "حذف كل المحاكاة",
+        NetLensTranslationKey.mocksDeleteAllConfirm:
+            "حذف كل المحاكاة؟ ستذهب الطلبات إلى الشبكة مجددًا.",
+        NetLensTranslationKey.mocksEmpty:
+            "لا توجد محاكاة بعد. انتقل إلى التسجيل أو احفظ طلبًا من تفاصيله.",
+        NetLensTranslationKey.mocksEnabled: "استخدام هذه المحاكاة",
+        NetLensTranslationKey.callDetailsSaveAsMock: "حفظ كمحاكاة",
+        NetLensTranslationKey.callDetailsSavedAsMock:
+            "تم الحفظ كمحاكاة. انتقل إلى وضع التشغيل لاستخدامها.",
+        NetLensTranslationKey.mockBadge: "محاكاة",
+        NetLensTranslationKey.mockBadgeMissing: "بلا محاكاة",
         NetLensTranslationKey.callOverviewGraphQL: "GraphQL:",
         NetLensTranslationKey.graphQLErrors: "أخطاء GraphQL",
         NetLensTranslationKey.callsListTimeline: "المخطط الزمني",

@@ -29,6 +29,18 @@ HttpClient()
     .interceptWithNetLens(adapter);
 ```
 
+## Mocks
+
+To replay mocks recorded by NetLens, start `NetLensMockServer` and point your
+requests at its URL:
+
+```dart
+final server = NetLensMockServer(resolver: netLens.mocks);
+final Uri baseUrl = await server.start();
+```
+
+See [Mocks](https://github.com/Hamza-Shewa/alice/blob/master/docs/mocks.md).
+
 ## Documentation
 
 You can find the documentation [here](https://github.com/Hamza-Shewa/alice/tree/master/docs).

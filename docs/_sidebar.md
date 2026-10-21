@@ -2,4 +2,5 @@
 - [Installation](install)
 - [Configuration](config)
 - [Usage](usage)
+- [Mocks](mocks)
 - [Other usages](other)

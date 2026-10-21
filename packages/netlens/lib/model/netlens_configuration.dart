@@ -1,6 +1,7 @@
 import 'package:netlens/core/netlens_logger.dart';
 import 'package:netlens/core/netlens_memory_storage.dart';
 import 'package:netlens/core/netlens_storage.dart';
+import 'package:netlens/mock/application/netlens_mocks.dart';
 import 'package:netlens/model/netlens_redaction.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
@@ -45,6 +46,10 @@ class NetLensConfiguration with Equatable {
   /// [NetLensRedaction.none] to turn it off.
   final NetLensRedaction redaction;
 
+  /// Records calls as mock endpoints and replays them. Mocks are off by
+  /// default. See [NetLensMocks].
+  final NetLensMocks mocks;
+
   NetLensConfiguration({
     this.showNotification = true,
     this.showInspectorOnShake = true,
@@ -55,7 +60,9 @@ class NetLensConfiguration with Equatable {
     NetLensStorage? storage,
     NetLensLogger? logger,
     this.redaction = const NetLensRedaction(),
-  }) : netLensStorage =
+    NetLensMocks? mocks,
+  }) : mocks = mocks ?? NetLensMocks(),
+       netLensStorage =
            storage ?? NetLensMemoryStorage(maxCallsCount: _defaultMaxCalls),
        navigatorKey = navigatorKey ?? GlobalKey<NavigatorState>(),
        netLensLogger = logger ?? NetLensLogger(maximumSize: _defaultMaxLogs);
@@ -70,6 +77,7 @@ class NetLensConfiguration with Equatable {
     NetLensStorage? netLensStorage,
     NetLensLogger? netLensLogger,
     NetLensRedaction? redaction,
+    NetLensMocks? mocks,
   }) => NetLensConfiguration(
     showNotification: showNotification ?? this.showNotification,
     showInspectorOnShake: showInspectorOnShake ?? this.showInspectorOnShake,
@@ -80,6 +88,7 @@ class NetLensConfiguration with Equatable {
     storage: netLensStorage ?? this.netLensStorage,
     logger: netLensLogger ?? this.netLensLogger,
     redaction: redaction ?? this.redaction,
+    mocks: mocks ?? this.mocks,
   );
 
   @override
@@ -93,5 +102,6 @@ class NetLensConfiguration with Equatable {
     netLensStorage,
     netLensLogger,
     redaction,
+    mocks,
   ];
 }

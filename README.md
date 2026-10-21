@@ -46,6 +46,7 @@ Calls are kept in memory by default, or in a database with
 - Search in URLs, headers and bodies, with quick filters by status, method and host
 - Sensitive headers, cookies and fields hidden in the inspector and masked in exports
 - Edit and resend a call (Dio, http and HttpClient)
+- Record calls as mock endpoints and replay them offline, in the app or from a local mock server
 - Collapsible JSON viewer with search
 - Export to a log file or to HAR for Chrome DevTools, Proxyman or Charles
 - GraphQL operation names and errors

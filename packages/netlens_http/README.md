@@ -29,6 +29,19 @@ http
     .interceptWithNetLens(adapter);
 ```
 
+## Mocks
+
+`NetLensHttpMockClient` answers requests with mocks recorded by NetLens, so the
+app can run offline:
+
+```dart
+final client = NetLensHttpMockClient(resolver: netLens.mocks);
+netLens.mocks.mode = NetLensMockMode.replay;
+await client.get(url).interceptWithNetLens(adapter);
+```
+
+See [Mocks](https://github.com/Hamza-Shewa/alice/blob/master/docs/mocks.md).
+
 ## Documentation
 
 You can find the documentation [here](https://github.com/Hamza-Shewa/alice/tree/master/docs).
