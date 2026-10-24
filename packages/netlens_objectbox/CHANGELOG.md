@@ -1,3 +1,7 @@
+# 1.2.0
+
+* Saves the field name of uploaded files.
+
 # 1.1.0
 
 * Needs Dart 3.11 and Flutter 3.41 or newer, and uses the latest versions of its dependencies.

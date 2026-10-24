@@ -2,11 +2,14 @@ import 'dart:convert';
 
 import 'package:netlens/core/netlens_adapter.dart';
 import 'package:netlens/core/netlens_call_replayer.dart';
+import 'package:netlens/model/netlens_form_data_file.dart';
+import 'package:netlens/model/netlens_from_data_field.dart';
 import 'package:netlens/model/netlens_http_call.dart';
 import 'package:netlens/model/netlens_http_request.dart';
 import 'package:netlens/model/netlens_http_response.dart';
 import 'package:netlens/model/netlens_replay_request.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart' show MediaType;
 
 class NetLensHttpAdapter with NetLensAdapter implements NetLensCallReplayer {
   NetLensHttpAdapter({this.replayClient});
@@ -24,18 +27,19 @@ class NetLensHttpAdapter with NetLensAdapter implements NetLensCallReplayer {
   @override
   Future<void> replay(NetLensReplayRequest request) async {
     final http.Client client = replayClient ?? http.Client();
+    // Files which are sent; the content of the new call can be read again.
+    final List<NetLensFormDataFile> files = [
+      for (final NetLensFormDataFile file in request.formDataFiles)
+        if (file.canRead) file,
+    ];
     try {
-      final http.Request httpRequest = http.Request(
-        request.method,
-        Uri.parse(request.url),
-      )..headers.addAll(request.headers);
-      if (request.body != null) {
-        httpRequest.body = request.body!;
-      }
+      final http.BaseRequest httpRequest = request.isFormData
+          ? _buildMultipartRequest(request, files)
+          : _buildRequest(request);
       final http.Response response = await http.Response.fromStream(
         await client.send(httpRequest),
       );
-      onResponse(response);
+      _onResponse(response, files: files);
     } finally {
       if (replayClient == null) {
         client.close();
@@ -43,8 +47,64 @@ class NetLensHttpAdapter with NetLensAdapter implements NetLensCallReplayer {
     }
   }
 
+  /// Builds a request with the body of [request].
+  http.Request _buildRequest(NetLensReplayRequest request) {
+    final http.Request httpRequest = http.Request(
+      request.method,
+      Uri.parse(request.url),
+    )..headers.addAll(request.headers);
+    if (request.body != null) {
+      httpRequest.body = request.body!;
+    }
+    return httpRequest;
+  }
+
+  /// Builds a multipart request with the fields of [request] and [files].
+  http.MultipartRequest _buildMultipartRequest(
+    NetLensReplayRequest request,
+    List<NetLensFormDataFile> files,
+  ) {
+    final http.MultipartRequest multipartRequest =
+        http.MultipartRequest(request.method, Uri.parse(request.url))
+          ..headers.addAll(request.headers)
+          ..fields.addAll({
+            for (final NetLensFormDataField field in request.formDataFields)
+              field.name: field.value,
+          });
+    for (final NetLensFormDataFile file in files) {
+      multipartRequest.files.add(
+        http.MultipartFile(
+          file.name ?? 'file',
+          file.read!(),
+          file.length,
+          filename: file.fileName,
+          contentType: _tryParseMediaType(file.contentType),
+        ),
+      );
+    }
+    return multipartRequest;
+  }
+
+  /// Returns [contentType] as a media type, or null when it isn't one.
+  MediaType? _tryParseMediaType(String contentType) {
+    try {
+      return MediaType.parse(contentType);
+    } on FormatException {
+      return null;
+    }
+  }
+
   /// Handles http response. It creates both request and response from http call
-  void onResponse(http.Response response, {dynamic body}) {
+  void onResponse(http.Response response, {dynamic body}) =>
+      _onResponse(response, body: body);
+
+  /// Handles http response. [files] are the files of a replayed multipart
+  /// request, in the order they were sent, so their content can be read again.
+  void _onResponse(
+    http.Response response, {
+    dynamic body,
+    List<NetLensFormDataFile> files = const [],
+  }) {
     if (response.request == null) {
       return;
     }
@@ -78,6 +138,27 @@ class NetLensHttpAdapter with NetLensAdapter implements NetLensCallReplayer {
         ..body = body ?? (response.request! as http.Request).body ?? ''
         ..size = utf8.encode(httpRequest.body.toString()).length
         ..headers = Map<String, String>.from(response.request!.headers);
+    } else if (request is http.MultipartRequest) {
+      // The content of files was already sent, so only files of a replayed
+      // request can be read again.
+      httpRequest
+        ..body = body ?? 'Form data'
+        ..size = request.contentLength
+        ..headers = Map<String, String>.from(request.headers)
+        ..formDataFields = [
+          for (final MapEntry<String, String> field in request.fields.entries)
+            NetLensFormDataField(field.key, field.value),
+        ]
+        ..formDataFiles = [
+          for (int index = 0; index < request.files.length; index++)
+            NetLensFormDataFile(
+              request.files[index].filename,
+              request.files[index].contentType.toString(),
+              request.files[index].length,
+              name: request.files[index].field,
+              read: index < files.length ? files[index].read : null,
+            ),
+        ];
     } else if (body == null) {
       httpRequest
         ..size = 0

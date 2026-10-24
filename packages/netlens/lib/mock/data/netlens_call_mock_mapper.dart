@@ -38,6 +38,7 @@ class NetLensCallMockMapper {
       method: request.method,
       url: url,
       requestBody: request.body,
+      requestHeaders: request.headers,
       response: _mapResponse(call),
       createdTime: _clock(),
     );

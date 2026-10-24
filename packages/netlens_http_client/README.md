@@ -9,7 +9,7 @@ for Flutter, to HttpClient from dart:io.
 
 ```yaml
 dependencies:
-  netlens: ^1.1.0
+  netlens: ^1.2.0
   netlens_http_client: ^1.0.0
 ```
 

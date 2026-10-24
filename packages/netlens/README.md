@@ -45,8 +45,9 @@ Calls are kept in memory by default, or in a database with
 - Inspector UI with statistics, notifications and shake to open
 - Search in URLs, headers and bodies, with quick filters by status, method and host
 - Sensitive headers, cookies and fields hidden in the inspector and masked in exports
-- Edit and resend a call (Dio, http and HttpClient)
+- Edit and resend a call (Dio, http and HttpClient), including form data and file uploads
 - Record calls as mock endpoints and replay them offline, in the app or from a local mock server
+- Share mocks as Postman collections, then import and merge the collections of a team, choosing between conflicting versions
 - Collapsible JSON viewer with search
 - Export to a log file or to HAR for Chrome DevTools, Proxyman or Charles
 - GraphQL operation names and errors
@@ -57,8 +58,8 @@ Calls are kept in memory by default, or in a database with
 
 ```yaml
 dependencies:
-  netlens: ^1.1.0
-  netlens_dio: ^1.1.0
+  netlens: ^1.2.0
+  netlens_dio: ^1.2.0
 ```
 
 ```dart

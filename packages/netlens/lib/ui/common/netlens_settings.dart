@@ -1,5 +1,6 @@
 import 'package:netlens/core/netlens_core.dart';
 import 'package:netlens/helper/netlens_watcher.dart';
+import 'package:netlens/mock/application/netlens_mocks.dart';
 import 'package:netlens/model/netlens_translation.dart';
 import 'package:netlens/ui/common/netlens_context_ext.dart';
 import 'package:netlens/ui/common/netlens_language.dart';
@@ -150,6 +151,8 @@ class _NetLensSettingsSheet extends StatelessWidget {
                     NetLensTheme.themeMode.value = value.first,
               ),
               const SizedBox(height: 20),
+              _SaveAllCallsTile(mocks: core.mocks),
+              const SizedBox(height: 12),
               _WatcherTile(core: core),
             ],
           ),
@@ -181,6 +184,48 @@ class _SettingTitle extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// Turns saving of every finished call as a mock on or off.
+class _SaveAllCallsTile extends StatelessWidget {
+  const _SaveAllCallsTile({required this.mocks});
+
+  final NetLensMocks mocks;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    return StreamBuilder<bool>(
+      stream: mocks.saveAllCallsStream,
+      initialData: mocks.saveAllCalls,
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) => Material(
+        color: theme.colorScheme.onSurface.withValues(alpha: 0.04),
+        borderRadius: BorderRadius.circular(12),
+        clipBehavior: Clip.antiAlias,
+        child: SwitchListTile(
+          key: const Key('netlens_settings_save_all_calls'),
+          value: snapshot.data ?? mocks.saveAllCalls,
+          onChanged: (bool value) => mocks.saveAllCalls = value,
+          secondary: Icon(
+            Icons.library_add_outlined,
+            color: theme.colorScheme.primary,
+          ),
+          title: Text(
+            context.i18n(NetLensTranslationKey.settingsSaveAllCalls),
+            style: theme.textTheme.titleSmall?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          subtitle: Text(
+            context.i18n(NetLensTranslationKey.settingsSaveAllCallsHint),
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+        ),
       ),
     );
   }

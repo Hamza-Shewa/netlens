@@ -1,7 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/services.dart' show Clipboard, ClipboardData;
 import 'package:netlens/core/netlens_core.dart';
-import 'package:netlens/helper/netlens_export_helper.dart';
+import 'package:netlens/mock/application/netlens_mock_merger.dart';
 import 'package:netlens/mock/application/netlens_mocks.dart';
 import 'package:netlens/mock/domain/netlens_mock.dart';
 import 'package:netlens/mock/domain/netlens_mock_mode.dart';
@@ -15,15 +17,25 @@ import 'package:netlens/ui/common/netlens_dialog.dart';
 import 'package:netlens/ui/common/netlens_page.dart';
 import 'package:netlens/ui/common/netlens_scroll_behavior.dart';
 import 'package:netlens/ui/common/netlens_settings.dart';
+import 'package:netlens/ui/common/netlens_navigation.dart';
+import 'package:netlens/ui/common/netlens_language.dart';
 import 'package:netlens/ui/common/netlens_theme.dart';
+import 'package:netlens/ui/mocks/netlens_mock_merge_page.dart';
 import 'package:flutter/material.dart';
+
+/// File read to import mocks from.
+typedef NetLensImportFile = ({String name, String content});
 
 /// Page where calls are recorded as mock endpoints and replayed, so the app can
 /// run offline.
 class NetLensMocksPage extends StatefulWidget {
-  const NetLensMocksPage({super.key, required this.core});
+  const NetLensMocksPage({super.key, required this.core, this.pickFiles});
 
   final NetLensCore core;
+
+  /// Lets the user pick files to import. The default opens the system file
+  /// picker.
+  final Future<List<NetLensImportFile>> Function()? pickFiles;
 
   @override
   State<NetLensMocksPage> createState() => _NetLensMocksPageState();
@@ -70,10 +82,54 @@ class _NetLensMocksPageState extends State<NetLensMocksPage>
       appBar: NetLensAppBar(
         title: Text(context.i18n(NetLensTranslationKey.mocks)),
         actions: [
-          IconButton(
+          PopupMenuButton<_ImportSource>(
+            key: const Key('netlens_mocks_import'),
+            icon: const Icon(Icons.file_open_outlined),
+            tooltip: context.i18n(NetLensTranslationKey.mocksImport),
+            onSelected: (_ImportSource source) => _import(context, source),
+            itemBuilder: (BuildContext context) => [
+              PopupMenuItem(
+                value: _ImportSource.files,
+                child: _MenuEntry(
+                  icon: Icons.folder_open_outlined,
+                  title: context.i18n(NetLensTranslationKey.mocksImportFiles),
+                ),
+              ),
+              PopupMenuItem(
+                value: _ImportSource.clipboard,
+                child: _MenuEntry(
+                  icon: Icons.content_paste,
+                  title: context.i18n(
+                    NetLensTranslationKey.mocksImportClipboard,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          PopupMenuButton<_ExportFormat>(
+            key: const Key('netlens_mocks_export'),
             icon: const Icon(Icons.ios_share),
             tooltip: context.i18n(NetLensTranslationKey.mocksExport),
-            onPressed: mocks.isEmpty ? null : () => _export(context),
+            enabled: mocks.isNotEmpty,
+            onSelected: (_ExportFormat format) => _export(context, format),
+            itemBuilder: (BuildContext context) => [
+              PopupMenuItem(
+                value: _ExportFormat.json,
+                child: _MenuEntry(
+                  icon: Icons.data_object,
+                  title: context.i18n(NetLensTranslationKey.mocksExportJson),
+                ),
+              ),
+              PopupMenuItem(
+                value: _ExportFormat.collection,
+                child: _MenuEntry(
+                  icon: Icons.collections_bookmark_outlined,
+                  title: context.i18n(
+                    NetLensTranslationKey.mocksExportCollection,
+                  ),
+                ),
+              ),
+            ],
           ),
           IconButton(
             icon: const Icon(Icons.delete_outline),
@@ -142,9 +198,118 @@ class _NetLensMocksPageState extends State<NetLensMocksPage>
     );
   }
 
-  Future<void> _export(BuildContext context) async {
-    final NetLensExportResult result =
-        await NetLensExportHelper.saveMocksToFile(_mocks.export());
+  /// Reads collections from [source] and merges them with the saved mocks.
+  /// Conflicts are settled on the merge page first.
+  Future<void> _import(BuildContext context, _ImportSource source) async {
+    final List<NetLensImportFile> files;
+    try {
+      files = switch (source) {
+        _ImportSource.files => await (widget.pickFiles ?? _pickFiles)(),
+        _ImportSource.clipboard => await _readClipboard(),
+      };
+    } catch (error) {
+      if (mounted) {
+        _showMessage(context, _describeError(error));
+      }
+      return;
+    }
+    if (!mounted) {
+      return;
+    }
+    final List<NetLensMockSource> sources = [];
+    final List<String> failures = [];
+    for (final NetLensImportFile file in files) {
+      try {
+        final List<NetLensMock> mocks = _mocks.decode(file.content);
+        if (mocks.isNotEmpty) {
+          sources.add(NetLensMockSource(name: file.name, mocks: mocks));
+        }
+      } catch (error) {
+        failures.add(
+          context
+              .i18n(NetLensTranslationKey.mocksImportFailed)
+              .replaceAll('[name]', file.name)
+              .replaceAll('[error]', _describeError(error)),
+        );
+      }
+    }
+    if (sources.isEmpty) {
+      if (files.isNotEmpty || failures.isNotEmpty) {
+        _showMessage(
+          context,
+          failures.isEmpty
+              ? context.i18n(NetLensTranslationKey.mocksImportEmpty)
+              : failures.join('\n'),
+        );
+      }
+      return;
+    }
+    final NetLensMockMergePlan plan = _mocks.planMerge(
+      sources,
+      currentName: context.i18n(NetLensTranslationKey.mocksMergeCurrent),
+    );
+    final int? saved;
+    if (plan.hasConflicts) {
+      saved = await Navigator.of(context).push<int>(
+        NetLensRoute<int>(
+          builder: (_) => NetLensMockMergePage(core: widget.core, plan: plan),
+          fade: true,
+        ),
+      );
+    } else {
+      saved = (await _mocks.replaceAll(plan.resolve())).length;
+    }
+    if (!mounted || saved == null) {
+      return;
+    }
+    _showMessage(
+      context,
+      [
+        context
+            .i18n(NetLensTranslationKey.mocksMerged)
+            .replaceAll('[count]', '$saved'),
+        ...failures,
+      ].join('\n'),
+    );
+  }
+
+  static Future<List<NetLensImportFile>> _pickFiles() async {
+    final List<PlatformFile> files = await FilePicker.pickFiles();
+    try {
+      return [
+        for (final PlatformFile file in files)
+          (name: file.name, content: await file.xFile.readAsString()),
+      ];
+    } finally {
+      // Android and iOS copy picked files to the cache of the app.
+      try {
+        await FilePicker.clearTemporaryFiles();
+      } catch (_) {
+        // Platforms without copies don't support it.
+      }
+    }
+  }
+
+  Future<List<NetLensImportFile>> _readClipboard() async {
+    final ClipboardData? data = await Clipboard.getData(Clipboard.kTextPlain);
+    final String text = data?.text?.trim() ?? '';
+    return [
+      if (text.isNotEmpty)
+        (
+          name: context.i18n(NetLensTranslationKey.mocksImportClipboard),
+          content: text,
+        ),
+    ];
+  }
+
+  static String _describeError(Object error) =>
+      error is FormatException ? error.message : '$error';
+
+  Future<void> _export(BuildContext context, _ExportFormat format) async {
+    final NetLensExportResult result = await switch (format) {
+      _ExportFormat.json => widget.core.saveMocksToFile(),
+      _ExportFormat.collection => widget.core.saveMocksToCollectionFile(),
+    };
     if (!mounted || result.success) {
       return;
     }
@@ -172,6 +337,39 @@ class _NetLensMocksPageState extends State<NetLensMocksPage>
         SnackBar(content: Text(message), behavior: SnackBarBehavior.floating),
       );
   }
+}
+
+/// Icon and title of a menu item. The menu opens on the navigator of the app,
+/// so the NetLens text direction is set again.
+class _MenuEntry extends StatelessWidget {
+  const _MenuEntry({required this.icon, required this.title});
+
+  final IconData icon;
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Directionality(
+      textDirection: NetLensLanguage.textDirection,
+      child: ListTile(
+        contentPadding: EdgeInsets.zero,
+        leading: Icon(icon),
+        title: Text(title),
+      ),
+    );
+  }
+}
+
+/// Place mocks are imported from.
+enum _ImportSource { files, clipboard }
+
+/// File format mocks are exported to.
+enum _ExportFormat {
+  /// NetLens mocks JSON, which NetLens and its mock server can load.
+  json,
+
+  /// Postman collection, which API clients can import.
+  collection,
 }
 
 /// Card which explains mocks and switches between the modes.

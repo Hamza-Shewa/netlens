@@ -1,6 +1,7 @@
 import 'dart:convert' show jsonDecode, jsonEncode;
 import 'dart:io' show Cookie;
 
+import 'package:netlens/mock/domain/netlens_mock.dart';
 import 'package:netlens/model/netlens_from_data_field.dart';
 import 'package:netlens/model/netlens_http_call.dart';
 import 'package:netlens/model/netlens_http_call_copy.dart';
@@ -46,6 +47,16 @@ class NetLensCallRedactor {
         ..body = redactBody(response.body);
     }
     return copy;
+  }
+
+  /// Returns a copy of [mock] with sensitive request headers replaced by the
+  /// mask. The URL, bodies and response are kept, so the mock still matches
+  /// and answers the same requests.
+  NetLensMock redactMock(NetLensMock mock) {
+    if (redaction.isEmpty || mock.requestHeaders.isEmpty) {
+      return mock;
+    }
+    return mock.copyWith(requestHeaders: redactHeaders(mock.requestHeaders));
   }
 
   /// Returns [headers] with sensitive values replaced by the mask.

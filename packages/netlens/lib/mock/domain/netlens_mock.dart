@@ -11,6 +11,7 @@ class NetLensMock with Equatable {
     required this.response,
     required this.createdTime,
     this.requestBody,
+    this.requestHeaders = const {},
     this.enabled = true,
   });
 
@@ -26,6 +27,10 @@ class NetLensMock with Equatable {
   /// Body of the recorded request. It is compared only when the matcher
   /// matches bodies.
   final String? requestBody;
+
+  /// Headers of the recorded request. They are never compared; they are kept
+  /// so the request can be exported, for example as a Postman collection.
+  final Map<String, String> requestHeaders;
 
   final NetLensMockResponse response;
 
@@ -47,6 +52,7 @@ class NetLensMock with Equatable {
     NetLensMockResponse? response,
     DateTime? createdTime,
     String? requestBody,
+    Map<String, String>? requestHeaders,
     bool? enabled,
   }) => NetLensMock(
     id: id ?? this.id,
@@ -55,6 +61,7 @@ class NetLensMock with Equatable {
     response: response ?? this.response,
     createdTime: createdTime ?? this.createdTime,
     requestBody: requestBody ?? this.requestBody,
+    requestHeaders: requestHeaders ?? this.requestHeaders,
     enabled: enabled ?? this.enabled,
   );
 
@@ -64,6 +71,7 @@ class NetLensMock with Equatable {
     method,
     url,
     requestBody,
+    requestHeaders,
     response,
     createdTime,
     enabled,

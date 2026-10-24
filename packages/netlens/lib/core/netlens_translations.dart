@@ -347,7 +347,14 @@ class NetLensTranslations {
             "Request sent. The new call is at the top of the list.",
         NetLensTranslationKey.replayFailed: "Request couldn't be sent: [error]",
         NetLensTranslationKey.replayFormDataWarning:
-            "This call sent form data. NetLens keeps only the names and sizes of form data, so the body is empty.",
+            "NetLens didn't keep the content of the files marked below, so they will be left out.",
+        NetLensTranslationKey.replayFormFields: "Form fields",
+        NetLensTranslationKey.replayFormName: "Name",
+        NetLensTranslationKey.replayFormValue: "Value",
+        NetLensTranslationKey.replayFormAddField: "Add field",
+        NetLensTranslationKey.replayFormRemove: "Remove",
+        NetLensTranslationKey.replayFormFiles: "Files",
+        NetLensTranslationKey.replayFormFileMissing: "Content not kept",
         NetLensTranslationKey.replayInvalidUrl:
             "Enter a full URL, for example https://api.example.com/users",
         NetLensTranslationKey.replayInvalidHeader:
@@ -378,7 +385,30 @@ class NetLensTranslations {
         NetLensTranslationKey.mocksRecordCalls: "Save caught calls",
         NetLensTranslationKey.mocksRecorded: "[count] mocks saved",
         NetLensTranslationKey.mocksExport: "Export mocks",
+        NetLensTranslationKey.mocksExportJson: "NetLens mocks (JSON)",
+        NetLensTranslationKey.mocksExportCollection: "Postman collection",
         NetLensTranslationKey.mocksExportFailed: "Mocks couldn't be exported",
+        NetLensTranslationKey.settingsSaveAllCalls: "Save all requests",
+        NetLensTranslationKey.settingsSaveAllCallsHint:
+            "Keep every finished call as a mock, to replay it later or export it as a collection.",
+        NetLensTranslationKey.mocksImport: "Import mocks",
+        NetLensTranslationKey.mocksImportFiles: "From files",
+        NetLensTranslationKey.mocksImportClipboard: "Paste from clipboard",
+        NetLensTranslationKey.mocksImportFailed:
+            "[name] couldn't be read: [error]",
+        NetLensTranslationKey.mocksImportEmpty: "Nothing to import",
+        NetLensTranslationKey.mocksMerged: "Mocks after merging: [count]",
+        NetLensTranslationKey.mocksMergeCurrent: "This device",
+        NetLensTranslationKey.mocksMergeTitle: "Resolve conflicts",
+        NetLensTranslationKey.mocksMergeDescription:
+            "Requests in conflict: [count]. Choose the version to keep for each one.",
+        NetLensTranslationKey.mocksMergeInputConflict:
+            "Fields are sent as different types",
+        NetLensTranslationKey.mocksMergeResponseConflict:
+            "Same request, different responses",
+        NetLensTranslationKey.mocksMergeRequests: "Requests: [count]",
+        NetLensTranslationKey.mocksMergeApply: "Merge",
+        NetLensTranslationKey.mocksMergeBody: "body",
         NetLensTranslationKey.mocksDelete: "Delete mock",
         NetLensTranslationKey.mocksDeleteAll: "Delete all mocks",
         NetLensTranslationKey.mocksDeleteAllConfirm:
@@ -730,7 +760,14 @@ class NetLensTranslations {
             "تم إرسال الطلب. الطلب الجديد في أعلى القائمة.",
         NetLensTranslationKey.replayFailed: "تعذر إرسال الطلب: [error]",
         NetLensTranslationKey.replayFormDataWarning:
-            "أرسل هذا الطلب بيانات نموذج. يحتفظ NetLens بأسماء البيانات وأحجامها فقط، لذلك المحتوى فارغ.",
+            "لم يحتفظ NetLens بمحتوى الملفات المعلّمة أدناه، لذلك لن تُرسل.",
+        NetLensTranslationKey.replayFormFields: "حقول النموذج",
+        NetLensTranslationKey.replayFormName: "الاسم",
+        NetLensTranslationKey.replayFormValue: "القيمة",
+        NetLensTranslationKey.replayFormAddField: "إضافة حقل",
+        NetLensTranslationKey.replayFormRemove: "إزالة",
+        NetLensTranslationKey.replayFormFiles: "الملفات",
+        NetLensTranslationKey.replayFormFileMissing: "لم يُحفظ المحتوى",
         NetLensTranslationKey.replayInvalidUrl:
             "أدخل رابطًا كاملًا، مثل https://api.example.com/users",
         NetLensTranslationKey.replayInvalidHeader:
@@ -761,7 +798,29 @@ class NetLensTranslations {
         NetLensTranslationKey.mocksRecordCalls: "حفظ الطلبات الملتقطة",
         NetLensTranslationKey.mocksRecorded: "تم حفظ [count] من المحاكاة",
         NetLensTranslationKey.mocksExport: "تصدير المحاكاة",
+        NetLensTranslationKey.mocksExportJson: "محاكاة NetLens (JSON)",
+        NetLensTranslationKey.mocksExportCollection: "مجموعة Postman",
         NetLensTranslationKey.mocksExportFailed: "تعذر تصدير المحاكاة",
+        NetLensTranslationKey.settingsSaveAllCalls: "حفظ كل الطلبات",
+        NetLensTranslationKey.settingsSaveAllCallsHint:
+            "احتفظ بكل طلب منتهٍ كمحاكاة لإعادة تشغيله لاحقًا أو تصديره كمجموعة.",
+        NetLensTranslationKey.mocksImport: "استيراد المحاكاة",
+        NetLensTranslationKey.mocksImportFiles: "من الملفات",
+        NetLensTranslationKey.mocksImportClipboard: "لصق من الحافظة",
+        NetLensTranslationKey.mocksImportFailed: "تعذرت قراءة [name]: [error]",
+        NetLensTranslationKey.mocksImportEmpty: "لا يوجد ما يُستورد",
+        NetLensTranslationKey.mocksMerged: "عدد المحاكاة بعد الدمج: [count]",
+        NetLensTranslationKey.mocksMergeCurrent: "هذا الجهاز",
+        NetLensTranslationKey.mocksMergeTitle: "حل التعارضات",
+        NetLensTranslationKey.mocksMergeDescription:
+            "الطلبات المتعارضة: [count]. اختر النسخة التي تريد الاحتفاظ بها لكل منها.",
+        NetLensTranslationKey.mocksMergeInputConflict:
+            "تُرسل الحقول بأنواع مختلفة",
+        NetLensTranslationKey.mocksMergeResponseConflict:
+            "الطلب نفسه باستجابات مختلفة",
+        NetLensTranslationKey.mocksMergeRequests: "عدد الطلبات: [count]",
+        NetLensTranslationKey.mocksMergeApply: "دمج",
+        NetLensTranslationKey.mocksMergeBody: "المحتوى",
         NetLensTranslationKey.mocksDelete: "حذف المحاكاة",
         NetLensTranslationKey.mocksDeleteAll: "حذف كل المحاكاة",
         NetLensTranslationKey.mocksDeleteAllConfirm:

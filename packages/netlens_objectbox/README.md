@@ -9,8 +9,8 @@ HTTP inspector for Flutter, in an ObjectBox database instead of memory.
 
 ```yaml
 dependencies:
-  netlens: ^1.1.0
-  netlens_objectbox: ^1.1.0
+  netlens: ^1.2.0
+  netlens_objectbox: ^1.2.0
 ```
 
 ## Use

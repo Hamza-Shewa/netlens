@@ -13,8 +13,62 @@ against a broken staging server or in tests.
    is `NetLensMockFallback.notFound`.
 
 The Mocks page is in the menu of the calls list. It switches the mode, lists
-the mocks, turns them on and off, deletes them and exports them as a JSON
-file.
+the mocks, turns them on and off, deletes them, imports collections and exports
+them as a NetLens mocks file or as a Postman collection.
+
+### Save all requests
+
+Turn on **Save all requests** in the NetLens settings to keep every finished
+call as a mock, whatever the mode is. Unlike Record, it also works in Replay:
+requests which no mock answered are saved, while calls answered by a mock
+aren't saved again. Turn it on in code with
+`NetLensMocks(saveAllCalls: true)`, or at any time with
+`netLens.mocks.saveAllCalls = true`. The switch isn't remembered after a
+restart; see below to keep the saved mocks.
+
+### Share collections
+
+Export from the Mocks page as:
+
+- **NetLens mocks (JSON)**, which NetLens, `NetLensMocks.import` and the mock
+  server read.
+- **Postman collection** (v2.1), which Postman, Insomnia, Bruno and other API
+  clients import. Each mock is a request, with its response saved as an
+  example, grouped in a folder per host. Binary response bodies are left out.
+
+Sensitive request headers, like `Authorization`, are masked in both exports
+as configured by `NetLensConfiguration.redaction`. Bodies and URLs are kept, so
+the mocks still match.
+
+**Import** on the Mocks page reads one or more files with the system file
+picker, or a collection pasted from the clipboard. NetLens mocks files, HAR
+files and Postman collections are read, so a QA team can record a feature
+each, share their collections and merge them on one device:
+
+- Equal mocks are kept once, and requests which send other values are all
+  kept.
+- When requests of one endpoint (method and URL without query) send a JSON
+  field as different types, for example `id` as a number in one collection
+  and as a string in another, the merge page lays out each version with the
+  types, an example body and the collections which have it. The user keeps one
+  version. Fields which are missing or null never conflict.
+- When the same request has different responses, the merge page shows each
+  status and body, and the user keeps one.
+
+Mocks already on the device take part in the merge as "This device" and win
+the default choices. In code:
+
+```dart
+final plan = netLens.mocks.planMerge([
+  NetLensMockSource(name: 'login.json', mocks: netLens.mocks.decode(login)),
+  NetLensMockSource(name: 'cart.json', mocks: netLens.mocks.decode(cart)),
+]);
+for (final conflict in plan.inputConflicts) {
+  print('${conflict.method} ${conflict.url}: '
+      '${conflict.options.map((option) => option.inputTypes)}');
+}
+await netLens.mocks.replaceAll(plan.resolve({plan.inputConflicts.first: 1}));
+```
 
 ### Set up
 
@@ -82,8 +136,8 @@ final mocks = NetLensMocks(repository: repository);
 ### Load mocks
 
 `NetLensMocks.import` reads a NetLens mocks file, as exported from the Mocks
-page, or a HAR file, for example one exported by NetLens, Chrome DevTools,
-Proxyman or Charles. Mocks can be shipped with the app as an asset:
+page, a HAR file, for example one exported by NetLens, Chrome DevTools,
+Proxyman or Charles, or a Postman collection with saved examples. Mocks can be shipped with the app as an asset:
 
 ```dart
 await netLens.mocks.import(
@@ -144,6 +198,7 @@ before it answers.
 
 ### Security
 
-Mocks keep real request URLs, request bodies and responses, which may contain
-tokens or personal data. Request headers aren't saved. Keep mock files out of
-public repositories unless you removed such values.
+Mocks keep real request URLs, request headers, request bodies and responses,
+which may contain tokens or personal data. Exports mask sensitive request
+headers, but not bodies, URLs or responses. Keep mock files and collections out
+of public repositories unless you removed such values.

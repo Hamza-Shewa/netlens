@@ -96,6 +96,15 @@ class NetLensExportHelper {
         content: content,
       );
 
+  /// Saves [content], a Postman collection, as a JSON file in the cache
+  /// directory and opens the system share sheet with it.
+  static Future<NetLensExportResult> saveCollectionToFile(String content) =>
+      _shareJsonFile(
+        name: 'netlens',
+        extension: 'postman_collection.json',
+        content: content,
+      );
+
   static Future<NetLensExportResult> _shareJsonFile({
     required String name,
     required String extension,

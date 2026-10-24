@@ -71,7 +71,10 @@ class NetLensChopperAdapter with NetLensAdapter implements Interceptor {
               .toList()
           ..formDataFiles = chain.request.parts
               .whereType<PartValueFile>()
-              .map((file) => NetLensFormDataFile(file.value, "", 0))
+              .map(
+                (file) =>
+                    NetLensFormDataFile(file.value, "", 0, name: file.name),
+              )
               .toList()
           ..queryParameters = chain.request.parameters)
         ..response = NetLensHttpResponse(),

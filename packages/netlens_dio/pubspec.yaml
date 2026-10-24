@@ -1,6 +1,6 @@
 name: netlens_dio
 description: "NetLens adapter for Dio. Catches Dio calls for the NetLens in-app HTTP inspector and lets NetLens resend them."
-version: 1.1.0
+version: 1.2.0
 repository: https://github.com/Hamza-Shewa/netlens/tree/master/packages/netlens_dio
 issue_tracker: https://github.com/Hamza-Shewa/netlens/issues
 topics:
@@ -17,7 +17,7 @@ environment:
 resolution: workspace
 
 dependencies:
-  netlens: ^1.1.0
+  netlens: ^1.2.0
   dio: ^5.11.1
   flutter:
     sdk: flutter
