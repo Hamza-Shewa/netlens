@@ -9,8 +9,8 @@ for Flutter, to http.
 
 ```yaml
 dependencies:
-  netlens: ^1.1.0
-  netlens_http: ^1.1.0
+  netlens: ^1.2.0
+  netlens_http: ^1.2.0
 ```
 
 ## Use

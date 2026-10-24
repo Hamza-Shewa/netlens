@@ -1,5 +1,7 @@
 import 'dart:convert' show jsonEncode;
 
+import 'package:netlens/model/netlens_form_data_file.dart';
+import 'package:netlens/model/netlens_from_data_field.dart';
 import 'package:netlens/model/netlens_http_call.dart';
 import 'package:equatable/equatable.dart';
 
@@ -11,7 +13,13 @@ class NetLensReplayRequest with Equatable {
     required this.url,
     this.headers = const {},
     this.body,
-    this.omitsFormData = false,
+    this.formDataFields = const [],
+    this.formDataFiles = const [],
+    @Deprecated(
+      'Ignored. omitsFormData is computed from formDataFiles. '
+      'This parameter will be removed in 2.0.0.',
+    )
+    bool omitsFormData = false,
   });
 
   /// Headers which are set by the HTTP client itself and must not be copied,
@@ -20,22 +28,28 @@ class NetLensReplayRequest with Equatable {
 
   /// Builds a request with the method, URL, headers and body of [call].
   factory NetLensReplayRequest.fromCall(NetLensHttpCall call) {
+    final List<NetLensFormDataField> fields =
+        call.request?.formDataFields ?? const [];
+    final List<NetLensFormDataFile> files =
+        call.request?.formDataFiles ?? const [];
+    final bool hasFormData = fields.isNotEmpty || files.isNotEmpty;
     final Map<String, String> headers = {
       for (final MapEntry<String, String> header
           in call.request?.headers.entries ?? <MapEntry<String, String>>[])
-        if (!_clientHeaders.contains(header.key.toLowerCase()))
+        if (!_clientHeaders.contains(header.key.toLowerCase()) &&
+            // The client sets the content type of form data with a new
+            // boundary.
+            !(hasFormData && header.key.toLowerCase() == 'content-type'))
           header.key: header.value,
     };
-    final bool hasFormData =
-        (call.request?.formDataFields?.isNotEmpty ?? false) ||
-        (call.request?.formDataFiles?.isNotEmpty ?? false);
     return NetLensReplayRequest(
       method: call.method.toUpperCase(),
       url: _getUrl(call),
       headers: headers,
-      // NetLens keeps only names and sizes of form data, so it can't be sent.
+      // The body of form data is only a placeholder; the parts are sent.
       body: hasFormData ? null : encodeBody(call.request?.body),
-      omitsFormData: hasFormData,
+      formDataFields: List.of(fields),
+      formDataFiles: List.of(files),
     );
   }
 
@@ -50,11 +64,28 @@ class NetLensReplayRequest with Equatable {
   /// Body as text, or null when the request has no body.
   final String? body;
 
-  /// True when the original call sent form data, which can't be sent again.
-  final bool omitsFormData;
+  /// Text fields of form data. The request is sent as form data when it has
+  /// fields or files.
+  final List<NetLensFormDataField> formDataFields;
+
+  /// Files of form data. Files whose content NetLens didn't keep are left out
+  /// when the request is sent.
+  final List<NetLensFormDataFile> formDataFiles;
 
   /// Returns true when the request has a body.
   bool get hasBody => body != null && body!.isNotEmpty;
+
+  /// Returns true when the request is sent as form data.
+  bool get isFormData => formDataFields.isNotEmpty || formDataFiles.isNotEmpty;
+
+  /// Returns files whose content NetLens didn't keep, so they can't be sent.
+  List<NetLensFormDataFile> get omittedFiles => [
+    for (final NetLensFormDataFile file in formDataFiles)
+      if (!file.canRead) file,
+  ];
+
+  /// True when some form data can't be sent again.
+  bool get omitsFormData => omittedFiles.isNotEmpty;
 
   /// Returns [headers] as text with one `Name: value` line per header.
   static String headersToText(Map<String, String> headers) => headers.entries
@@ -128,14 +159,24 @@ class NetLensReplayRequest with Equatable {
     String? url,
     Map<String, String>? headers,
     String? body,
+    List<NetLensFormDataField>? formDataFields,
+    List<NetLensFormDataFile>? formDataFiles,
   }) => NetLensReplayRequest(
     method: method ?? this.method,
     url: url ?? this.url,
     headers: headers ?? this.headers,
     body: body ?? this.body,
-    omitsFormData: omitsFormData,
+    formDataFields: formDataFields ?? this.formDataFields,
+    formDataFiles: formDataFiles ?? this.formDataFiles,
   );
 
   @override
-  List<Object?> get props => [method, url, headers, body, omitsFormData];
+  List<Object?> get props => [
+    method,
+    url,
+    headers,
+    body,
+    formDataFields,
+    formDataFiles,
+  ];
 }

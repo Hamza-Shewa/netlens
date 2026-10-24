@@ -1,6 +1,6 @@
 name: netlens_chopper
 description: "NetLens adapter for Chopper. Catches Chopper calls for the NetLens in-app HTTP inspector in Flutter apps."
-version: 1.1.0
+version: 1.2.0
 repository: https://github.com/Hamza-Shewa/netlens/tree/master/packages/netlens_chopper
 issue_tracker: https://github.com/Hamza-Shewa/netlens/issues
 topics:
@@ -17,7 +17,7 @@ environment:
 resolution: workspace
 
 dependencies:
-  netlens: ^1.1.0
+  netlens: ^1.2.0
   chopper: ^8.7.1
   http: ^1.6.0
   uuid: ^4.6.0

@@ -8,6 +8,7 @@ import 'package:netlens/ui/common/netlens_dialog.dart';
 import 'package:netlens/ui/common/netlens_page.dart';
 import 'package:netlens/ui/common/netlens_scroll_behavior.dart';
 import 'package:netlens/ui/common/netlens_settings.dart';
+import 'package:netlens/ui/common/netlens_language.dart';
 import 'package:netlens/ui/common/netlens_theme.dart';
 import 'package:netlens/ui/common/netlens_watcher_widgets.dart';
 import 'package:flutter/material.dart';
@@ -116,7 +117,12 @@ class _NetLensWatcherPageState extends State<NetLensWatcherPage>
         data: NetLensTheme.getTheme(
           brightness: NetLensTheme.resolveBrightness(context),
         ),
-        child: const _AddFieldDialog(),
+        // The dialog opens on the navigator of the app, which may have
+        // another text direction than the NetLens language.
+        child: Directionality(
+          textDirection: NetLensLanguage.textDirection,
+          child: const _AddFieldDialog(),
+        ),
       ),
     );
     if (path == null || path.trim().isEmpty) {

@@ -1,3 +1,4 @@
+import 'package:netlens/model/netlens_form_data_file.dart';
 import 'package:netlens/model/netlens_from_data_field.dart';
 import 'package:netlens/model/netlens_http_call.dart';
 import 'package:netlens/model/netlens_http_request.dart';
@@ -39,17 +40,50 @@ void main() {
       expect(request.hasBody, false);
     });
 
-    test('leaves out form data which NetLens did not keep', () {
+    test('keeps form fields and files of a call', () {
+      Stream<List<int>> read() => Stream.value([1, 2, 3]);
+      final NetLensReplayRequest request = NetLensReplayRequest.fromCall(
+        NetLensHttpCall(1)
+          ..method = 'POST'
+          ..uri = 'https://api.example.com/upload'
+          ..request = (NetLensHttpRequest()
+            ..headers = {
+              'Content-Type': 'multipart/form-data; boundary=old',
+              'x-token': 'abc',
+            }
+            ..body = 'Form data'
+            ..formDataFields = [const NetLensFormDataField('a', 'b')]
+            ..formDataFiles = [
+              NetLensFormDataFile(
+                'photo.png',
+                'image/png',
+                3,
+                name: 'photo',
+                read: read,
+              ),
+            ]),
+      );
+      expect(request.body, null);
+      expect(request.isFormData, true);
+      expect(request.formDataFields.single.name, 'a');
+      expect(request.formDataFiles.single.name, 'photo');
+      expect(request.omitsFormData, false);
+      expect(request.headers, {
+        'x-token': 'abc',
+      }, reason: 'The client sets a new multipart boundary');
+    });
+
+    test('tells which files can not be sent again', () {
       final NetLensReplayRequest request = NetLensReplayRequest.fromCall(
         NetLensHttpCall(1)
           ..method = 'POST'
           ..uri = 'https://api.example.com/upload'
           ..request = (NetLensHttpRequest()
             ..body = 'Form data'
-            ..formDataFields = [const NetLensFormDataField('a', 'b')]),
+            ..formDataFiles = [const NetLensFormDataFile('a.txt', '', 1)]),
       );
-      expect(request.body, null);
       expect(request.omitsFormData, true);
+      expect(request.omittedFiles.single.fileName, 'a.txt');
     });
 
     test('converts headers to and from text', () {

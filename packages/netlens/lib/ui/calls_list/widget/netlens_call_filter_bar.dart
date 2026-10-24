@@ -2,6 +2,7 @@ import 'package:netlens/helper/netlens_call_filter.dart';
 import 'package:netlens/model/netlens_http_call.dart';
 import 'package:netlens/model/netlens_translation.dart';
 import 'package:netlens/ui/common/netlens_context_ext.dart';
+import 'package:netlens/ui/common/netlens_language.dart';
 import 'package:netlens/ui/common/netlens_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -175,7 +176,12 @@ class _HostChip extends StatelessWidget {
           CheckedPopupMenuItem<String>(
             value: host,
             checked: selected.contains(host),
-            child: Text(host, overflow: TextOverflow.ellipsis),
+            // The menu opens on the navigator of the app, which may have
+            // another text direction than the NetLens language.
+            child: Directionality(
+              textDirection: NetLensLanguage.textDirection,
+              child: Text(host, overflow: TextOverflow.ellipsis),
+            ),
           ),
       ],
       child: IgnorePointer(

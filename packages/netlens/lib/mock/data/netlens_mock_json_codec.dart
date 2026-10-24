@@ -64,6 +64,7 @@ class NetLensMockJsonCodec implements NetLensMockImporter {
     'method': mock.method,
     'url': mock.url.toString(),
     if (mock.requestBody != null) 'requestBody': mock.requestBody,
+    if (mock.requestHeaders.isNotEmpty) 'requestHeaders': mock.requestHeaders,
     if (!mock.enabled) 'enabled': false,
     'createdTime': mock.createdTime.toUtc().toIso8601String(),
     'response': {
@@ -86,6 +87,12 @@ class NetLensMockJsonCodec implements NetLensMockImporter {
       method: '${json['method'] ?? 'GET'}'.toUpperCase(),
       url: Uri.parse('${json['url'] ?? '/'}'),
       requestBody: json['requestBody'] as String?,
+      requestHeaders: {
+        for (final MapEntry<String, dynamic> header
+            in (json['requestHeaders'] as Map<String, dynamic>? ?? const {})
+                .entries)
+          header.key: '${header.value}',
+      },
       enabled: json['enabled'] as bool? ?? true,
       createdTime:
           DateTime.tryParse('${json['createdTime']}')?.toLocal() ??

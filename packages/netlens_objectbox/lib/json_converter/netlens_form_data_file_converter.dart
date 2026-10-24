@@ -16,6 +16,7 @@ class NetLensFormDataFileConverter
         json['fileName'] as String?,
         json['contentType'] as String,
         (json['length'] as num).toInt(),
+        name: json['name'] as String?,
       );
 
   @override
@@ -23,5 +24,6 @@ class NetLensFormDataFileConverter
     'fileName': object.fileName,
     'contentType': object.contentType,
     'length': object.length,
+    if (object.name != null) 'name': object.name,
   };
 }

@@ -50,6 +50,13 @@ class NetLensHarMockImporter implements NetLensMockImporter {
       requestBody: requestBody == null || requestBody.isEmpty
           ? null
           : requestBody,
+      requestHeaders: {
+        for (final MapEntry<String, String> header in _headers(
+          request['headers'],
+        ).entries)
+          // HTTP/2 pseudo headers, like :authority, aren't real headers.
+          if (!header.key.startsWith(':')) header.key: header.value,
+      },
       createdTime:
           DateTime.tryParse('${entry['startedDateTime']}')?.toLocal() ??
           DateTime.now(),

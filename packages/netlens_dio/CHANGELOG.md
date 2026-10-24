@@ -1,3 +1,8 @@
+# 1.2.0
+
+* Resends form data with its fields and files. Uploaded files are kept so they can be sent again; turn it off with `keepFormDataFiles: false`.
+* Records the field name of uploaded files.
+
 # 1.1.0
 
 * Adds `NetLensDioMockAdapter`, which answers Dio requests with NetLens mocks.

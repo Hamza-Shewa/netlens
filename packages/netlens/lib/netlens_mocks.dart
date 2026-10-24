@@ -4,6 +4,7 @@
 /// adapters, tests and the `netlens_mock_server` command.
 library;
 
+export 'package:netlens/mock/application/netlens_mock_merger.dart';
 export 'package:netlens/mock/application/netlens_mock_recorder.dart';
 export 'package:netlens/mock/application/netlens_mocks.dart';
 export 'package:netlens/mock/data/netlens_call_mock_mapper.dart';
@@ -12,6 +13,7 @@ export 'package:netlens/mock/data/netlens_har_mock_importer.dart';
 export 'package:netlens/mock/data/netlens_memory_mock_repository.dart';
 export 'package:netlens/mock/data/netlens_mock_importer.dart';
 export 'package:netlens/mock/data/netlens_mock_json_codec.dart';
+export 'package:netlens/mock/data/netlens_postman_collection_codec.dart';
 export 'package:netlens/mock/domain/netlens_mock.dart';
 export 'package:netlens/mock/domain/netlens_mock_matcher.dart';
 export 'package:netlens/mock/domain/netlens_mock_mode.dart';

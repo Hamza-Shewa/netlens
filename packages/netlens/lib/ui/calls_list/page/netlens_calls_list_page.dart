@@ -17,6 +17,7 @@ import 'package:netlens/ui/common/netlens_dialog.dart';
 import 'package:netlens/ui/common/netlens_navigation.dart';
 import 'package:netlens/ui/common/netlens_page.dart';
 import 'package:netlens/ui/common/netlens_settings.dart';
+import 'package:netlens/ui/common/netlens_language.dart';
 import 'package:netlens/ui/common/netlens_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:open_filex/open_filex.dart';
@@ -358,9 +359,12 @@ class _NetLensCallsListPageState extends State<NetLensCallsListPage>
   Future<void> _onSortPressed() async {
     NetLensSortDialogResult? result = await showDialog<NetLensSortDialogResult>(
       context: context,
-      builder: (_) => NetLensSortDialog(
-        sortOption: _sortOption,
-        sortAscending: _sortAscending,
+      builder: (_) => Directionality(
+        textDirection: NetLensLanguage.textDirection,
+        child: NetLensSortDialog(
+          sortOption: _sortOption,
+          sortAscending: _sortAscending,
+        ),
       ),
     );
     if (result != null) {
@@ -455,12 +459,17 @@ class _ContextMenuButton extends StatelessWidget {
             in NetLensCallDetailsMenuItemType.values)
           PopupMenuItem<NetLensCallDetailsMenuItemType>(
             value: item,
-            child: Row(
-              children: [
-                Icon(_getIcon(itemType: item), color: NetLensTheme.lightRed),
-                const SizedBox(width: 12),
-                Text(_getTitle(context: context, itemType: item)),
-              ],
+            // The menu opens on the navigator of the app, which may have
+            // another text direction than the NetLens language.
+            child: Directionality(
+              textDirection: NetLensLanguage.textDirection,
+              child: Row(
+                children: [
+                  Icon(_getIcon(itemType: item), color: NetLensTheme.lightRed),
+                  const SizedBox(width: 12),
+                  Text(_getTitle(context: context, itemType: item)),
+                ],
+              ),
             ),
           ),
       ],

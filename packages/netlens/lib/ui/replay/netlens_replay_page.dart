@@ -1,4 +1,7 @@
 import 'package:netlens/core/netlens_core.dart';
+import 'package:netlens/helper/netlens_conversion_helper.dart';
+import 'package:netlens/model/netlens_form_data_file.dart';
+import 'package:netlens/model/netlens_from_data_field.dart';
 import 'package:netlens/model/netlens_http_call.dart';
 import 'package:netlens/model/netlens_replay_request.dart';
 import 'package:netlens/model/netlens_translation.dart';
@@ -37,6 +40,8 @@ class _NetLensReplayPageState extends State<NetLensReplayPage> {
   final TextEditingController _urlController = TextEditingController();
   final TextEditingController _headersController = TextEditingController();
   final TextEditingController _bodyController = TextEditingController();
+  final List<_FormFieldControllers> _formFields = [];
+  List<NetLensFormDataFile> _formFiles = [];
   String? _urlError;
   String? _headersError;
   bool _sending = false;
@@ -53,6 +58,9 @@ class _NetLensReplayPageState extends State<NetLensReplayPage> {
     _urlController.dispose();
     _headersController.dispose();
     _bodyController.dispose();
+    for (final _FormFieldControllers field in _formFields) {
+      field.dispose();
+    }
     super.dispose();
   }
 
@@ -64,6 +72,13 @@ class _NetLensReplayPageState extends State<NetLensReplayPage> {
       _original.headers,
     );
     _bodyController.text = _original.body ?? '';
+    for (final _FormFieldControllers field in _formFields) {
+      field.dispose();
+    }
+    _formFields
+      ..clear()
+      ..addAll(_original.formDataFields.map(_FormFieldControllers.new));
+    _formFiles = List.of(_original.formDataFiles);
     _urlError = null;
     _headersError = null;
   }
@@ -93,7 +108,9 @@ class _NetLensReplayPageState extends State<NetLensReplayPage> {
           child: ListView(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
             children: [
-              if (_original.omitsFormData) ...[
+              if (_formFiles.any(
+                (NetLensFormDataFile file) => !file.canRead,
+              )) ...[
                 _Warning(
                   text: context.i18n(
                     NetLensTranslationKey.replayFormDataWarning,
@@ -139,12 +156,15 @@ class _NetLensReplayPageState extends State<NetLensReplayPage> {
                 maxLines: 10,
               ),
               const SizedBox(height: 16),
-              _CodeField(
-                key: const Key('netlens_replay_body'),
-                controller: _bodyController,
-                label: context.i18n(NetLensTranslationKey.replayBody),
-                maxLines: 16,
-              ),
+              if (_original.isFormData)
+                ..._buildFormData(context)
+              else
+                _CodeField(
+                  key: const Key('netlens_replay_body'),
+                  controller: _bodyController,
+                  label: context.i18n(NetLensTranslationKey.replayBody),
+                  maxLines: 16,
+                ),
               const SizedBox(height: 24),
               FilledButton.icon(
                 key: const Key('netlens_replay_send'),
@@ -173,6 +193,97 @@ class _NetLensReplayPageState extends State<NetLensReplayPage> {
     );
   }
 
+  /// Builds editors of the form fields and the list of files.
+  List<Widget> _buildFormData(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    return [
+      _SectionTitle(
+        title: context.i18n(NetLensTranslationKey.replayFormFields),
+      ),
+      for (int index = 0; index < _formFields.length; index++)
+        Padding(
+          key: ObjectKey(_formFields[index]),
+          padding: const EdgeInsets.only(bottom: 8),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                flex: 2,
+                child: _CodeField(
+                  key: Key('netlens_replay_form_field_name_$index'),
+                  controller: _formFields[index].name,
+                  label: context.i18n(NetLensTranslationKey.replayFormName),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                flex: 3,
+                child: _CodeField(
+                  key: Key('netlens_replay_form_field_value_$index'),
+                  controller: _formFields[index].value,
+                  label: context.i18n(NetLensTranslationKey.replayFormValue),
+                  maxLines: 6,
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.remove_circle_outline),
+                tooltip: context.i18n(NetLensTranslationKey.replayFormRemove),
+                onPressed: () =>
+                    setState(() => _formFields.removeAt(index).dispose()),
+              ),
+            ],
+          ),
+        ),
+      Align(
+        alignment: AlignmentDirectional.centerStart,
+        child: TextButton.icon(
+          key: const Key('netlens_replay_form_add_field'),
+          icon: const Icon(Icons.add),
+          label: Text(context.i18n(NetLensTranslationKey.replayFormAddField)),
+          onPressed: () => setState(
+            () => _formFields.add(
+              _FormFieldControllers(const NetLensFormDataField('', '')),
+            ),
+          ),
+        ),
+      ),
+      if (_formFiles.isNotEmpty) ...[
+        const SizedBox(height: 8),
+        _SectionTitle(
+          title: context.i18n(NetLensTranslationKey.replayFormFiles),
+        ),
+        for (final NetLensFormDataFile file in _formFiles)
+          ListTile(
+            key: ObjectKey(file),
+            contentPadding: EdgeInsets.zero,
+            leading: Icon(
+              file.canRead ? Icons.attach_file : Icons.block,
+              color: file.canRead
+                  ? theme.colorScheme.primary
+                  : NetLensTheme.getStatusColor(context, 300),
+            ),
+            title: Text(
+              file.fileName ?? file.name ?? '-',
+              textDirection: TextDirection.ltr,
+            ),
+            subtitle: Text(
+              [
+                if (file.name != null) file.name!,
+                NetLensConversionHelper.formatBytes(file.length),
+                if (!file.canRead)
+                  context.i18n(NetLensTranslationKey.replayFormFileMissing),
+              ].join(' · '),
+            ),
+            trailing: IconButton(
+              icon: const Icon(Icons.remove_circle_outline),
+              tooltip: context.i18n(NetLensTranslationKey.replayFormRemove),
+              onPressed: () => setState(() => _formFiles.remove(file)),
+            ),
+          ),
+      ],
+    ];
+  }
+
   /// Validates the form and sends the request. Goes back to the call when
   /// the request was sent.
   Future<void> _send() async {
@@ -199,7 +310,15 @@ class _NetLensReplayPageState extends State<NetLensReplayPage> {
       method: _method,
       url: url,
       headers: parsed.headers,
-      body: _bodyController.text.isEmpty ? null : _bodyController.text,
+      body: _original.isFormData || _bodyController.text.isEmpty
+          ? null
+          : _bodyController.text,
+      formDataFields: [
+        for (final _FormFieldControllers field in _formFields)
+          if (field.name.text.trim().isNotEmpty)
+            NetLensFormDataField(field.name.text.trim(), field.value.text),
+      ],
+      formDataFiles: List.of(_formFiles),
     );
     final ScaffoldMessengerState? messenger = ScaffoldMessenger.maybeOf(
       context,
@@ -228,6 +347,41 @@ class _NetLensReplayPageState extends State<NetLensReplayPage> {
       ..showSnackBar(
         SnackBar(content: Text(message), behavior: SnackBarBehavior.floating),
       );
+  }
+}
+
+/// Controllers of the name and the value of one form field.
+class _FormFieldControllers {
+  _FormFieldControllers(NetLensFormDataField field)
+    : name = TextEditingController(text: field.name),
+      value = TextEditingController(text: field.value);
+
+  final TextEditingController name;
+  final TextEditingController value;
+
+  void dispose() {
+    name.dispose();
+    value.dispose();
+  }
+}
+
+/// Title of a group of fields.
+class _SectionTitle extends StatelessWidget {
+  const _SectionTitle({required this.title});
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Text(
+        title,
+        style: Theme.of(
+          context,
+        ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+      ),
+    );
   }
 }
 

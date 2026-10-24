@@ -10,6 +10,7 @@ import 'package:netlens/helper/netlens_export_helper.dart';
 import 'package:netlens/helper/netlens_watcher.dart';
 import 'package:netlens/helper/operating_system.dart';
 import 'package:netlens/mock/application/netlens_mocks.dart';
+import 'package:netlens/mock/domain/netlens_mock.dart';
 import 'package:netlens/model/netlens_configuration.dart';
 import 'package:netlens/model/netlens_export_result.dart';
 import 'package:netlens/model/netlens_http_call.dart';
@@ -155,6 +156,24 @@ class NetLensCore {
   /// Returns all stored calls with sensitive values masked.
   List<NetLensHttpCall> _getRedactedCalls() =>
       getCalls().map(redactor.redact).toList();
+
+  /// Returns all mocks with sensitive request headers masked.
+  List<NetLensMock> _getRedactedMocks() =>
+      mocks.mocks.map(redactor.redactMock).toList();
+
+  /// Saves all mocks to a file in the NetLens mocks JSON format and shares it.
+  /// Sensitive request headers are masked.
+  Future<NetLensExportResult> saveMocksToFile() =>
+      NetLensExportHelper.saveMocksToFile(
+        mocks.export(mocks: _getRedactedMocks()),
+      );
+
+  /// Saves all mocks to a Postman collection file and shares it. Sensitive
+  /// request headers are masked.
+  Future<NetLensExportResult> saveMocksToCollectionFile() =>
+      NetLensExportHelper.saveCollectionToFile(
+        mocks.exportCollection(mocks: _getRedactedMocks()),
+      );
 
   /// Save all calls to file. Sensitive values are masked.
   Future<NetLensExportResult> saveCallsToFile(BuildContext context) =>

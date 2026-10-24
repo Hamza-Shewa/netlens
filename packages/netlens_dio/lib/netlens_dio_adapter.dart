@@ -17,7 +17,7 @@ import 'package:flutter/foundation.dart';
 class NetLensDioAdapter extends InterceptorsWrapper
     with NetLensAdapter
     implements NetLensCallReplayer {
-  NetLensDioAdapter({this.replayClient});
+  NetLensDioAdapter({this.replayClient, this.keepFormDataFiles = true});
 
   /// Name of the client shown in NetLens.
   static const String clientName = 'Dio';
@@ -27,6 +27,12 @@ class NetLensDioAdapter extends InterceptorsWrapper
   /// HTTP client adapter. When it is null, a plain Dio with this adapter is
   /// used.
   Dio? replayClient;
+
+  /// Whether files of form data are kept, so calls which upload them can be
+  /// sent again. A file made from a path is read again from the path; a file
+  /// made from bytes keeps the bytes in memory while its call is kept. Set it
+  /// to false when the app uploads large files from memory.
+  final bool keepFormDataFiles;
 
   Dio? _defaultReplayClient;
 
@@ -41,7 +47,7 @@ class NetLensDioAdapter extends InterceptorsWrapper
     try {
       await dio.request<dynamic>(
         request.url,
-        data: request.body,
+        data: request.isFormData ? _buildFormData(request) : request.body,
         options: Options(
           method: request.method,
           headers: request.headers,
@@ -57,6 +63,48 @@ class NetLensDioAdapter extends InterceptorsWrapper
       }
     }
   }
+
+  /// Builds form data with the fields and the files of [request]. Files whose
+  /// content wasn't kept are left out.
+  FormData _buildFormData(NetLensReplayRequest request) {
+    final FormData formData = FormData();
+    formData.fields.addAll([
+      for (final NetLensFormDataField field in request.formDataFields)
+        MapEntry(field.name, field.value),
+    ]);
+    for (final NetLensFormDataFile file in request.formDataFiles) {
+      final Stream<List<int>> Function()? read = file.read;
+      if (read == null) {
+        continue;
+      }
+      formData.files.add(
+        MapEntry(
+          file.name ?? 'file',
+          MultipartFile.fromStream(
+            read,
+            file.length,
+            filename: file.fileName,
+            contentType: _tryParseMediaType(file.contentType),
+          ),
+        ),
+      );
+    }
+    return formData;
+  }
+
+  /// Returns [contentType] as a media type, or null when it isn't one.
+  DioMediaType? _tryParseMediaType(String contentType) {
+    try {
+      return DioMediaType.parse(contentType);
+    } on FormatException {
+      return null;
+    }
+  }
+
+  /// Returns a function which reads the content of [file] again. A clone is
+  /// read, so the file sent by the app is left untouched.
+  Stream<List<int>> Function() _getReader(MultipartFile file) =>
+      () => file.clone().finalize();
 
   /// Handles dio request and creates netLens http call based on it
   @override
@@ -120,6 +168,8 @@ class NetLensDioAdapter extends InterceptorsWrapper
                 entry.value.filename,
                 entry.value.contentType.toString(),
                 entry.value.length,
+                name: entry.key,
+                read: keepFormDataFiles ? _getReader(entry.value) : null,
               ),
             );
           }

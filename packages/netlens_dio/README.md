@@ -9,8 +9,8 @@ for Flutter, to Dio.
 
 ```yaml
 dependencies:
-  netlens: ^1.1.0
-  netlens_dio: ^1.1.0
+  netlens: ^1.2.0
+  netlens_dio: ^1.2.0
 ```
 
 ## Use
