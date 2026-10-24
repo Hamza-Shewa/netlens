@@ -1,5 +1,6 @@
 import 'package:netlens/model/netlens_translation.dart';
 import 'package:netlens/ui/common/netlens_context_ext.dart';
+import 'package:netlens/ui/common/netlens_language.dart';
 import 'package:netlens/ui/common/netlens_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -17,34 +18,40 @@ class NetLensGeneralDialog {
   }) => showDialog<void>(
     context: context,
     builder: (BuildContext context) {
+      // The dialog opens on the navigator of the app, so it would get the
+      // text direction of the app instead of the NetLens language.
       return Theme(
         data: NetLensTheme.getTheme(
           brightness: NetLensTheme.resolveBrightness(context),
         ),
-        child: AlertDialog(
-          title: Text(title),
-          content: Text(description),
-          actions: [
-            TextButton(
-              onPressed: () {
-                // ignore: avoid_dynamic_calls
-                firstButtonAction?.call();
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                firstButtonTitle ?? context.i18n(NetLensTranslationKey.accept),
-              ),
-            ),
-            if (secondButtonTitle != null)
+        child: Directionality(
+          textDirection: NetLensLanguage.textDirection,
+          child: AlertDialog(
+            title: Text(title),
+            content: Text(description),
+            actions: [
               TextButton(
                 onPressed: () {
                   // ignore: avoid_dynamic_calls
-                  secondButtonAction?.call();
+                  firstButtonAction?.call();
                   Navigator.of(context).pop();
                 },
-                child: Text(secondButtonTitle),
+                child: Text(
+                  firstButtonTitle ??
+                      context.i18n(NetLensTranslationKey.accept),
+                ),
               ),
-          ],
+              if (secondButtonTitle != null)
+                TextButton(
+                  onPressed: () {
+                    // ignore: avoid_dynamic_calls
+                    secondButtonAction?.call();
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(secondButtonTitle),
+                ),
+            ],
+          ),
         ),
       );
     },
